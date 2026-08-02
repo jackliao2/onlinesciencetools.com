@@ -1,0 +1,49 @@
+export const SITE_NAME = "Online Science Tools";
+
+/** Canonical production origin — override with NEXT_PUBLIC_SITE_URL in env. */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://onlinesciencetools.com"
+).replace(/\/$/, "");
+
+export const SITE_DESCRIPTION =
+  "Free educational calculators and study guides for chemistry, mathematics, physics, and computing — stoichiometry, equilibrium, phase portraits, graphing, and more.";
+
+export const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@onlinesciencetools.com";
+
+export const SITE_FOUNDED_YEAR = 2012;
+
+export const legalPages = [
+  {
+    slug: "about",
+    href: "/about",
+    title: "About Online Science Tools",
+    shortTitle: "About",
+    description:
+      "About Online Science Tools — free chemistry, math, and physics calculators and study guides used by students and educators worldwide since 2012.",
+  },
+  {
+    slug: "contact",
+    href: "/contact",
+    title: "Contact Us",
+    shortTitle: "Contact",
+    description:
+      "Contact Online Science Tools for feedback, classroom questions, bug reports, or collaboration.",
+  },
+  {
+    slug: "privacy",
+    href: "/privacy",
+    title: "Privacy Policy",
+    shortTitle: "Privacy",
+    description:
+      "Privacy Policy for Online Science Tools: how we handle information, cookies, analytics, and your rights when using our free educational tools.",
+  },
+  {
+    slug: "terms",
+    href: "/terms",
+    title: "Terms of Use",
+    shortTitle: "Terms",
+    description:
+      "Terms of Use for Online Science Tools, covering acceptable use, educational disclaimers, intellectual property, and liability limits.",
+  },
+] as const;
