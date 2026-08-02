@@ -1,9 +1,18 @@
 export const SITE_NAME = "Online Science Tools";
 
+function resolveSiteUrl(): string {
+  const fallback = "https://onlinesciencetools.com";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return fallback;
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return fallback;
+  }
+}
+
 /** Canonical production origin — override with NEXT_PUBLIC_SITE_URL in env. */
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://onlinesciencetools.com"
-).replace(/\/$/, "");
+export const SITE_URL = resolveSiteUrl();
 
 export const SITE_DESCRIPTION =
   "Free educational calculators and study guides for chemistry, mathematics, physics, and computing — stoichiometry, equilibrium, phase portraits, graphing, and more.";
