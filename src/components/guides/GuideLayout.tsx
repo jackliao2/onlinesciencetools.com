@@ -21,51 +21,65 @@ export function GuideLayout({
     <>
       <JsonLd data={buildArticleJsonLd(guide)} />
       <ToolHero
-        eyebrow="Academic Guides"
+        eyebrow="Guides"
         title={guide.title}
         description={guide.description}
       />
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <article className="prose-ost max-w-none rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10">
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+        <article className="prose-ost max-w-none border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8">
           {children}
           <AuthorityReferences references={references} />
         </article>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight">
+      <section className="mx-auto max-w-6xl border-t border-[var(--border)] px-4 py-8 sm:px-6">
+        <h2 className="mb-3 font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight">
           More guides & tools
         </h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
           {related.map((item) => (
-            <Link
-              key={item.slug}
-              href={item.href}
-              className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition hover:border-[var(--accent)]"
-            >
-              <p className="font-semibold">{item.shortTitle}</p>
-              <p className="mt-2 text-sm text-[var(--muted)]">{item.description}</p>
-            </Link>
+            <li key={item.slug}>
+              <Link
+                href={item.href}
+                className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+              >
+                <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
+                  {item.shortTitle}
+                </span>
+                <span className="text-sm text-[var(--muted)] line-clamp-1">
+                  {item.description}
+                </span>
+              </Link>
+            </li>
           ))}
-          <Link
-            href="/tools/phaseportrait"
-            className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition hover:border-[var(--accent)]"
-          >
-            <p className="font-semibold">Phase Portrait Generator</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Visualize dynamical systems that appear throughout physics GRE prep.
-            </p>
-          </Link>
-          <Link
-            href="/tools/graphingcalculator"
-            className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition hover:border-[var(--accent)]"
-          >
-            <p className="font-semibold">2D Graphing Calculator</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Plot review formulas while studying for quantitative sections.
-            </p>
-          </Link>
-        </div>
+          <li>
+            <Link
+              href="/tools/phaseportrait"
+              className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+            >
+              <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
+                Phase Portrait Generator
+              </span>
+              <span className="text-sm text-[var(--muted)] line-clamp-1">
+                Visualize dynamical systems that appear throughout physics GRE
+                prep.
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/tools/graphingcalculator"
+              className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+            >
+              <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
+                2D Graphing Calculator
+              </span>
+              <span className="text-sm text-[var(--muted)] line-clamp-1">
+                Plot review formulas while studying for quantitative sections.
+              </span>
+            </Link>
+          </li>
+        </ul>
       </section>
     </>
   );

@@ -50,7 +50,7 @@ export const PHASE_PRESETS: PhasePreset[] = [
   {
     id: "predator",
     name: "Predator–Prey",
-    description: "Lotka–Volterra competition cycles between two populations.",
+    description: "Classic Lotka–Volterra predator–prey cycles between two populations.",
     fx: "x*(1 - y)",
     fy: "y*(x - 1)",
     xMin: -0.5,

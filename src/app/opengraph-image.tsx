@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { SITE_NAME } from "@/lib/site";
 
-export const alt = `${SITE_NAME} — free chemistry & math calculators`;
+export const alt = `${SITE_NAME} — chemistry & math calculators`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
           >
             ⌬
           </div>
-          Free science calculators since 2012
+          Chemistry · Math · Computing
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -77,7 +77,7 @@ export default function OpenGraphImage() {
           }}
         >
           <span>onlinesciencetools.com</span>
-          <span>Free educational calculators</span>
+          <span>Educational calculators</span>
         </div>
       </div>
     ),

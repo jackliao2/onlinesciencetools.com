@@ -8,16 +8,11 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:px-6 lg:h-16 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:py-0">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="group flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--accent)] text-white shadow-sm transition-transform group-hover:scale-105">
-              <FlaskConical className="h-5 w-5" aria-hidden />
+            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--accent)] text-white">
+              <FlaskConical className="h-4 w-4" aria-hidden />
             </span>
-            <span className="flex flex-col leading-tight">
-              <span className="font-[family-name:var(--font-display)] text-base font-semibold tracking-tight text-[var(--foreground)]">
-                Online Science Tools
-              </span>
-              <span className="hidden text-[11px] text-[var(--muted)] sm:block">
-                Academic calculators & visualizers
-              </span>
+            <span className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-tight text-[var(--foreground)] sm:text-base">
+              Online Science Tools
             </span>
           </Link>
 

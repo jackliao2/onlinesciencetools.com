@@ -6,13 +6,11 @@ export function ContentPage({
   title,
   description,
   children,
-  badge,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   children: ReactNode;
-  badge?: ReactNode;
 }) {
   return (
     <>
@@ -20,10 +18,9 @@ export function ContentPage({
         eyebrow={eyebrow}
         title={title}
         description={description}
-        badge={badge}
       />
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <article className="prose-ost max-w-none rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10">
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <article className="prose-ost max-w-none border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8">
           {children}
         </article>
       </section>

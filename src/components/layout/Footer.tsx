@@ -41,17 +41,17 @@ export function Footer() {
 
   return (
     <footer className="mt-auto border-t border-[var(--border)] bg-[var(--surface)]">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
-            <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--foreground)]">
+            <p className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--foreground)]">
               {SITE_NAME}
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-              Free educational science calculators and study guides for students,
-              educators, and researchers — online since 2012.
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">
+              Educational science calculators and study guides for coursework
+              and self-study.
             </p>
-            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
               <Link href="/" className="text-[var(--accent)] hover:underline">
                 Home
               </Link>
@@ -67,13 +67,13 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid flex-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid flex-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {columns.map((column) => (
               <div key={column.title}>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
+                <p className="text-xs font-semibold text-[var(--foreground)]">
                   {column.title === "Guides" ? "Guides & legal" : column.title}
                 </p>
-                <ul className="mt-3 space-y-2">
+                <ul className="mt-2 space-y-1.5">
                   {column.links.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -94,7 +94,7 @@ export function Footer() {
       <div className="border-t border-[var(--border)]">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>
-            © 2012 – {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+            © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
           <p className="flex flex-wrap gap-3">
             <Link href="/privacy" className="hover:text-[var(--foreground)]">

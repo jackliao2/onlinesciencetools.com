@@ -78,7 +78,7 @@ Eigenvalues λ of J at (x*, y*) classify stability:
       {
         question: "How do I find and classify equilibrium points?",
         answer:
-          "Solve the simultaneous equations f(x, y) = 0 and g(x, y) = 0. At each solution, compute the Jacobian matrix of partial derivatives and find its eigenvalues. Real eigenvalues of the same sign indicate a node; opposite signs indicate a saddle; complex eigenvalues indicate a spiral or center depending on whether the real part is nonzero. The Phase Portrait Generator plots equilibria automatically when you enter the system.",
+          "Solve the simultaneous equations f(x, y) = 0 and g(x, y) = 0. At each solution, compute the Jacobian matrix of partial derivatives and find its eigenvalues. Real eigenvalues of the same sign indicate a node; opposite signs indicate a saddle; complex eigenvalues indicate a spiral or center depending on whether the real part is nonzero. In the Phase Portrait Generator, look for places where arrows shrink to zero, or launch nearby trajectories to see whether they approach or leave a candidate equilibrium.",
       },
       {
         question: "Can I use phase portraits for systems with three or more variables?",
@@ -186,7 +186,7 @@ Common transformations of f(x):
       bullets: [
         "Parametric form (x(t), y(t)) describes curves that may fail the vertical line test",
         "Time-dependent f(x, t) shows how a spatial profile evolves as t increases",
-        "Velocity components are dx/dt and dy/dt; speed is √(dx/dt² + dy/dt²)",
+        "Velocity components are dx/dt and dy/dt; speed is √((dx/dt)² + (dy/dt)²)",
         "Animation speed can be adjusted independently of the mathematical parameter t",
       ],
     },

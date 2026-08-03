@@ -62,26 +62,17 @@ function gaussianElimination(
     return { kind: "none", steps: [...steps, "Contradiction: 0 = nonzero → no solution."] };
   }
 
-  const freeVars: boolean[] = Array(n).fill(false);
-  const pivotCols: number[] = [];
+  // Free variables = columns with no pivot (not merely nonzero entries above the diagonal).
+  const pivotCols = new Set<number>();
   for (let row = 0; row < n; row += 1) {
-    let pivotCol = -1;
     for (let col = 0; col < n; col += 1) {
       if (Math.abs(aug[row][col]) > 1e-10) {
-        pivotCol = col;
+        pivotCols.add(col);
         break;
       }
     }
-    if (pivotCol === -1) continue;
-    pivotCols.push(pivotCol);
-    for (let col = pivotCol + 1; col < n; col += 1) {
-      if (Math.abs(aug[row][col]) > 1e-10) freeVars[col] = true;
-    }
   }
-
-  for (let col = 0; col < n; col += 1) {
-    if (!pivotCols.includes(col)) freeVars[col] = true;
-  }
+  const freeVars = Array.from({ length: n }, (_, col) => !pivotCols.has(col));
 
   if (freeVars.some(Boolean)) {
     return {

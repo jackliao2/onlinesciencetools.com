@@ -15,7 +15,7 @@ function resolveSiteUrl(): string {
 export const SITE_URL = resolveSiteUrl();
 
 export const SITE_DESCRIPTION =
-  "Free educational calculators and study guides for chemistry, mathematics, physics, and computing — stoichiometry, equilibrium, phase portraits, graphing, and more.";
+  "Educational calculators and study guides for chemistry, mathematics, physics, and computing — stoichiometry, equilibrium, phase portraits, graphing, and more.";
 
 export const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@onlinesciencetools.com";
@@ -29,7 +29,7 @@ export const legalPages = [
     title: "About Online Science Tools",
     shortTitle: "About",
     description:
-      "About Online Science Tools — free chemistry, math, and physics calculators and study guides used by students and educators worldwide since 2012.",
+      "About Online Science Tools — chemistry, math, and physics calculators and study guides for students and educators.",
   },
   {
     slug: "contact",
@@ -45,7 +45,7 @@ export const legalPages = [
     title: "Privacy Policy",
     shortTitle: "Privacy",
     description:
-      "Privacy Policy for Online Science Tools: how we handle information, cookies, analytics, and your rights when using our free educational tools.",
+      "Privacy Policy for Online Science Tools: how we handle information, cookies, analytics, and your rights when using our educational tools.",
   },
   {
     slug: "terms",

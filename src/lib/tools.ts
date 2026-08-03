@@ -225,9 +225,9 @@ export const guides: Guide[] = [
 ];
 
 export const categoryLabels: Record<ToolCategory, string> = {
-  chemistry: "Chemistry Tools",
-  math: "Mathematics & Computation",
-  computing: "Computing & Web Tools",
+  chemistry: "Chemistry",
+  math: "Mathematics",
+  computing: "Computing",
 };
 
 export function getToolBySlug(slug: string): Tool | undefined {

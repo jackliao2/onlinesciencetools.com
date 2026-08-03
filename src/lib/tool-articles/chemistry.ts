@@ -136,14 +136,14 @@ Kp and Kc relationship (ideal gases):
       steps: [
         "Set up the ICE table with initial values: [N₂]₀ = 1.00, [H₂]₀ = 3.00, [NH₃]₀ = 0 M.",
         "Define changes: N₂ loses x, H₂ loses 3x, NH₃ gains 2x.",
-        "Write equilibrium expressions: [N₂] = 1.00 − x, [H₂] = 3.00 − 3x, [NH₃] = 2x.",
-        "Substitute into Kc: 0.50 = (2x)² / [(1.00 − x)(3.00 − 3x)²].",
-        "Simplify: 0.50 = 4x² / [3(1 − x)(1 − x)²] = 4x² / [3(1 − x)³].",
-        "This cubic equation is best solved numerically. Using a root finder on 0 ≤ x ≤ 1 gives x ≈ 0.28 M.",
-        "Equilibrium concentrations: [N₂] ≈ 0.72 M, [H₂] ≈ 2.16 M, [NH₃] ≈ 0.56 M.",
+        "Write equilibrium expressions: [N₂] = 1.00 − x, [H₂] = 3.00 − 3x = 3(1 − x), [NH₃] = 2x.",
+        "Substitute into Kc: 0.50 = (2x)² / [(1 − x)(3(1 − x))³] = 4x² / [27(1 − x)⁴].",
+        "Rearrange: 4x² = 13.5(1 − x)⁴. Solve numerically on 0 ≤ x ≤ 1.",
+        "The physical root is x ≈ 0.486 M.",
+        "Equilibrium concentrations: [N₂] ≈ 0.514 M, [H₂] ≈ 1.54 M, [NH₃] ≈ 0.972 M.",
       ],
       toolCheck:
-        "Enter the reaction N2 + 3H2 ⇌ 2NH3 with Kc = 0.50 and initial concentrations 1.00 M N₂, 3.00 M H₂, and 0 M NH₃ into the Equilibrium Calculator on Online Science Tools. The tool builds the ICE table, computes Q initially (Q = 0, so Q < K confirms the forward reaction), and solves for x. Compare the equilibrium concentrations to your hand-derived values of approximately 0.72, 2.16, and 0.56 M. For related mole conversions, use the Stoichiometry Calculator to check molar quantities.",
+        "Enter N2 + 3H2 ⇌ 2NH3 with Kc = 0.50 and initials 1.00 M N₂, 3.00 M H₂, 0 M NH₃ in the Equilibrium Calculator. Initial Q = 0 (Q < K), so the net reaction is forward. Compare the solved equilibrium concentrations with about 0.514, 1.54, and 0.972 M.",
     },
     faq: [
       {
@@ -169,7 +169,7 @@ Kp and Kc relationship (ideal gases):
       {
         question: "When should I use the small-x approximation?",
         answer:
-          "If K is very large (much greater than 1) and initial reactant concentrations are moderate, the extent x will be small compared to initial values. You can approximate (1.00 − x) ≈ 1.00 to avoid solving a high-order polynomial. Always check that the resulting x is indeed small (typically less than 5% of the initial concentration) before accepting the approximation. If the check fails, solve the full equation numerically using the Equilibrium Calculator.",
+          "Use the small-x approximation when K is very small (≪ 1), so little product forms and x is tiny compared with the initial reactant concentrations. Then you may replace terms like (1.00 − x) with 1.00 to simplify the algebra. Always check afterward that x is under about 5% of the initial concentration; if not, solve the full equation. Large K means the opposite situation — the reaction goes nearly to completion — so small-x is the wrong tool; use the Equilibrium Calculator for a numerical root instead.",
       },
     ],
   },

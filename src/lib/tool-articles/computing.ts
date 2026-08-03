@@ -9,7 +9,7 @@ export const computingArticles: ToolArticleContent[] = [
         "Binary arithmetic follows the same positional notation as decimal: the rightmost digit is the ones place (2⁰), the next is twos (2¹), then fours (2²), and so on. Converting from binary to decimal requires summing each bit multiplied by its place value. For example, the binary number 1101 equals 1×8 + 1×4 + 0×2 + 1×1 = 13 in decimal. The reverse conversion—decimal to binary—uses repeated division by 2, recording remainders from bottom to top.",
         "Hexadecimal serves as a compact human-readable shorthand for binary. Each hex digit represents exactly four bits (a nibble), so the byte 11111111 becomes FF in hex. Memory addresses, color codes, and file format specifications routinely use hex notation. Octal, though less common today, appears in Unix file permissions (chmod 755) and legacy systems. Fluency in converting among decimal, binary, octal, and hex is a core skill in introductory computer organization courses.",
         "Binary addition and subtraction follow carry and borrow rules analogous to decimal, except carries occur when the sum reaches 2 rather than 10. Bitwise operations—AND, OR, XOR, NOT, and shifts—manipulate individual bits and underpin encryption, checksums, graphics masking, and embedded systems programming. Two's complement representation allows signed integers in fixed-width registers, with the most significant bit indicating sign.",
-        "The Binary Calculator and Converter on Online Science Tools converts numbers among binary, octal, decimal, and hexadecimal bases and performs arithmetic in any of these systems. Use it during homework to verify hand conversions, explore two's complement edge cases, and cross-check bit patterns before implementing logic in code. Pair it with the Hex Color Picker and Converter when working with color values expressed as hex triplets.",
+        "The Binary Calculator and Converter on Online Science Tools converts numbers among binary, octal, decimal, and hexadecimal bases and performs arithmetic in any of these systems. Use it during homework to verify hand conversions and cross-check place-value expansions before implementing logic in code. Pair it with the Hex Color Picker and Converter when working with color values expressed as hex triplets.",
       ],
       bullets: [
         "Binary (base 2): digits 0 and 1; each place value is a power of 2",
@@ -65,7 +65,7 @@ Two's complement (n-bit):
         "Verify hex to decimal: 13×16 + 10 = 208 + 10 = 218 ✓.",
       ],
       toolCheck:
-        "Enter 218 in the Binary Calculator and Converter on Online Science Tools and select decimal as the input base. The tool should display 11011010 in binary and DA in hexadecimal. Switch the input to binary, enter 11011010, and confirm the decimal output reads 218. Try a two's complement conversion with a negative value to explore signed representation. When working with web colors like #DA7422, use the Hex Color Picker and Converter to interpret the hex components as RGB channels.",
+        "Enter 218 in the Binary Calculator and Converter on Online Science Tools and select decimal as the input base. The tool should display 11011010 in binary and DA in hexadecimal. Switch the input to binary, enter 11011010, and confirm the decimal output reads 218. When working with web colors like #DA7422, use the Hex Color Picker and Converter to interpret the hex components as RGB channels.",
     },
     faq: [
       {
@@ -76,7 +76,7 @@ Two's complement (n-bit):
       {
         question: "What is two's complement and why does it matter?",
         answer:
-          "Two's complement is the standard method for representing signed integers in binary. The most significant bit indicates sign: 0 for non-negative, 1 for negative. To negate a number, invert all bits and add one. This representation allows addition and subtraction using the same hardware circuit, with no separate sign-magnitude rules. For an 8-bit register, the range is −128 to +127. The Binary Calculator handles two's complement conversions for practice.",
+          "Two's complement is the standard method for representing signed integers in binary. The most significant bit indicates sign: 0 for non-negative, 1 for negative. To negate a number, invert all bits and add one. This representation allows addition and subtraction using the same hardware circuit. For an 8-bit register, the range is −128 to +127. Our Binary Calculator currently shows negatives with a leading minus in place-value form (for example −5 as −101), which is fine for homework conversions; fixed-width two's complement bit patterns are a separate hardware topic.",
       },
       {
         question: "How is hexadecimal related to binary?",

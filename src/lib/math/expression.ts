@@ -12,6 +12,7 @@ const ALLOWED_IDENTIFIERS = new Set([
   "sqrt",
   "exp",
   "log",
+  "log10",
   "ln",
   "pow",
   "min",
@@ -45,9 +46,12 @@ export function compileExpression(
     }
   }
 
+  // Placeholders first so later "log" → Math.log10 cannot rewrite Math.log from ln.
   let js = cleaned
-    .replace(/\bln\b/gi, "Math.log")
-    .replace(/\blog\b/gi, "Math.log")
+    .replace(/\blog10\b/gi, "__LOG10__")
+    .replace(/\bln\b/gi, "__LN__")
+    // Classroom convention: log = log10; use ln for natural log.
+    .replace(/\blog\b/gi, "__LOG10__")
     .replace(/\bsin\b/gi, "Math.sin")
     .replace(/\bcos\b/gi, "Math.cos")
     .replace(/\btan\b/gi, "Math.tan")
@@ -61,7 +65,9 @@ export function compileExpression(
     .replace(/\bmin\b/gi, "Math.min")
     .replace(/\bmax\b/gi, "Math.max")
     .replace(/\bpi\b/gi, "Math.PI")
-    .replace(/\be\b/gi, "Math.E");
+    .replace(/\be\b/gi, "Math.E")
+    .replace(/__LOG10__/g, "Math.log10")
+    .replace(/__LN__/g, "Math.log");
 
   for (const variable of variables) {
     const re = new RegExp(`\\b${variable}\\b`, "gi");

@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/tools/JsonLd";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import {
   CONTACT_EMAIL,
-  SITE_FOUNDED_YEAR,
   SITE_NAME,
   SITE_URL,
   legalPages,
@@ -58,11 +57,9 @@ export default function TermsPage() {
 
         <h2>2. Educational mission</h2>
         <p>
-          The Service provides free educational tools and study materials for
-          chemistry, mathematics, physics, and computing. Online Science Tools
-          has offered educational resources online since {SITE_FOUNDED_YEAR}.
-          Content is offered to support learning, teaching, and academic
-          exploration.
+          The Service provides educational tools and study materials for
+          chemistry, mathematics, physics, and computing. Content is offered to
+          support learning, teaching, and academic exploration.
         </p>
 
         <h2>3. License to use</h2>

@@ -67,22 +67,51 @@ function lcm(a: number, b: number): number {
   return Math.abs(a * b) / gcd(a, b);
 }
 
-/** Convert rational row-reduced solution vector to smallest positive integers. */
-function toIntegerCoefficients(values: number[]): number[] {
-  const precision = 1e6;
-  const scaled = values.map((v) => Math.round(v * precision));
-  let den = 1;
-  for (const s of scaled) {
-    const g = gcd(s, precision);
-    den = lcm(den, precision / g);
+/** Best rational approximation n/d with d ≤ maxDen (continued fractions). */
+function toRational(
+  value: number,
+  maxDen = 1000,
+): { n: number; d: number } {
+  if (!Number.isFinite(value)) return { n: 0, d: 1 };
+  const sign = value < 0 ? -1 : 1;
+  let x = Math.abs(value);
+  let a0 = Math.floor(x);
+  if (Math.abs(x - a0) < 1e-12) return { n: sign * a0, d: 1 };
+
+  let p0 = 1;
+  let q0 = 0;
+  let p1 = a0;
+  let q1 = 1;
+
+  let remaining = x - a0;
+  for (let i = 0; i < 40 && remaining > 1e-14; i += 1) {
+    x = 1 / remaining;
+    const a = Math.floor(x + 1e-12);
+    const p = a * p1 + p0;
+    const q = a * q1 + q0;
+    if (q > maxDen) break;
+    p0 = p1;
+    q0 = q1;
+    p1 = p;
+    q1 = q;
+    remaining = x - a;
+    if (Math.abs(value - sign * (p1 / q1)) < 1e-10) break;
   }
-  let ints = values.map((v) => Math.round(v * den));
+
+  return { n: sign * p1, d: q1 || 1 };
+}
+
+/** Convert null-space floats to the smallest positive integer coefficient set. */
+function toIntegerCoefficients(values: number[]): number[] {
+  const rats = values.map((v) => toRational(v));
+  const den = rats.reduce((acc, r) => lcm(acc, r.d), 1);
+  let ints = rats.map((r) => (r.n * den) / r.d);
   const g = ints.reduce((acc, n) => gcd(acc, n), ints[0] || 1);
   ints = ints.map((n) => n / g);
   if (ints.some((n) => n < 0)) {
     ints = ints.map((n) => -n);
   }
-  if (ints.every((n) => n === 0)) {
+  if (ints.every((n) => n === 0) || ints.some((n) => !Number.isInteger(n))) {
     throw new BalanceError("Could not find a non-trivial balancing solution.");
   }
   return ints;
@@ -228,6 +257,6 @@ export function balanceEquation(raw: string): BalanceResult {
   return {
     reactants,
     products,
-    equation: `${fmt(reactants)} ⇌ ${fmt(products)}`,
+    equation: `${fmt(reactants)} → ${fmt(products)}`,
   };
 }

@@ -7,66 +7,66 @@ import {
 } from "@/lib/tools";
 
 export function ToolDirectoryGrid({
-  heading = "Browse all tools & guides",
+  heading = "All tools & guides",
 }: {
   heading?: string;
 }) {
   return (
-    <div className="space-y-10">
-      <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight">
+    <div className="space-y-8">
+      <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight">
         {heading}
       </h2>
 
       {(["chemistry", "math", "computing"] as ToolCategory[]).map((category) => {
         const items = tools.filter((tool) => tool.category === category);
         return (
-          <div key={category}>
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+          <section key={category}>
+            <h3 className="mb-1 border-b border-[var(--border)] pb-1.5 text-sm font-semibold">
               {categoryLabels[category]}
             </h3>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="divide-y divide-[var(--border)]">
               {items.map((tool) => (
-                <Link
-                  key={tool.slug}
-                  href={tool.href}
-                  className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]"
-                >
-                  <p className="font-semibold">{tool.shortTitle}</p>
-                  <p className="mt-1 font-mono text-[11px] text-[var(--muted)]">
-                    {tool.href}
-                  </p>
-                  <p className="mt-2 line-clamp-2 text-sm text-[var(--muted)]">
-                    {tool.description}
-                  </p>
-                </Link>
+                <li key={tool.slug}>
+                  <Link
+                    href={tool.href}
+                    className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+                  >
+                    <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
+                      {tool.shortTitle}
+                    </span>
+                    <span className="text-sm text-[var(--muted)] line-clamp-2">
+                      {tool.description}
+                    </span>
+                  </Link>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </section>
         );
       })}
 
-      <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-          Academic Guides
+      <section>
+        <h3 className="mb-1 border-b border-[var(--border)] pb-1.5 text-sm font-semibold">
+          Guides
         </h3>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="divide-y divide-[var(--border)]">
           {guides.map((guide) => (
-            <Link
-              key={guide.slug}
-              href={guide.href}
-              className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]"
-            >
-              <p className="font-semibold">{guide.shortTitle}</p>
-              <p className="mt-1 font-mono text-[11px] text-[var(--muted)]">
-                {guide.href}
-              </p>
-              <p className="mt-2 line-clamp-2 text-sm text-[var(--muted)]">
-                {guide.description}
-              </p>
-            </Link>
+            <li key={guide.slug}>
+              <Link
+                href={guide.href}
+                className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+              >
+                <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
+                  {guide.shortTitle}
+                </span>
+                <span className="text-sm text-[var(--muted)] line-clamp-2">
+                  {guide.description}
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      </section>
     </div>
   );
 }

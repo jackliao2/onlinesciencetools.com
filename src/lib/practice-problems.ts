@@ -81,10 +81,10 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       steps: [
         "ICE: A: 1.00 − x; B: 0 + 2x.",
         "Kc = (2x)² / (1 − x) = 0.36 ⇒ 4x² = 0.36(1 − x).",
-        "4x² + 0.36x − 0.36 = 0 ⇒ x ≈ 0.25 (physical root).",
-        "[A]eq = 0.75 M; [B]eq = 0.50 M.",
+        "4x² + 0.36x − 0.36 = 0 ⇒ x = [−0.36 + √(0.1296 + 5.76)] / 8 ≈ 0.258.",
+        "[A]eq ≈ 0.742 M; [B]eq ≈ 0.517 M. Check: (0.517)² / 0.742 ≈ 0.36.",
       ],
-      answer: "[A] = 0.75 M, [B] = 0.50 M",
+      answer: "[A] ≈ 0.742 M, [B] ≈ 0.517 M",
     },
     {
       title: "Kp vs Kc",

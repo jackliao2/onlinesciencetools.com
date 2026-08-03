@@ -48,7 +48,7 @@ export default function PrivacyPage() {
       >
         <h2>1. Summary</h2>
         <p>
-          {SITE_NAME} (“we”, “us”) provides free educational calculators and
+          {SITE_NAME} (“we”, “us”) provides educational calculators and
           guides at <a href={SITE_URL}>{SITE_URL.replace("https://", "")}</a>.
           Most tool interactions run entirely in your browser. We do not require
           an account to use the site, and we do not sell personal information.
