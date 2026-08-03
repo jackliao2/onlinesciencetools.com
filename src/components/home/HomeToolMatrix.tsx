@@ -54,8 +54,8 @@ export function HomeToolMatrix() {
               Online Science Tools
             </h1>
             <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-              Pick a subject, then a tool group. Calculators for chemistry,
-              mathematics, and computing coursework.
+              Browse by subject and topic group. Click a tool to open the
+              calculator.
             </p>
           </div>
           <label className="relative block w-full sm:max-w-xs">
@@ -106,7 +106,7 @@ export function HomeToolMatrix() {
         </p>
       ) : null}
 
-      <div id="tools" className="mt-6 min-w-0 space-y-10">
+      <div id="tools" className="mt-6 min-w-0 space-y-12">
         {showTools && toolResults.length === 0 && searching ? (
           <p className="text-sm text-[var(--muted)]">
             No tools match “{query}”.
@@ -125,18 +125,17 @@ export function HomeToolMatrix() {
               return (
                 <section key={category}>
                   {section === "all" ? (
-                    <h2 className="mb-4 font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight">
+                    <h2 className="mb-5 border-b-2 border-[var(--foreground)] pb-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight">
                       {categoryLabels[category]}
                     </h2>
                   ) : (
-                    <p className="mb-4 text-sm text-[var(--muted)]">
+                    <p className="mb-5 text-sm text-[var(--muted)]">
                       {categoryTools.length} tool
-                      {categoryTools.length === 1 ? "" : "s"} in{" "}
-                      {categoryLabels[category].toLowerCase()}
+                      {categoryTools.length === 1 ? "" : "s"}
                     </p>
                   )}
 
-                  <div className="space-y-7">
+                  <div className="space-y-8">
                     {groups.map((group) => {
                       const items = categoryTools.filter(
                         (tool) => tool.kind === "tool" && tool.group === group,
@@ -145,25 +144,30 @@ export function HomeToolMatrix() {
 
                       return (
                         <div key={group}>
-                          <div className="mb-2 flex items-baseline justify-between gap-3 border-b border-[var(--border)] pb-1.5">
-                            <h3 className="text-sm font-semibold">
+                          <div className="mb-0 flex items-center gap-3 border-l-[3px] border-[var(--accent)] bg-[var(--surface-2)] px-3 py-2.5">
+                            <h3 className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[var(--foreground)]">
                               {toolGroupLabels[group]}
                             </h3>
                             <span className="text-xs tabular-nums text-[var(--muted)]">
                               {items.length}
                             </span>
                           </div>
-                          <ul className="divide-y divide-[var(--border)]">
+
+                          <ul className="border border-t-0 border-[var(--border)]">
                             {items.map((tool) => (
-                              <li key={tool.slug}>
+                              <li
+                                key={tool.slug}
+                                className="border-t border-[var(--border)] first:border-t-0"
+                              >
                                 <Link
                                   href={tool.href}
-                                  className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+                                  title={tool.title}
+                                  className="group grid grid-cols-1 items-center gap-1 px-3 py-2.5 transition hover:bg-[var(--surface)] sm:grid-cols-[13.5rem_minmax(0,1fr)] sm:gap-6"
                                 >
-                                  <span className="min-w-0 shrink-0 font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] sm:w-56">
-                                    {tool.title}
+                                  <span className="truncate text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--accent)]">
+                                    {tool.shortTitle}
                                   </span>
-                                  <span className="min-w-0 text-sm leading-snug text-[var(--muted)]">
+                                  <span className="truncate text-sm text-[var(--muted)]">
                                     {tool.description}
                                   </span>
                                 </Link>
@@ -181,8 +185,8 @@ export function HomeToolMatrix() {
 
         {showGuides ? (
           <section id="guides">
-            <div className="mb-2 flex items-baseline justify-between gap-3 border-b border-[var(--border)] pb-1.5">
-              <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight">
+            <div className="mb-0 flex items-center gap-3 border-l-[3px] border-[var(--accent)] bg-[var(--surface-2)] px-3 py-2.5">
+              <h2 className="text-[13px] font-semibold uppercase tracking-[0.08em]">
                 Guides
               </h2>
               <span className="text-xs tabular-nums text-[var(--muted)]">
@@ -190,21 +194,25 @@ export function HomeToolMatrix() {
               </span>
             </div>
             {guideResults.length === 0 ? (
-              <p className="py-3 text-sm text-[var(--muted)]">
+              <p className="border border-t-0 border-[var(--border)] px-3 py-3 text-sm text-[var(--muted)]">
                 No guides match the current filter.
               </p>
             ) : (
-              <ul className="divide-y divide-[var(--border)]">
+              <ul className="border border-t-0 border-[var(--border)]">
                 {guideResults.map((guide) => (
-                  <li key={guide.slug}>
+                  <li
+                    key={guide.slug}
+                    className="border-t border-[var(--border)] first:border-t-0"
+                  >
                     <Link
                       href={guide.href}
-                      className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
+                      title={guide.title}
+                      className="group grid grid-cols-1 items-center gap-1 px-3 py-2.5 transition hover:bg-[var(--surface)] sm:grid-cols-[13.5rem_minmax(0,1fr)] sm:gap-6"
                     >
-                      <span className="min-w-0 shrink-0 font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] sm:w-56">
-                        {guide.title}
+                      <span className="truncate text-sm font-medium group-hover:text-[var(--accent)]">
+                        {guide.shortTitle}
                       </span>
-                      <span className="min-w-0 text-sm leading-snug text-[var(--muted)]">
+                      <span className="truncate text-sm text-[var(--muted)]">
                         {guide.description}
                       </span>
                     </Link>

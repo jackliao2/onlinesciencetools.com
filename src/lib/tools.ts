@@ -357,11 +357,17 @@ export const tools: Tool[] = [
     title: "Linear Equations Solver",
     shortTitle: "Linear Equations",
     description:
-      "Solve 2×2 and 3×3 linear systems with Gaussian elimination and step summaries.",
+      "Solve 2×2–6×6 systems Ax = b with partial pivoting, RREF, free-variable form, determinant, and optional inverse.",
     category: "math",
     group: "algebra",
     status: "live",
-    keywords: ["linear equations solver", "gaussian elimination", "systems"],
+    keywords: [
+      "linear equations solver",
+      "gaussian elimination",
+      "RREF",
+      "matrix inverse",
+      "systems of equations",
+    ],
     accent: "blue",
   },
   // Computing

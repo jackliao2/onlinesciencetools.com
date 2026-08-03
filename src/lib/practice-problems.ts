@@ -263,31 +263,33 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
 
   linearequations: [
     {
-      title: "2×2 unique solution",
-      prompt: "Solve: 2x + y = 5; x − y = 1.",
+      title: "4×4 unique system",
+      prompt:
+        "Solve the 4×4 system with rows [1,2,0,1|4], [0,1,1,0|2], [2,0,1,1|5], [1,1,1,1|4] using the Linear Equations Solver preset.",
       steps: [
-        "Add equations: 3x = 6 ⇒ x = 2.",
-        "From x − y = 1: 2 − y = 1 ⇒ y = 1.",
+        "Load the 4×4 unique preset (or enter the matrix).",
+        "RREF yields a unique solution; check residual near zero.",
       ],
-      answer: "(x, y) = (2, 1)",
+      answer: "Unique solution (verify with the 4×4 preset)",
     },
     {
-      title: "No solution",
-      prompt: "Do x + y = 2 and 2x + 2y = 5 have a solution?",
+      title: "Free variable case",
+      prompt:
+        "For a system whose second row is a multiple of the first, what does the solver report?",
       steps: [
-        "Second equation is twice the first but 4 ≠ 5.",
-        "Parallel inconsistent lines ⇒ no solution.",
+        "Rank < n → free variable(s).",
+        "Solution is written as particular + parameters tᵢ.",
       ],
-      answer: "No solution (inconsistent)",
+      answer: "Infinitely many solutions (parametric form)",
     },
     {
-      title: "3×3 sketch",
-      prompt: "For a 3×3 system, what does a zero row with nonzero right-hand side mean after elimination?",
+      title: "Determinant check",
+      prompt: "If det(A) = 0 for a square system, can there still be solutions?",
       steps: [
-        "It produces 0 = c with c ≠ 0.",
-        "The system is inconsistent — no solution.",
+        "det(A) = 0 means A is singular: either none or infinitely many solutions.",
+        "Use RREF / rank to distinguish contradiction vs free variables.",
       ],
-      answer: "Inconsistent system",
+      answer: "Yes — either none or infinitely many (never a unique solution)",
     },
   ],
 
