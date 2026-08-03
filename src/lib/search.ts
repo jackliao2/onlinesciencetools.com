@@ -1,8 +1,14 @@
-import { guides, tools, type Guide, type Tool } from "@/lib/tools";
+import {
+  guides,
+  toolGroupLabels,
+  tools,
+  type Guide,
+  type Tool,
+} from "@/lib/tools";
 
 export type SearchItem =
   | (Tool & { kind: "tool" })
-  | (Guide & { kind: "guide"; category?: never });
+  | (Guide & { kind: "guide"; category?: never; group?: never });
 
 export function getSearchIndex(): SearchItem[] {
   return [
@@ -28,6 +34,7 @@ export function filterSearchItems(
       item.href,
       ...item.keywords,
       item.kind === "tool" ? item.category : "guide",
+      item.kind === "tool" ? toolGroupLabels[item.group] : "",
     ]
       .join(" ")
       .toLowerCase();

@@ -74,6 +74,47 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Interactive practice from University of Colorado Boulder.",
     },
   ],
+  dilutioncalculator: [
+    {
+      label: "LibreTexts — Dilutions and Concentrations",
+      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/16%3A_Solutions/16.07%3A_Dilutions_and_Concentrations",
+      note: "C₁V₁ = C₂V₂ and solution preparation practice.",
+    },
+    {
+      label: "NIST — Guide for the Use of the International System of Units",
+      href: "https://www.nist.gov/pml/special-publication-811",
+      note: "Unit conventions for volume and amount of substance.",
+    },
+  ],
+  concentrationconverter: [
+    {
+      label: "LibreTexts — Solution Concentration",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/04%3A_Reactions_in_Aqueous_Solution/4.05%3A_Concentrations_of_Solutions",
+      note: "Molarity, molality, and related concentration units.",
+    },
+    {
+      label: "IUPAC Gold Book — molality",
+      href: "https://goldbook.iupac.org/terms/view/M03970",
+      note: "Formal definition of molality.",
+    },
+  ],
+  phcalculator: [
+    {
+      label: "LibreTexts — Acid–Base Equilibria",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/16%3A_AcidBase_Equilibria",
+      note: "Strong/weak acids, Ka, and buffers.",
+    },
+    {
+      label: "IUPAC Gold Book — pH",
+      href: "https://goldbook.iupac.org/terms/view/P04524",
+      note: "Definition of pH.",
+    },
+    {
+      label: "NIST — pH standards",
+      href: "https://www.nist.gov/programs-projects/nist-ph-standards",
+      note: "Reference materials and metrology for pH.",
+    },
+  ],
   phaseportrait: [
     {
       label: "MIT OCW — Differential Equations",

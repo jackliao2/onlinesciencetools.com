@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { categoryLabels, getRelatedTools, type Tool } from "@/lib/tools";
+import {
+  categoryLabels,
+  getRelatedTools,
+  toolGroupLabels,
+  type Tool,
+} from "@/lib/tools";
 
 export function RelatedTools({ slug }: { slug: string }) {
   const related = getRelatedTools(slug);
@@ -25,8 +30,8 @@ function RelatedToolRow({ tool }: { tool: Tool }) {
         href={tool.href}
         className="group flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-baseline sm:gap-6"
       >
-        <span className="shrink-0 text-xs text-[var(--muted)] sm:w-24">
-          {categoryLabels[tool.category]}
+        <span className="shrink-0 text-xs text-[var(--muted)] sm:w-40">
+          {toolGroupLabels[tool.group]}
         </span>
         <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
           {tool.shortTitle}

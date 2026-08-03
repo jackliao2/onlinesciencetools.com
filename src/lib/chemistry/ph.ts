@@ -1,0 +1,297 @@
+export class PhError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PhError";
+  }
+}
+
+export type PhMode =
+  | "strong-acid"
+  | "strong-base"
+  | "weak-acid"
+  | "weak-base"
+  | "buffer";
+
+export interface PhInput {
+  mode: PhMode;
+  /** Analytical concentration of acid/base (M), or HA for buffer */
+  concentration: number;
+  /** Ka for weak acid / buffer; Kb for weak base */
+  constant?: number;
+  /** Conjugate concentration for buffer (A⁻), M */
+  conjugate?: number;
+  /** Temperature Kw approximation at 25 °C */
+  kw?: number;
+}
+
+export interface PhResult {
+  mode: PhMode;
+  pH: number;
+  pOH: number;
+  hPlus: number;
+  ohMinus: number;
+  notes: string[];
+  expression: string;
+}
+
+const KW_25C = 1.0e-14;
+
+function validatePositive(value: number, label: string): void {
+  if (!(value > 0) || !Number.isFinite(value)) {
+    throw new PhError(`${label} must be a positive number.`);
+  }
+}
+
+/** Strong monoprotic acid with water autoionization when dilute. */
+function strongAcid(c: number, kw: number): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(c, "Concentration");
+  // Charge balance: [H+] = c + [OH-] = c + kw/[H+] → [H+]^2 − c[H+] − kw = 0
+  const h = (c + Math.sqrt(c * c + 4 * kw)) / 2;
+  const oh = kw / h;
+  const notes: string[] = [];
+  if (c < 1e-5) {
+    notes.push(
+      "Concentration is very low — water’s autoionization is included so pH does not exceed ~7.",
+    );
+  } else {
+    notes.push("For a strong monoprotic acid at typical lab concentrations, pH ≈ −log₁₀(C).");
+  }
+  return {
+    pH: -Math.log10(h),
+    pOH: -Math.log10(oh),
+    hPlus: h,
+    ohMinus: oh,
+    notes,
+  };
+}
+
+function strongBase(c: number, kw: number): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(c, "Concentration");
+  const oh = (c + Math.sqrt(c * c + 4 * kw)) / 2;
+  const h = kw / oh;
+  const notes: string[] = [];
+  if (c < 1e-5) {
+    notes.push(
+      "Concentration is very low — water’s autoionization is included so pH does not fall below ~7.",
+    );
+  } else {
+    notes.push("For a strong monoprotic base, pOH ≈ −log₁₀(C) and pH = 14 − pOH (25 °C).");
+  }
+  return {
+    pH: -Math.log10(h),
+    pOH: -Math.log10(oh),
+    hPlus: h,
+    ohMinus: oh,
+    notes,
+  };
+}
+
+/** Weak monoprotic acid: Ka = x²/(C−x), with water if needed for very weak/dilute. */
+function weakAcid(
+  c: number,
+  ka: number,
+  kw: number,
+): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(c, "Concentration");
+  validatePositive(ka, "Ka");
+  if (ka >= 1) {
+    throw new PhError("Ka ≥ 1 looks like a strong acid — use Strong acid mode.");
+  }
+
+  // Exact charge/mass for HA ⇌ H+ + A− with water:
+  // Often sufficient: Ka = x²/(C−x) → x² + Ka x − Ka C = 0
+  const x = (-ka + Math.sqrt(ka * ka + 4 * ka * c)) / 2;
+  let h = x;
+  const notes = [
+    "Solved from Ka = [H⁺][A⁻]/[HA] with [H⁺] ≈ [A⁻] = x and [HA] = C − x.",
+  ];
+
+  // If result is near neutral water contribution, blend a note (not a full cubic for simplicity)
+  if (h < 10 * Math.sqrt(kw)) {
+    notes.push(
+      "Solution is near-neutral; for ultra-weak/dilute acids a full water cubic may be needed in advanced work.",
+    );
+  }
+
+  // Ensure physical bounds vs water
+  const waterFloor = Math.sqrt(kw);
+  if (h < waterFloor) {
+    h = waterFloor;
+    notes.push("Result clamped near √Kw because the weak-acid approximation alone under-predicted [H⁺].");
+  }
+
+  const oh = kw / h;
+  if (x / c > 0.05) {
+    notes.push("More than ~5% dissociation — the common ‘x ≪ C’ shortcut would be inaccurate; the quadratic was used.");
+  }
+
+  return {
+    pH: -Math.log10(h),
+    pOH: -Math.log10(oh),
+    hPlus: h,
+    ohMinus: oh,
+    notes,
+  };
+}
+
+function weakBase(
+  c: number,
+  kb: number,
+  kw: number,
+): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(c, "Concentration");
+  validatePositive(kb, "Kb");
+  if (kb >= 1) {
+    throw new PhError("Kb ≥ 1 looks like a strong base — use Strong base mode.");
+  }
+
+  const x = (-kb + Math.sqrt(kb * kb + 4 * kb * c)) / 2;
+  let oh = x;
+  const notes = [
+    "Solved from Kb = [OH⁻][BH⁺]/[B] with [OH⁻] ≈ [BH⁺] = x and [B] = C − x.",
+  ];
+
+  const waterFloor = Math.sqrt(kw);
+  if (oh < waterFloor) {
+    oh = waterFloor;
+    notes.push("Result clamped near √Kw because the weak-base approximation alone under-predicted [OH⁻].");
+  }
+
+  if (x / c > 0.05) {
+    notes.push("More than ~5% ionization — quadratic solution used instead of x ≪ C.");
+  }
+
+  const h = kw / oh;
+  return {
+    pH: -Math.log10(h),
+    pOH: -Math.log10(oh),
+    hPlus: h,
+    ohMinus: oh,
+    notes,
+  };
+}
+
+function buffer(
+  ha: number,
+  aMinus: number,
+  ka: number,
+  kw: number,
+): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(ha, "[HA]");
+  validatePositive(aMinus, "[A⁻]");
+  validatePositive(ka, "Ka");
+
+  // Henderson–Hasselbalch
+  const pKa = -Math.log10(ka);
+  const pH = pKa + Math.log10(aMinus / ha);
+  const h = 10 ** -pH;
+  const oh = kw / h;
+
+  return {
+    pH,
+    pOH: -Math.log10(oh),
+    hPlus: h,
+    ohMinus: oh,
+    notes: [
+      "Henderson–Hasselbalch: pH = pKa + log₁₀([A⁻]/[HA]).",
+      "Best when both species are much larger than [H⁺] and [OH⁻] (typical buffer concentrations).",
+    ],
+  };
+}
+
+export function calculatePh(input: PhInput): PhResult {
+  const kw = input.kw ?? KW_25C;
+
+  switch (input.mode) {
+    case "strong-acid": {
+      const core = strongAcid(input.concentration, kw);
+      return {
+        mode: input.mode,
+        expression: "Strong acid: charge balance [H⁺]² − C[H⁺] − Kw = 0",
+        ...core,
+      };
+    }
+    case "strong-base": {
+      const core = strongBase(input.concentration, kw);
+      return {
+        mode: input.mode,
+        expression: "Strong base: charge balance [OH⁻]² − C[OH⁻] − Kw = 0",
+        ...core,
+      };
+    }
+    case "weak-acid": {
+      if (input.constant === undefined) throw new PhError("Enter Ka for a weak acid.");
+      const core = weakAcid(input.concentration, input.constant, kw);
+      return {
+        mode: input.mode,
+        expression: "Ka = x² / (C − x)",
+        ...core,
+      };
+    }
+    case "weak-base": {
+      if (input.constant === undefined) throw new PhError("Enter Kb for a weak base.");
+      const core = weakBase(input.concentration, input.constant, kw);
+      return {
+        mode: input.mode,
+        expression: "Kb = x² / (C − x)",
+        ...core,
+      };
+    }
+    case "buffer": {
+      if (input.constant === undefined) throw new PhError("Enter Ka for the buffer acid.");
+      if (input.conjugate === undefined) {
+        throw new PhError("Enter the conjugate base concentration [A⁻].");
+      }
+      const core = buffer(
+        input.concentration,
+        input.conjugate,
+        input.constant,
+        kw,
+      );
+      return {
+        mode: input.mode,
+        expression: "pH = pKa + log₁₀([A⁻]/[HA])",
+        ...core,
+      };
+    }
+    default:
+      throw new PhError("Unknown pH calculation mode.");
+  }
+}
+
+export const PH_PRESETS = [
+  {
+    id: "hcl",
+    name: "0.010 M HCl (strong acid)",
+    mode: "strong-acid" as const,
+    concentration: 0.01,
+  },
+  {
+    id: "naoh",
+    name: "0.010 M NaOH (strong base)",
+    mode: "strong-base" as const,
+    concentration: 0.01,
+  },
+  {
+    id: "acetic",
+    name: "0.10 M acetic acid (Ka = 1.8×10⁻⁵)",
+    mode: "weak-acid" as const,
+    concentration: 0.1,
+    constant: 1.8e-5,
+  },
+  {
+    id: "ammonia",
+    name: "0.10 M ammonia (Kb = 1.8×10⁻⁵)",
+    mode: "weak-base" as const,
+    concentration: 0.1,
+    constant: 1.8e-5,
+  },
+  {
+    id: "acetate-buffer",
+    name: "Acetate buffer 0.10 M HA / 0.10 M A⁻",
+    mode: "buffer" as const,
+    concentration: 0.1,
+    conjugate: 0.1,
+    constant: 1.8e-5,
+  },
+];

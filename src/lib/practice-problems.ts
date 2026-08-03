@@ -350,6 +350,102 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
     },
   ],
 
+  dilutioncalculator: [
+    {
+      title: "Stock volume for a lab dilution",
+      prompt:
+        "How many mL of 6.0 M H₂SO₄ are needed to prepare 500. mL of 0.15 M H₂SO₄?",
+      steps: [
+        "C₁V₁ = C₂V₂ → V₁ = (C₂V₂)/C₁.",
+        "V₁ = (0.15 × 500) / 6.0 = 12.5 mL.",
+      ],
+      answer: "12.5 mL of 6.0 M stock",
+    },
+    {
+      title: "Find final concentration",
+      prompt:
+        "25.0 mL of 0.80 M NaOH is diluted to 100.0 mL. What is C₂?",
+      steps: [
+        "C₂ = (C₁V₁)/V₂ = (0.80 × 25.0) / 100.0 = 0.20 M.",
+      ],
+      answer: "0.20 M",
+    },
+    {
+      title: "Dilution factor",
+      prompt:
+        "A stock is 2.5 M and the working solution is 0.050 M. What is the dilution factor?",
+      steps: [
+        "Factor = C₁/C₂ = 2.5 / 0.050 = 50.",
+        "Equivalently V₂/V₁ = 50 if volumes are consistent.",
+      ],
+      answer: "50×",
+    },
+  ],
+
+  concentrationconverter: [
+    {
+      title: "Molarity to g/L",
+      prompt:
+        "What is the mass concentration (g/L) of 0.250 M glucose (C₆H₁₂O₆, M ≈ 180.16 g/mol)?",
+      steps: [
+        "g/L = M × molar mass = 0.250 × 180.16 ≈ 45.04 g/L.",
+      ],
+      answer: "≈ 45.0 g/L",
+    },
+    {
+      title: "Mass percent for dilute NaCl",
+      prompt:
+        "For 0.100 M NaCl (M ≈ 58.44) with density 1.00 g/mL, estimate mass percent.",
+      steps: [
+        "In 1.00 L: solute ≈ 5.844 g; solution ≈ 1000 g.",
+        "Mass % ≈ 0.584%.",
+      ],
+      answer: "≈ 0.584%",
+    },
+    {
+      title: "Why density matters",
+      prompt:
+        "Why can’t you convert molarity to mass percent without density (or equivalent mass/volume data)?",
+      steps: [
+        "Molarity uses liters of solution; mass percent uses mass of solution.",
+        "Density links volume to mass.",
+      ],
+      answer: "Need density (or mass and volume) to connect volume-based and mass-based units",
+    },
+  ],
+
+  phcalculator: [
+    {
+      title: "Strong acid pH",
+      prompt: "What is the pH of 0.010 M HCl?",
+      steps: [
+        "Strong acid: [H⁺] ≈ 0.010 M.",
+        "pH = −log₁₀(0.010) = 2.00.",
+      ],
+      answer: "pH = 2.00",
+    },
+    {
+      title: "Weak acid quadratic",
+      prompt:
+        "Estimate the pH of 0.10 M acetic acid (Ka = 1.8×10⁻⁵).",
+      steps: [
+        "x ≈ √(Ka C) = √(1.8×10⁻⁶) ≈ 1.34×10⁻³ (shortcut).",
+        "Quadratic gives x ≈ 1.33×10⁻³; pH ≈ 2.88.",
+      ],
+      answer: "pH ≈ 2.88",
+    },
+    {
+      title: "Buffer pH",
+      prompt:
+        "A buffer has [HA] = 0.10 M and [A⁻] = 0.10 M with Ka = 1.8×10⁻⁵. Find pH.",
+      steps: [
+        "pKa = 4.74.",
+        "pH = pKa + log([A⁻]/[HA]) = 4.74 + log(1) = 4.74.",
+      ],
+      answer: "pH ≈ 4.74",
+    },
+  ],
+
   htmlexecutor: [
     {
       title: "Minimal page shell",

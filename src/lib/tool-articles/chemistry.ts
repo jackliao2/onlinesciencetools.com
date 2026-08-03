@@ -336,4 +336,190 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
       },
     ],
   },
+  {
+    slug: "dilutioncalculator",
+    whatIs: {
+      paragraphs: [
+        "Dilution is the process of lowering a solution’s concentration by adding solvent. In teaching labs and homework, the working relation is almost always C₁V₁ = C₂V₂: the amount of solute is conserved when you dilute, so the product of concentration and volume stays constant if concentration units are consistent.",
+        "Typical tasks include preparing a working solution from a concentrated stock, finding how much stock to pipette into a volumetric flask, or checking what concentration results after combining a known aliquot with solvent up to a final volume. The Dilution Calculator solves for whichever one of C₁, V₁, C₂, or V₂ you leave blank.",
+        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Serial dilutions apply the same formula repeatedly.",
+      ],
+      bullets: [
+        "Solute amount is conserved: moles before = moles after (for non-reactive dilution)",
+        "C₁V₁ = C₂V₂ with matching concentration units and matching volume units",
+        "Stock concentration C₁ is greater than or equal to the diluted concentration C₂",
+      ],
+    },
+    formula: {
+      intro:
+        "For a dilution that does not consume or produce solute, the conserved quantity is concentration × volume.",
+      blocks: [
+        `C₁V₁ = C₂V₂
+
+Solve for one unknown, for example:
+  V₁ = (C₂V₂) / C₁
+  C₂ = (C₁V₁) / V₂
+
+Dilution factor = C₁ / C₂ = V₂ / V₁`,
+      ],
+      notes: [
+        "Volumes may be mL or L as long as both sides match.",
+        "Do not mix mass percent with molarity in the same equation without converting first.",
+      ],
+    },
+    example: {
+      title: "Preparing 250 mL of 0.50 M HCl from 2.0 M stock",
+      scenario:
+        "You have 2.0 M HCl stock and need 250 mL of 0.50 M HCl. What volume of stock should you measure before diluting to the mark?",
+      steps: [
+        "Identify knowns: C₁ = 2.0 M, C₂ = 0.50 M, V₂ = 250 mL; solve for V₁.",
+        "V₁ = (C₂V₂) / C₁ = (0.50 × 250) / 2.0 = 62.5 mL.",
+        "Measure 62.5 mL of stock and dilute with water to 250 mL total volume.",
+        "Check: dilution factor = 2.0 / 0.50 = 4, and 250 / 62.5 = 4.",
+      ],
+      toolCheck:
+        "In the Dilution Calculator, enter C₁ = 2.0, leave V₁ blank, C₂ = 0.50, V₂ = 250 (mL). Confirm V₁ ≈ 62.5 mL.",
+    },
+    faq: [
+      {
+        question: "Can I use mL and L in the same calculation?",
+        answer:
+          "Only if you convert so both volumes use the same unit. 250 mL is 0.250 L. Mixing units without converting gives a wrong V₁ by a factor of 1000.",
+      },
+      {
+        question: "Does C₁V₁ = C₂V₂ work for mass percent?",
+        answer:
+          "It works when both concentrations are the same type and the density does not change much, which is reasonable for dilute aqueous solutions. For precise work with concentrated solutions, convert to moles or use mass of solute instead.",
+      },
+      {
+        question: "What is a serial dilution?",
+        answer:
+          "A serial dilution repeats dilution in steps (for example, 1:10 three times). Each step still obeys C₁V₁ = C₂V₂. The overall dilution factor is the product of the step factors.",
+      },
+    ],
+  },
+  {
+    slug: "concentrationconverter",
+    whatIs: {
+      paragraphs: [
+        "Chemists express solution composition in several units. Molarity (mol/L of solution) is common in volumetric work. Molality (mol/kg of solvent) is preferred when temperature changes matter. Mass percent and ppm appear in analytical and environmental contexts. Converting among them requires the solute’s molar mass and, for most conversions, the solution density.",
+        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity, g/L, mass percent, ppm, and molality on a 1.00 L solution basis.",
+        "For dilute aqueous solutions, density ≈ 1.00 g/mL is a standard classroom approximation. Concentrated acids, bases, and syrups need a measured or tabulated density or the conversion will be off.",
+      ],
+      bullets: [
+        "Molarity M = moles solute / liters solution",
+        "Molality m = moles solute / kilograms solvent",
+        "Mass % and ppm need density to relate mass of solute to volume of solution",
+      ],
+    },
+    formula: {
+      intro:
+        "For 1.00 L of solution with density ρ (g/mL) and solute molar mass M (g/mol):",
+      blocks: [
+        `Mass of solution ≈ 1000ρ grams
+Mass of solute (g) = (molarity) × M
+Mass % = (mass solute / mass solution) × 100%
+ppm (mass) = (mass solute / mass solution) × 10⁶
+Molality = moles solute / kg solvent
+kg solvent = (mass solution − mass solute) / 1000`,
+      ],
+      notes: [
+        "ppm here is mass ppm (mg/kg). For very dilute water solutions this is nearly mg/L.",
+        "If solute mass exceeds solution mass, the inputs are physically inconsistent.",
+      ],
+    },
+    example: {
+      title: "0.100 M NaCl with density 1.00 g/mL",
+      scenario:
+        "Convert 0.100 M aqueous NaCl (M ≈ 58.44 g/mol, ρ = 1.00 g/mL) into g/L, mass percent, ppm, and molality.",
+      steps: [
+        "g/L = 0.100 × 58.44 = 5.844 g/L.",
+        "In 1.00 L, solution mass ≈ 1000 g; solute = 5.844 g.",
+        "Mass % ≈ (5.844 / 1000) × 100 = 0.584%.",
+        "ppm ≈ 5844.",
+        "kg solvent ≈ 0.994 kg; molality ≈ 0.100 / 0.994 ≈ 0.101 mol/kg.",
+      ],
+      toolCheck:
+        "Enter NaCl, density 1.00, molarity 0.100 in the Concentration Converter and compare the table of results.",
+    },
+    faq: [
+      {
+        question: "When is molality better than molarity?",
+        answer:
+          "Molality does not change with temperature because it is based on solvent mass, not solution volume. Colligative-property problems usually use molality.",
+      },
+      {
+        question: "Why do I need density?",
+        answer:
+          "Molarity is per liter of solution, while mass percent and molality are mass-based. Density links volume of solution to its mass so those families of units can be connected.",
+      },
+      {
+        question: "What if I do not know the formula?",
+        answer:
+          "Leave the formula blank and type the molar mass in g/mol directly. The converter only needs M for mole ↔ mass links.",
+      },
+    ],
+  },
+  {
+    slug: "phcalculator",
+    whatIs: {
+      paragraphs: [
+        "pH measures the acidity of an aqueous solution on a logarithmic scale: pH = −log₁₀[H⁺] (more precisely, activity of H₃O⁺, approximated by concentration in dilute solutions). Strong acids and bases dissociate essentially completely; weak acids and bases only partially, so Ka or Kb is required. Buffers contain a weak acid and its conjugate base and resist pH change; their pH is estimated with the Henderson–Hasselbalch equation.",
+        "The pH Calculator covers five classroom cases at 25 °C (Kw = 1.0×10⁻¹⁴): strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Strong electrolytes include water’s autoionization so extremely dilute solutions do not report nonsense pH values far past 7.",
+        "Always match the mode to the chemistry. Acetic acid is weak (use Ka); HCl is strong. A mixture of acetic acid and sodium acetate is a buffer, not a single weak-acid problem.",
+      ],
+      bullets: [
+        "Strong acid/base: start from complete dissociation; include water when C is tiny",
+        "Weak acid/base: solve Ka or Kb = x²/(C−x) with the quadratic",
+        "Buffer: pH = pKa + log₁₀([A⁻]/[HA])",
+      ],
+    },
+    formula: {
+      intro: "Core relations used by the calculator (25 °C):",
+      blocks: [
+        `pH = −log₁₀[H⁺]
+pOH = −log₁₀[OH⁻]
+[H⁺][OH⁻] = Kw = 1.0×10⁻¹⁴
+
+Weak acid: Ka = x² / (C − x)
+Weak base: Kb = x² / (C − x)
+Buffer: pH = pKa + log₁₀([A⁻]/[HA])
+pKa = −log₁₀(Ka)`,
+      ],
+      notes: [
+        "Polyprotic acids and activity corrections are outside this tool’s scope.",
+        "If Ka or Kb ≥ 1, treat the species as strong instead.",
+      ],
+    },
+    example: {
+      title: "pH of 0.10 M acetic acid (Ka = 1.8×10⁻⁵)",
+      scenario:
+        "Find the pH of 0.10 M CH₃COOH using the weak-acid quadratic.",
+      steps: [
+        "Ka = x²/(0.10 − x) = 1.8×10⁻⁵.",
+        "x = (−Ka + √(Ka² + 4 Ka C))/2 ≈ 1.33×10⁻³ M.",
+        "pH = −log₁₀(1.33×10⁻³) ≈ 2.88.",
+        "Check: x/C ≈ 1.3% < 5%, so the x ≪ C shortcut would also be roughly OK here.",
+      ],
+      toolCheck:
+        "Choose Weak acid, concentration 0.10, Ka 1.8e-5 in the pH Calculator. Expect pH near 2.88.",
+    },
+    faq: [
+      {
+        question: "Why is the pH of 1.0×10⁻⁸ M HCl not 8?",
+        answer:
+          "Water contributes [H⁺] as well. A charge-balance treatment gives a pH slightly below 7, not an alkaline value. The strong-acid mode includes that correction.",
+      },
+      {
+        question: "When is Henderson–Hasselbalch valid?",
+        answer:
+          "When both HA and A⁻ are present at concentrations much larger than [H⁺] and [OH⁻], typically in the 0.01–1 M range for common buffers. It is an approximation, not an exact charge-balance solution.",
+      },
+      {
+        question: "How do Ka and Kb relate for a conjugate pair?",
+        answer:
+          "Ka × Kb = Kw at the same temperature. If you know Ka for acetic acid, Kb for acetate is Kw/Ka.",
+      },
+    ],
+  },
 ];
