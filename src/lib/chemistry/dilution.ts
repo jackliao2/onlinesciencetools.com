@@ -99,3 +99,113 @@ export function solveDilution(input: DilutionInput): DilutionResult {
     expression: "C₁V₁ = C₂V₂",
   };
 }
+
+export interface SerialDilutionInput {
+  /** Stock concentration (same units throughout). */
+  stockC: number;
+  /** Dilution factor per step (e.g. 10 for a 1:10 step). */
+  factor: number;
+  /** Number of successive dilution steps (≥ 1). */
+  steps: number;
+  /** Aliquot transferred each step (same volume unit as finalV). */
+  transferV: number;
+  /** Final volume after each step (must be > transferV). */
+  finalV: number;
+}
+
+export interface SerialDilutionStep {
+  step: number;
+  concentration: number;
+  dilutionFactorFromStock: number;
+}
+
+export interface SerialDilutionResult {
+  factor: number;
+  steps: SerialDilutionStep[];
+  overallFactor: number;
+  expression: string;
+}
+
+/**
+ * Plan a geometric serial dilution: each step dilutes by `factor`
+ * using transferV into finalV (so factor should equal finalV / transferV).
+ */
+export function solveSerialDilution(
+  input: SerialDilutionInput,
+): SerialDilutionResult {
+  const { stockC, factor, steps, transferV, finalV } = input;
+
+  if (!(stockC > 0) || !(factor > 1) || !(transferV > 0) || !(finalV > 0)) {
+    throw new DilutionError(
+      "Stock concentration, factor (>1), transfer volume, and final volume must be positive.",
+    );
+  }
+  if (!Number.isInteger(steps) || steps < 1 || steps > 20) {
+    throw new DilutionError("Use between 1 and 20 serial dilution steps.");
+  }
+  if (transferV >= finalV) {
+    throw new DilutionError(
+      "Transfer volume must be smaller than the final volume of each tube.",
+    );
+  }
+
+  const volumeFactor = finalV / transferV;
+  if (Math.abs(volumeFactor - factor) > 1e-6 * factor) {
+    throw new DilutionError(
+      `For a ${factor}× step, final volume / transfer should equal ${factor} (got ${volumeFactor.toPrecision(6)}).`,
+    );
+  }
+
+  const out: SerialDilutionStep[] = [];
+  let c = stockC;
+  for (let i = 1; i <= steps; i += 1) {
+    c = c / factor;
+    out.push({
+      step: i,
+      concentration: c,
+      dilutionFactorFromStock: stockC / c,
+    });
+  }
+
+  return {
+    factor,
+    steps: out,
+    overallFactor: factor ** steps,
+    expression: `Each step: C_out = C_in / ${factor}  (transfer ${transferV} into ${finalV})`,
+  };
+}
+
+/** Common ratio chips → dilution factor (V₂/V₁ or C₁/C₂). */
+export const DILUTION_RATIO_PRESETS = [
+  { id: "1:2", label: "1:2", factor: 2 },
+  { id: "1:5", label: "1:5", factor: 5 },
+  { id: "1:10", label: "1:10", factor: 10 },
+  { id: "1:100", label: "1:100", factor: 100 },
+] as const;
+
+export const DILUTION_LAB_PRESETS = [
+  {
+    id: "alcohol-70",
+    label: "Alcohol 95% → 70%",
+    c1: "95",
+    c2: "70",
+    v2: "100",
+    concUnit: "% (v/v)",
+  },
+  {
+    id: "bleach-0.1",
+    label: "Bleach 5% → 0.1%",
+    c1: "5",
+    c2: "0.1",
+    v2: "1000",
+    concUnit: "%",
+  },
+  {
+    id: "h2o2-3",
+    label: "H₂O₂ 30% → 3%",
+    c1: "30",
+    c2: "3",
+    v2: "100",
+    concUnit: "%",
+  },
+] as const;

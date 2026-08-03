@@ -9,7 +9,7 @@ import {
 } from "../src/lib/chemistry/composition.ts";
 import { convertConcentration } from "../src/lib/chemistry/concentration.ts";
 import { calculatePh } from "../src/lib/chemistry/ph.ts";
-import { solveDilution } from "../src/lib/chemistry/dilution.ts";
+import { solveDilution, solveSerialDilution } from "../src/lib/chemistry/dilution.ts";
 import { solubilityFromKsp, kspFromSolubility } from "../src/lib/chemistry/ksp.ts";
 import { solveIdealGas } from "../src/lib/chemistry/gas-law.ts";
 import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
@@ -128,6 +128,23 @@ approx(
 // --- Dilution ---
 const dil = solveDilution({ c1: 2, v1: null, c2: 0.5, v2: 0.25 });
 approx(dil.v1, 0.0625, 1e-9, "dilution v1");
+const serial = solveSerialDilution({
+  stockC: 1,
+  factor: 10,
+  steps: 3,
+  transferV: 1,
+  finalV: 10,
+});
+approx(serial.steps[2].concentration, 0.001, 1e-12, "serial 1:10 x3");
+eq(serial.overallFactor, 1000, "serial overall factor");
+
+const balCheck = balanceEquation("Fe + O2 = Fe2O3");
+eq(balCheck.atomCheck.length > 0, true, "balance atomCheck present");
+eq(
+  balCheck.atomCheck.every((row) => row.reactantAtoms === row.productAtoms),
+  true,
+  "balance atomCheck matched",
+);
 
 // --- Concentration ---
 const conc = convertConcentration({

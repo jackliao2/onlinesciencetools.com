@@ -93,6 +93,13 @@ export function StoichiometryCalculator() {
         </button>
       </div>
 
+      <div className="mt-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3 text-xs leading-relaxed text-[var(--muted)]">
+        <p className="font-medium text-[var(--foreground)]">Molar mass formula</p>
+        <p className="mt-1 font-mono">
+          n = m / M · m = n × M · N = n × Nₐ · Nₐ = 6.02214076×10²³ mol⁻¹
+        </p>
+      </div>
+
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-5">
           <label className="block">

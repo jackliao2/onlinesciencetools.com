@@ -6,10 +6,20 @@ export interface BalancedSpecies {
   side: "reactant" | "product";
 }
 
+export interface AtomCheckRow {
+  element: string;
+  reactantAtoms: number;
+  productAtoms: number;
+}
+
 export interface BalanceResult {
   reactants: BalancedSpecies[];
   products: BalancedSpecies[];
   equation: string;
+  /** Short inspection-style notes for teaching / SEO “with steps”. */
+  steps: string[];
+  /** Atom inventory after applying coefficients (should match left/right). */
+  atomCheck: AtomCheckRow[];
 }
 
 export class BalanceError extends Error {
@@ -321,9 +331,36 @@ export function balanceEquation(raw: string): BalanceResult {
       .map((s) => (s.coefficient === 1 ? s.formula : `${s.coefficient}${s.formula}`))
       .join(" + ");
 
+  const atomCheck: AtomCheckRow[] = elements.map((el) => {
+    let reactantAtoms = 0;
+    let productAtoms = 0;
+    for (let j = 0; j < left.length; j += 1) {
+      const count =
+        compositions[j].composition.find((c) => c.element === el)?.count ?? 0;
+      reactantAtoms += coeffs[j] * count;
+    }
+    for (let j = 0; j < right.length; j += 1) {
+      const idx = left.length + j;
+      const count =
+        compositions[idx].composition.find((c) => c.element === el)?.count ?? 0;
+      productAtoms += coeffs[idx] * count;
+    }
+    return { element: el, reactantAtoms, productAtoms };
+  });
+
+  const steps = [
+    `Parse species: ${[...left, ...right].map(stripLeadingCoefficient).join(", ")}.`,
+    `Identify elements to conserve: ${elements.join(", ")}.`,
+    `Solve for the smallest positive integer coefficients that balance every element.`,
+    `Balanced equation: ${fmt(reactants)} → ${fmt(products)}.`,
+    `Verify atom counts match on both sides for each element.`,
+  ];
+
   return {
     reactants,
     products,
     equation: `${fmt(reactants)} → ${fmt(products)}`,
+    steps,
+    atomCheck,
   };
 }

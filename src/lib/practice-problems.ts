@@ -164,6 +164,25 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "2AgNO₃ + CaCl₂ → 2AgCl + Ca(NO₃)₂",
     },
+    {
+      title: "Practice: propane combustion",
+      prompt: "Balance: C₃H₈ + O₂ → CO₂ + H₂O.",
+      steps: [
+        "C → 3 CO₂; H → 4 H₂O.",
+        "O atoms on right = 6 + 4 = 10 ⇒ 5 O₂.",
+        "C₃H₈ + 5O₂ → 3CO₂ + 4H₂O.",
+      ],
+      answer: "C₃H₈ + 5O₂ → 3CO₂ + 4H₂O",
+    },
+    {
+      title: "Practice: aluminum + HCl",
+      prompt: "Balance: Al + HCl → AlCl₃ + H₂.",
+      steps: [
+        "AlCl₃ needs 3 Cl ⇒ 3 HCl; H₂ then needs even H ⇒ multiply by 2.",
+        "2Al + 6HCl → 2AlCl₃ + 3H₂.",
+      ],
+      answer: "2Al + 6HCl → 2AlCl₃ + 3H₂",
+    },
   ],
 
   phaseportrait: [
@@ -539,6 +558,27 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "50×",
     },
+    {
+      title: "1:10 serial dilution",
+      prompt:
+        "Start with 1.0 M stock. Do three successive 1:10 dilutions (1 mL into 10 mL each time). What is the concentration after the third tube?",
+      steps: [
+        "Each step multiplies concentration by 1/10.",
+        "After 3 steps: C = 1.0 / 10³ = 0.0010 M.",
+        "Overall factor from stock = 1000×.",
+      ],
+      answer: "0.0010 M (1000× from stock)",
+    },
+    {
+      title: "Alcohol dilution (v/v)",
+      prompt:
+        "How much 95% ethanol is needed to prepare 100 mL of 70% ethanol (same % units)?",
+      steps: [
+        "V₁ = (C₂V₂)/C₁ = (70 × 100) / 95 ≈ 73.7 mL.",
+        "Dilute the aliquot to 100 mL with water.",
+      ],
+      answer: "≈ 73.7 mL of 95% stock",
+    },
   ],
 
   concentrationconverter: [
@@ -571,6 +611,16 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "Need density (or mass and volume) to connect volume-based and mass-based units",
     },
+    {
+      title: "g/L to mg/mL",
+      prompt:
+        "A solution is 45.0 g/L glucose. What is that in mg/mL?",
+      steps: [
+        "1 g/L = 1 mg/mL numerically.",
+        "45.0 g/L = 45.0 mg/mL.",
+      ],
+      answer: "45.0 mg/mL",
+    },
   ],
 
   phcalculator: [
@@ -602,6 +652,24 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
         "pH = pKa + log([A⁻]/[HA]) = 4.74 + log(1) = 4.74.",
       ],
       answer: "pH ≈ 4.74",
+    },
+    {
+      title: "Phosphate-like buffer",
+      prompt:
+        "For a buffer with pKa = 7.20, [HA] = 0.050 M, [A⁻] = 0.050 M, estimate pH with Henderson–Hasselbalch.",
+      steps: [
+        "pH = 7.20 + log(0.050/0.050) = 7.20.",
+      ],
+      answer: "pH ≈ 7.20",
+    },
+    {
+      title: "pH formula check",
+      prompt: "If [H⁺] = 3.0×10⁻⁴ M, what are pH and pOH at 25 °C?",
+      steps: [
+        "pH = −log(3.0×10⁻⁴) ≈ 3.52.",
+        "pOH = 14 − 3.52 ≈ 10.48.",
+      ],
+      answer: "pH ≈ 3.52; pOH ≈ 10.48",
     },
   ],
 

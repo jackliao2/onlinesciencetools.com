@@ -13,6 +13,7 @@ const EXAMPLES = [
   "C2H6 + O2 = CO2 + H2O",
   "KMnO4 + HCl = KCl + MnCl2 + H2O + Cl2",
   "Cu + HNO3 = Cu(NO3)2 + NO + H2O",
+  "AgNO3 + CaCl2 = AgCl + Ca(NO3)2",
 ];
 
 export function EquationBalancer() {
@@ -38,7 +39,7 @@ export function EquationBalancer() {
         <div className="flex items-center gap-2 text-[var(--accent)]">
           <Scale className="h-5 w-5" />
           <span className="text-sm font-semibold uppercase tracking-[0.14em]">
-            Equation balancer
+            Chemistry equation balancer
           </span>
         </div>
         <button
@@ -76,8 +77,9 @@ export function EquationBalancer() {
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
-        Balances atoms in neutral formula equations only. Ionic charges, electrons,
-        and acidic/basic redox half-reactions (H⁺, OH⁻, e⁻) are not supported.
+        Balances atoms in neutral formula equations and shows step notes plus an
+        atom-check table. Ionic charges, electrons, and acidic/basic redox
+        half-reactions (H⁺, OH⁻, e⁻) are not supported yet.
       </p>
 
       <div className="mt-6">
@@ -100,6 +102,43 @@ export function EquationBalancer() {
               <SideCard title="Reactants" items={result.value.reactants} />
               <SideCard title="Products" items={result.value.products} />
             </div>
+
+            <div className="rounded-2xl border border-[var(--border)] p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                Balancing steps
+              </p>
+              <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-[var(--muted)]">
+                {result.value.steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-[var(--border)]">
+              <table className="w-full min-w-[280px] text-left text-sm">
+                <thead className="bg-[var(--surface-2)] text-xs uppercase tracking-[0.08em] text-[var(--muted)]">
+                  <tr>
+                    <th className="px-3 py-2 font-semibold">Element</th>
+                    <th className="px-3 py-2 font-semibold">Reactants</th>
+                    <th className="px-3 py-2 font-semibold">Products</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.value.atomCheck.map((row) => (
+                    <tr
+                      key={row.element}
+                      className="border-t border-[var(--border)]"
+                    >
+                      <td className="px-3 py-2 font-mono font-medium">
+                        {row.element}
+                      </td>
+                      <td className="px-3 py-2 font-mono">{row.reactantAtoms}</td>
+                      <td className="px-3 py-2 font-mono">{row.productAtoms}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
@@ -119,16 +158,11 @@ function SideCard({
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
         {title}
       </p>
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-3 space-y-1.5 font-mono text-sm">
         {items.map((item) => (
-          <li
-            key={`${title}-${item.formula}`}
-            className="flex items-center justify-between rounded-xl bg-[var(--surface-2)] px-3 py-2 font-mono text-sm"
-          >
-            <span>{item.formula}</span>
-            <span className="font-semibold text-[var(--accent)]">
-              ×{item.coefficient}
-            </span>
+          <li key={`${title}-${item.formula}`}>
+            <span className="text-[var(--accent)]">{item.coefficient}</span>{" "}
+            {item.formula}
           </li>
         ))}
       </ul>

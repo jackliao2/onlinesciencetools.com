@@ -62,6 +62,11 @@ Mass percent of element i:
     },
     faq: [
       {
+        question: "How do I convert grams to moles with the molar mass formula?",
+        answer:
+          "Use n = m / M. Enter the formula to get M (g/mol), enter the mass in grams, and read moles. The reverse is m = n × M. Particle count follows N = n × Nₐ with Avogadro’s number 6.02214076 × 10²³ mol⁻¹. That grams-to-moles conversion is the core of most stoichiometry calculator workflows for a single compound.",
+      },
+      {
         question: "Why do I need molar mass before doing any stoichiometry problem?",
         answer:
           "Stoichiometry problems almost always require you to work in moles because balanced chemical equations express ratios in moles, not grams. Molar mass is the conversion factor that bridges the mass you can measure on a balance with the mole quantities that appear in the equation. Without it, you cannot move from a weighed sample to the mole ratio needed to find product yields or remaining reactants.",
@@ -263,7 +268,7 @@ Percent yield:
         "A balanced chemical equation obeys the law of conservation of mass: every atom present among the reactants must appear among the products in equal numbers. Balancing is not merely a bookkeeping exercise—it produces the stoichiometric coefficients that govern all subsequent mole-ratio calculations in reaction stoichiometry, equilibrium problems, and thermochemical equations. An unbalanced equation implies atoms are created or destroyed, which violates fundamental physical law.",
         "The standard balancing method in general chemistry is inspection: adjust coefficients in front of compound formulas until each element has the same count on both sides. Start with elements that appear in only one reactant and one product, then move to more complex cases involving polyatomic ions that may transfer intact (such as sulfate or nitrate groups). For redox reactions, the half-reaction method or oxidation-number method provides a systematic approach when inspection becomes unwieldy.",
         "Balanced equations appear in virtually every chemistry context. Combustion analysis requires balancing the burning reaction to relate CO₂ and H₂O produced back to the original compound. Acid–base neutralization, precipitation, and gas-evolution reactions all begin with a correctly balanced equation. In thermochemistry, coefficients scale the enthalpy change: if ΔH for forming 1 mol of product is known, doubling the coefficient doubles the enthalpy.",
-        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemistry Equation Balancer on Online Science Tools applies algorithmic balancing to any valid chemical formula, returning the smallest whole-number coefficients and displaying atom counts on each side for verification.",
+        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemistry Equation Balancer on Online Science Tools is a free chemistry equation balancer that applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
         "Correct balancing is the gateway to the Reaction Stoichiometry Calculator and the Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
       ],
       bullets: [
@@ -315,6 +320,11 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
     },
     faq: [
       {
+        question: "Is this a balancing chemical equations calculator with steps?",
+        answer:
+          "Yes. Enter an equation such as C2H6 + O2 = CO2 + H2O and the balancer returns the balanced result, short step notes, and an element-by-element atom inventory so you can practice inspection balancing and check your work.",
+      },
+      {
         question: "Can I change subscripts to balance an equation?",
         answer:
           "No. Changing a subscript alters the identity of the substance. Writing H₂O as H₂O₂ would mean hydrogen peroxide instead of water. The only permissible changes are coefficients—the numbers placed before a formula that multiply every atom in that formula. If you find yourself wanting to change a subscript, reconsider your product or reactant formulas instead.",
@@ -342,7 +352,7 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
       paragraphs: [
         "Dilution is the process of lowering a solution’s concentration by adding solvent. In teaching labs and homework, the working relation is almost always C₁V₁ = C₂V₂: the amount of solute is conserved when you dilute, so the product of concentration and volume stays constant if concentration units are consistent.",
         "Typical tasks include preparing a working solution from a concentrated stock, finding how much stock to pipette into a volumetric flask, or checking what concentration results after combining a known aliquot with solvent up to a final volume. The Dilution Calculator solves for whichever one of C₁, V₁, C₂, or V₂ you leave blank.",
-        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Serial dilutions apply the same formula repeatedly.",
+        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Use the serial dilution mode for 1:10 / 1:100 series, or lab presets such as alcohol, bleach, and hydrogen peroxide dilutions.",
       ],
       bullets: [
         "Solute amount is conserved: moles before = moles after (for non-reactive dilution)",
@@ -394,7 +404,12 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       {
         question: "What is a serial dilution?",
         answer:
-          "A serial dilution repeats dilution in steps (for example, 1:10 three times). Each step still obeys C₁V₁ = C₂V₂. The overall dilution factor is the product of the step factors.",
+          "A serial dilution repeats dilution in steps (for example, 1:10 three times). Each step still obeys C₁V₁ = C₂V₂. The overall dilution factor is the product of the step factors. Switch the Dilution Calculator to Serial dilution, set factor = 10 with transfer 1 into final 10, and read each tube concentration.",
+      },
+      {
+        question: "How do I do a 1:10 dilution calculator workflow?",
+        answer:
+          "A 1:10 step means the diluted concentration is one-tenth of the stock for that step (dilution factor 10). In simple mode, leave V₁ blank with C₁ known, set C₂ = C₁/10, and enter V₂. In serial mode, choose the 1:10 chip so transfer/final volumes match the factor.",
       },
     ],
   },
@@ -403,7 +418,7 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
     whatIs: {
       paragraphs: [
         "Chemists express solution composition in several units. Molarity (mol/L of solution) is common in volumetric work. Molality (mol/kg of solvent) is preferred when temperature changes matter. Mass percent and ppm appear in analytical and environmental contexts. Converting among them requires the solute’s molar mass and, for most conversions, the solution density.",
-        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity, g/L, mass percent, ppm, and molality on a 1.00 L solution basis.",
+        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity, g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday g↔mL style conversions.",
         "For dilute aqueous solutions, density ≈ 1.00 g/mL is a standard classroom approximation. Concentrated acids, bases, and syrups need a measured or tabulated density or the conversion will be off.",
       ],
       bullets: [
@@ -464,8 +479,8 @@ kg solvent = (mass solution − mass solute) / 1000`,
     slug: "phcalculator",
     whatIs: {
       paragraphs: [
-        "pH measures the acidity of an aqueous solution on a logarithmic scale: pH = −log₁₀[H⁺] (more precisely, activity of H₃O⁺, approximated by concentration in dilute solutions). Strong acids and bases dissociate essentially completely; weak acids and bases only partially, so Ka or Kb is required. Buffers contain a weak acid and its conjugate base and resist pH change; their pH is estimated with the Henderson–Hasselbalch equation.",
-        "The pH Calculator covers five classroom cases at 25 °C (Kw = 1.0×10⁻¹⁴): strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Strong electrolytes include water’s autoionization so extremely dilute solutions do not report nonsense pH values far past 7.",
+        "pH measures the acidity of an aqueous solution on a logarithmic scale using the pH formula pH = −log₁₀[H⁺] (more precisely, activity of H₃O⁺, approximated by concentration in dilute solutions). Strong acids and bases dissociate essentially completely; weak acids and bases only partially, so Ka or Kb is required. Buffers contain a weak acid and its conjugate base and resist pH change; their pH is estimated with the Henderson–Hasselbalch equation pH = pKa + log₁₀([A⁻]/[HA]).",
+        "The pH Calculator covers five classroom cases at 25 °C (Kw = 1.0×10⁻¹⁴): strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer, with presets for acetate, phosphate-like, and ammonium buffers. Strong electrolytes include water’s autoionization so extremely dilute solutions do not report nonsense pH values far past 7. The tool compares the Henderson–Hasselbalch estimate to a charge-balance solver for buffers.",
         "Always match the mode to the chemistry. Acetic acid is weak (use Ka); HCl is strong. A mixture of acetic acid and sodium acetate is a buffer, not a single weak-acid problem.",
       ],
       bullets: [
@@ -505,6 +520,11 @@ pKa = −log₁₀(Ka)`,
         "Choose Weak acid, concentration 0.10, Ka 1.8e-5 in the pH Calculator. Expect pH near 2.88.",
     },
     faq: [
+      {
+        question: "What is the Henderson–Hasselbalch equation used for?",
+        answer:
+          "It estimates buffer pH from pKa and the ratio of conjugate base to weak acid: pH = pKa + log₁₀([A⁻]/[HA]). Use it for classroom buffer problems and phosphate/acetate-style examples. The calculator also solves a fuller charge-balance model so you can see when the approximation is excellent.",
+      },
       {
         question: "Why is the pH of 1.0×10⁻⁸ M HCl not 8?",
         answer:

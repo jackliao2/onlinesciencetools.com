@@ -314,4 +314,20 @@ export const PH_PRESETS = [
     conjugate: 0.1,
     constant: 1.8e-5,
   },
+  {
+    id: "phosphate-buffer",
+    name: "Phosphate-like buffer pKa 7.20, 0.05/0.05 M",
+    mode: "buffer" as const,
+    concentration: 0.05,
+    conjugate: 0.05,
+    constant: 6.3e-8, // Ka ≈ 10^(-7.20) for H2PO4-/HPO4^2-
+  },
+  {
+    id: "ammonium-buffer",
+    name: "NH₄⁺/NH₃ buffer 0.10/0.10 M (Ka 5.6×10⁻¹⁰)",
+    mode: "buffer" as const,
+    concentration: 0.1,
+    conjugate: 0.1,
+    constant: 5.6e-10,
+  },
 ];

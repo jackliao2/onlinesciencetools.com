@@ -32,6 +32,33 @@ export function ConcentrationConverter() {
   const [kind, setKind] = useState<ConcentrationKind>("molarity");
   const [value, setValue] = useState("0.100");
 
+  const EXAMPLES = [
+    {
+      id: "nacl",
+      label: "0.9% NaCl (ρ≈1.00)",
+      formula: "NaCl",
+      density: "1.00",
+      kind: "massPercent" as const,
+      value: "0.9",
+    },
+    {
+      id: "glucose",
+      label: "5% glucose (ρ≈1.02)",
+      formula: "C6H12O6",
+      density: "1.02",
+      kind: "massPercent" as const,
+      value: "5",
+    },
+    {
+      id: "etoh",
+      label: "40% EtOH (ρ≈0.95)",
+      formula: "C2H5OH",
+      density: "0.95",
+      kind: "massPercent" as const,
+      value: "40",
+    },
+  ];
+
   const result = useMemo(() => {
     try {
       const mm = resolveMolarMass(
@@ -85,6 +112,25 @@ export function ConcentrationConverter() {
           <RotateCcw className="h-3.5 w-3.5" />
           Reset
         </button>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {EXAMPLES.map((ex) => (
+          <button
+            key={ex.id}
+            type="button"
+            onClick={() => {
+              setFormula(ex.formula);
+              setManualMM("");
+              setDensity(ex.density);
+              setKind(ex.kind);
+              setValue(ex.value);
+            }}
+            className="border border-[var(--border)] px-2 py-1 text-[11px] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            {ex.label}
+          </button>
+        ))}
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -166,6 +212,18 @@ export function ConcentrationConverter() {
               <dt className="text-[var(--muted)]">Mass concentration</dt>
               <dd className="font-mono">
                 {formatNum(result.value.gramsPerLiter)} g/L
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted)]">g/mL (from g/L)</dt>
+              <dd className="font-mono">
+                {formatNum(result.value.gramsPerLiter / 1000)} g/mL
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted)]">mg/mL (from g/L)</dt>
+              <dd className="font-mono">
+                {formatNum(result.value.gramsPerLiter)} mg/mL
               </dd>
             </div>
             <div>

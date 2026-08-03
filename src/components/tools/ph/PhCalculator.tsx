@@ -54,6 +54,17 @@ export function PhCalculator() {
     }
   }, [mode, concentration, constant, conjugate, needsConstant, needsConjugate]);
 
+  const hhEstimate = useMemo(() => {
+    if (mode !== "buffer") return null;
+    const ka = Number(constant);
+    const ha = Number(concentration);
+    const a = Number(conjugate);
+    if (!(ka > 0) || !(ha > 0) || !(a > 0)) return null;
+    const pKa = -Math.log10(ka);
+    const pH = pKa + Math.log10(a / ha);
+    return { pKa, pH };
+  }, [mode, constant, concentration, conjugate]);
+
   const applyPreset = (id: string) => {
     const preset = PH_PRESETS.find((p) => p.id === id);
     if (!preset) return;
@@ -121,6 +132,16 @@ export function PhCalculator() {
             {p.name}
           </button>
         ))}
+      </div>
+
+      <div className="mt-4 border border-[var(--border)] bg-[var(--surface-2)] p-3 text-xs leading-relaxed text-[var(--muted)]">
+        <p className="font-medium text-[var(--foreground)]">pH formula strip</p>
+        <p className="mt-1 font-mono">
+          pH = −log₁₀[H⁺] · pOH = −log₁₀[OH⁻] · pH + pOH = 14 (25 °C, Kw = 10⁻¹⁴)
+        </p>
+        <p className="mt-1 font-mono">
+          Henderson–Hasselbalch (buffer approx.): pH = pKa + log₁₀([A⁻]/[HA])
+        </p>
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -193,6 +214,13 @@ export function PhCalculator() {
             <p className="font-mono text-xs text-[var(--muted)]">
               {result.value.expression}
             </p>
+            {hhEstimate ? (
+              <p className="text-xs text-[var(--muted)]">
+                HH estimate: pKa = {formatNum(hhEstimate.pKa, 3)}, pH ≈{" "}
+                {formatNum(hhEstimate.pH, 4)} (solver uses charge balance; HH is
+                the classroom approximation).
+              </p>
+            ) : null}
             <ul className="list-disc space-y-1 pl-4 text-xs text-[var(--muted)]">
               {result.value.notes.map((note) => (
                 <li key={note}>{note}</li>
