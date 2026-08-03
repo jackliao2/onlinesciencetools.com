@@ -80,7 +80,7 @@ export function compileVectorField(fx: string, fy: string): VectorField {
     const dx = f(x, y);
     const dy = g(x, y);
     if (!Number.isFinite(dx) || !Number.isFinite(dy)) {
-      return { x: 0, y: 0 };
+      return { x: Number.NaN, y: Number.NaN };
     }
     return { x: dx, y: dy };
   };
@@ -166,7 +166,9 @@ export function sampleVectorField(
       const y = bounds.yMin + (j / density) * (bounds.yMax - bounds.yMin);
       const v = field(x, y);
       const mag = Math.hypot(v.x, v.y);
-      samples.push({ x, y, dx: v.x, dy: v.y, mag });
+      if (Number.isFinite(v.x) && Number.isFinite(v.y) && Number.isFinite(mag)) {
+        samples.push({ x, y, dx: v.x, dy: v.y, mag });
+      }
     }
   }
   return samples;

@@ -10,8 +10,8 @@ import {
 import { RotateCcw } from "lucide-react";
 
 const MODES: Array<{ id: PhMode; label: string }> = [
-  { id: "strong-acid", label: "Strong acid" },
-  { id: "strong-base", label: "Strong base" },
+  { id: "strong-acid", label: "Strong monoprotic acid" },
+  { id: "strong-base", label: "Strong monohydroxide base" },
   { id: "weak-acid", label: "Weak acid" },
   { id: "weak-base", label: "Weak base" },
   { id: "buffer", label: "Buffer" },
@@ -80,7 +80,7 @@ export function PhCalculator() {
         <div>
           <p className="text-sm font-medium">pH / acid–base calculator</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Strong · weak · buffer (25 °C, Kw = 1.0×10⁻¹⁴)
+            Monoprotic strong/weak acid–base · buffer (25 °C, Kw = 1.0×10⁻¹⁴)
           </p>
         </div>
         <button

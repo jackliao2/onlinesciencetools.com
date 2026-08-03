@@ -347,6 +347,10 @@ export function TimeGraphingTool() {
           </button>
         ))}
       </div>
+      <p className="mt-3 text-xs text-[var(--muted)]">
+        The Projectile preset uses x(t) = 4t and y(t) = 8t − 4.9t² in metres,
+        with t in seconds and g = 9.8 m/s².
+      </p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[320px_1fr]">
         <div className="space-y-4">

@@ -33,7 +33,7 @@ export function ThermochemistryCalculator() {
     { role: "reactant" as const, label: "CH4", moles: "1", deltaHf: "-74.8" },
     { role: "reactant" as const, label: "O2", moles: "2", deltaHf: "0" },
     { role: "product" as const, label: "CO2", moles: "1", deltaHf: "-393.5" },
-    { role: "product" as const, label: "H2O", moles: "2", deltaHf: "-241.8" },
+    { role: "product" as const, label: "H2O(l)", moles: "2", deltaHf: "-285.8" },
   ]);
 
   // hess
@@ -53,7 +53,8 @@ export function ThermochemistryCalculator() {
         return {
           ok: true as const,
           text: `q = ${formatNum(q)} (same energy unit as c·ΔT)`,
-          detail: "q = m c ΔT. Positive ΔT → heat absorbed by the sample.",
+          detail:
+            "q = m c ΔT. Positive ΔT → heat absorbed by the sample; for an isolated calorimeter, qrxn = −qsample.",
         };
       }
       if (mode === "formation") {
@@ -106,7 +107,7 @@ export function ThermochemistryCalculator() {
       { role: "reactant", label: "CH4", moles: "1", deltaHf: "-74.8" },
       { role: "reactant", label: "O2", moles: "2", deltaHf: "0" },
       { role: "product", label: "CO2", moles: "1", deltaHf: "-393.5" },
-      { role: "product", label: "H2O", moles: "2", deltaHf: "-241.8" },
+      { role: "product", label: "H2O(l)", moles: "2", deltaHf: "-285.8" },
     ]);
     setSteps([
       { label: "step 1", coefficient: "1", deltaH: "-100" },
@@ -191,7 +192,8 @@ export function ThermochemistryCalculator() {
       {mode === "formation" ? (
         <div className="mt-5 space-y-2">
           <p className="text-sm text-[var(--muted)]">
-            Enter coefficients and ΔHf° (kJ/mol). Example: methane combustion.
+            Enter coefficients and ΔHf° (kJ/mol), including the correct phase.
+            Example: methane combustion to liquid water.
           </p>
           {species.map((s, i) => (
             <div key={i} className="flex flex-wrap gap-2">

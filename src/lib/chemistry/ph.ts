@@ -184,20 +184,36 @@ function buffer(
   validatePositive(aMinus, "[A⁻]");
   validatePositive(ka, "Ka");
 
-  // Henderson–Hasselbalch
-  const pKa = -Math.log10(ka);
-  const pH = pKa + Math.log10(aMinus / ha);
-  const h = 10 ** -pH;
+  // The formal concentrations represent HA and the conjugate-base salt before
+  // dissociation. Charge balance is [H+] + C_A = [A−] + [OH−], while acid
+  // mass balance gives [A−] = Ka(C_HA + C_A)/(Ka + [H+]). Solving their
+  // combination avoids the Henderson–Hasselbalch approximation at extreme
+  // ratios and near-neutral concentrations.
+  const totalAcid = ha + aMinus;
+  const residual = (h: number) =>
+    h +
+    aMinus -
+    (ka * totalAcid) / (ka + h) -
+    kw / h;
+  let low = Number.MIN_VALUE;
+  let high = Math.max(1, totalAcid + ka + Math.sqrt(kw));
+  while (residual(high) <= 0) high *= 2;
+  for (let i = 0; i < 200; i += 1) {
+    const mid = (low + high) / 2;
+    if (residual(mid) > 0) high = mid;
+    else low = mid;
+  }
+  const h = (low + high) / 2;
   const oh = kw / h;
 
   return {
-    pH,
+    pH: -Math.log10(h),
     pOH: -Math.log10(oh),
     hPlus: h,
     ohMinus: oh,
     notes: [
-      "Henderson–Hasselbalch: pH = pKa + log₁₀([A⁻]/[HA]).",
-      "Best when both species are much larger than [H⁺] and [OH⁻] (typical buffer concentrations).",
+      "Solved from monoprotic-acid mass balance, charge balance, and water autoionization.",
+      "Uses concentrations as activities; activity coefficients are not included.",
     ],
   };
 }
@@ -254,7 +270,7 @@ export function calculatePh(input: PhInput): PhResult {
       );
       return {
         mode: input.mode,
-        expression: "pH = pKa + log₁₀([A⁻]/[HA])",
+        expression: "Ka = [H⁺][A⁻]/[HA] with mass and charge balance",
         ...core,
       };
     }

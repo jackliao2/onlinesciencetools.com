@@ -100,8 +100,8 @@ export const NERNST_PRESETS = [
   },
   {
     id: "daniell-nonstd",
-    name: "E° = 0.76 V, n = 2, Q = 10",
-    E0: 0.76,
+    name: "Daniell cell, E° = 1.10 V, Q = 10",
+    E0: 1.1,
     n: 2,
     Q: 10,
   },

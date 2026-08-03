@@ -16,6 +16,8 @@ export interface LinearSolveResult {
   n: number;
   rank: number;
   determinant: number | null;
+  /** Present when the pivot spread indicates an ill-conditioned system. */
+  numericalWarning?: string;
   solution?: number[];
   parametric?: ParametricSolution;
   residual?: number[];
@@ -23,7 +25,8 @@ export interface LinearSolveResult {
   rref: number[][];
 }
 
-const EPS = 1e-10;
+const EPS = Number.EPSILON * 64;
+const ILL_CONDITIONED_RATIO = 1e-10;
 
 export function formatNum(n: number): string {
   if (!Number.isFinite(n)) return "—";
@@ -68,7 +71,7 @@ export function determinant(A: number[][]): number {
     for (let row = col + 1; row < n; row += 1) {
       if (Math.abs(M[row][col]) > Math.abs(M[pivot][col])) pivot = row;
     }
-    if (Math.abs(M[pivot][col]) < EPS) return 0;
+    if (M[pivot][col] === 0) return 0;
     if (pivot !== col) {
       [M[col], M[pivot]] = [M[pivot], M[col]];
       det *= -1;
@@ -98,10 +101,15 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
 
   const steps: string[] = [];
   const aug = A.map((row, i) => [...row, b[i]]);
+  const columnScales = Array.from({ length: n }, (_, col) =>
+    Math.max(...A.map((row) => Math.abs(row[col]))),
+  );
+  const rhsScale = Math.max(...b.map(Math.abs));
   steps.push(`Augmented matrix (${n}×${n + 1}):`);
   steps.push(formatAug(aug));
 
   const pivotColOfRow: number[] = Array(n).fill(-1);
+  const pivotMagnitudes: number[] = [];
   let rank = 0;
 
   for (let col = 0; col < n && rank < n; col += 1) {
@@ -112,7 +120,9 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
       }
     }
 
-    if (Math.abs(aug[pivotRow][col]) < EPS) {
+    // Scale the zero test by the original column. This avoids turning a
+    // perfectly valid, small-scale column into a free variable.
+    if (Math.abs(aug[pivotRow][col]) <= EPS * columnScales[col]) {
       steps.push(`Column ${col + 1}: no pivot (free variable candidate).`);
       continue;
     }
@@ -123,6 +133,7 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
     }
 
     const piv = aug[rank][col];
+    pivotMagnitudes.push(Math.abs(piv));
     for (let c = col; c <= n; c += 1) {
       aug[rank][c] /= piv;
     }
@@ -144,10 +155,12 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
     rank += 1;
   }
 
-  // Clean tiny noise
+  // Clean round-off noise relative to each original column, without erasing
+  // a valid small-scale variable or right-hand side.
   for (let r = 0; r < n; r += 1) {
     for (let c = 0; c <= n; c += 1) {
-      if (Math.abs(aug[r][c]) < EPS) aug[r][c] = 0;
+      const scale = c < n ? columnScales[c] : rhsScale;
+      if (Math.abs(aug[r][c]) <= EPS * scale) aug[r][c] = 0;
     }
   }
 
@@ -175,6 +188,14 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
   );
 
   const det = freeIndices.length === 0 ? determinant(A) : 0;
+  const pivotRatio =
+    pivotMagnitudes.length === 0
+      ? 1
+      : Math.min(...pivotMagnitudes) / Math.max(...pivotMagnitudes);
+  const numericalWarning =
+    pivotRatio < ILL_CONDITIONED_RATIO
+      ? "This system is ill-conditioned; small input or rounding changes can substantially affect the displayed solution."
+      : undefined;
 
   if (freeIndices.length > 0) {
     // Particular solution: set free vars = 0
@@ -227,6 +248,7 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
       n,
       rank,
       determinant: det,
+      numericalWarning,
       parametric: {
         particular,
         freeIndices,
@@ -257,6 +279,7 @@ export function solveLinearSystem(A: number[][], b: number[]): LinearSolveResult
     n,
     rank,
     determinant: det,
+    numericalWarning,
     solution,
     residual,
     steps,
@@ -273,7 +296,6 @@ export function identityMatrix(n: number): number[][] {
 /** Inverse via solving A X = I column-by-column. Null if singular. */
 export function invertMatrix(A: number[][]): number[][] | null {
   const n = A.length;
-  if (Math.abs(determinant(A)) < EPS) return null;
   const inv: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
   for (let j = 0; j < n; j += 1) {
     const e = Array(n).fill(0);

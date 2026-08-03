@@ -23,8 +23,8 @@ export const SALT_TYPES: Array<{
   { id: "AB2", label: "AB₂ (1:2)", cationCoeff: 1, anionCoeff: 2, example: "PbCl₂" },
   { id: "A2B", label: "A₂B (2:1)", cationCoeff: 2, anionCoeff: 1, example: "Ag₂CrO₄" },
   { id: "AB3", label: "AB₃ (1:3)", cationCoeff: 1, anionCoeff: 3, example: "Fe(OH)₃" },
-  { id: "A3B", label: "A₃B (3:1)", cationCoeff: 3, anionCoeff: 1, example: "AlPO₄-like 3:1" },
-  { id: "A2B3", label: "A₂B₃ (2:3)", cationCoeff: 2, anionCoeff: 3, example: "Fe₂S₃" },
+  { id: "A3B", label: "A₃B (3:1)", cationCoeff: 3, anionCoeff: 1, example: "Ag₃PO₄" },
+  { id: "A2B3", label: "A₂B₃ (2:3)", cationCoeff: 2, anionCoeff: 3, example: "Bi₂S₃" },
 ];
 
 function saltParams(type: SaltType) {

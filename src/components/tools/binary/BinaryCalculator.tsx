@@ -38,8 +38,11 @@ function parseInBase(
   }
 
   const num = base === 10 ? Number(trimmed) : parseInt(trimmed, base);
-  if (!Number.isFinite(num)) {
-    return { ok: false, error: "Could not parse number." };
+  if (!Number.isSafeInteger(num)) {
+    return {
+      ok: false,
+      error: "Enter an integer within JavaScript's safe-integer range.",
+    };
   }
   return { ok: true, num };
 }
@@ -95,6 +98,9 @@ export function BinaryCalculator() {
         result = Math.trunc(a.num / b.num);
         break;
     }
+    if (!Number.isSafeInteger(result)) {
+      return { error: "Result is outside JavaScript's safe-integer range." };
+    }
 
     return {
       result,
@@ -149,6 +155,12 @@ export function BinaryCalculator() {
           </button>
         ))}
       </div>
+      {mode === "arithmetic" ? (
+        <p className="mt-3 text-xs text-[var(--muted)]">
+          Division returns the integer quotient, truncated toward zero (for example,
+          −5 ÷ 2 = −2).
+        </p>
+      ) : null}
 
       {mode === "convert" ? (
         <div className="mt-6 grid gap-6 lg:grid-cols-2">

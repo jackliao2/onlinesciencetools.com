@@ -206,6 +206,11 @@ export function KineticsCalculator() {
           </div>
         )}
       </div>
+
+      <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
+        Assumes a single-reactant integrated rate law with a constant rate
+        constant. Use M for concentration and one consistent time unit throughout.
+      </p>
     </div>
   );
 }

@@ -75,6 +75,11 @@ export function EquationBalancer() {
         ))}
       </div>
 
+      <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
+        Balances atoms in neutral formula equations only. Ionic charges, electrons,
+        and acidic/basic redox half-reactions (H⁺, OH⁻, e⁻) are not supported.
+      </p>
+
       <div className="mt-6">
         {!result.ok ? (
           <div className="rounded-2xl border border-rose-300/50 bg-rose-50/70 p-5 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-200">

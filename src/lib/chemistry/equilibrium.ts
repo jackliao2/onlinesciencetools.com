@@ -230,15 +230,20 @@ export function solveEquilibrium(
       throw new EquilibriumError("Every species needs a label.");
     }
   }
+  if (!species.some((s) => s.initial > 0)) {
+    throw new EquilibriumError(
+      "At least one species must have a non-zero initial concentration or partial pressure.",
+    );
+  }
 
   const Q = reactionQuotient(species);
   let direction: EquilibriumResult["direction"];
   let directionLabel: string;
 
   if (!Number.isFinite(Q)) {
-    direction = "forward";
+    direction = "reverse";
     directionLabel =
-      "Q is undefined/infinite (zero reactant) — reaction proceeds forward until reactants appear in the denominator.";
+      "Q is infinite (a reactant is absent) — net reaction proceeds in reverse to form reactants.";
   } else if (Math.abs(Q - K) / Math.max(K, 1) < 1e-6) {
     direction = "equilibrium";
     directionLabel = "Q ≈ K — the system is already at equilibrium.";

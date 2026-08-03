@@ -228,6 +228,12 @@ export function KspCalculator() {
           </div>
         )}
       </div>
+
+      <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
+        Uses concentrations as activities and assumes the listed salt dissolves
+        directly in pure water. Common-ion, pH, complexation, hydrolysis, and
+        activity-coefficient effects are not included.
+      </p>
     </div>
   );
 }

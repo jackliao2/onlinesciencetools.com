@@ -377,7 +377,9 @@ export function PhasePortraitGenerator() {
             </p>
             <p className="mt-1.5 leading-relaxed">
               Click anywhere on the phase plane to launch a trajectory integrated
-              with RK4 in both time directions.
+              with RK4 in both time directions. Trajectories are numerical
+              approximations; reduce the time step or compare runs before drawing
+              conclusions near unstable or stiff behavior.
             </p>
           </div>
 

@@ -16,7 +16,11 @@ import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
 import { solveKinetics } from "../src/lib/chemistry/kinetics.ts";
 import { calculateNernst } from "../src/lib/chemistry/nernst.ts";
 import { solveEquilibrium } from "../src/lib/chemistry/equilibrium.ts";
-import { solveLinearSystem, determinant } from "../src/lib/math/linear-system.ts";
+import {
+  solveLinearSystem,
+  determinant,
+  invertMatrix,
+} from "../src/lib/math/linear-system.ts";
 import { compileExpression } from "../src/lib/math/expression.ts";
 import { compileVectorField, rk4Step } from "../src/lib/math/phase-portrait.ts";
 
@@ -166,6 +170,20 @@ approx(
   0.01,
   "acetate buffer",
 );
+// Henderson–Hasselbalch is invalid when the conjugate base is negligible.
+// Formal 0.100 M HA with only 10⁻⁸ M A⁻ should approach the weak-acid result,
+// not the HH prediction pH −2.255.
+approx(
+  calculatePh({
+    mode: "buffer",
+    concentration: 0.1,
+    conjugate: 1e-8,
+    constant: 1.8e-5,
+  }).pH,
+  2.873,
+  0.01,
+  "buffer extreme ratio exact solution",
+);
 // Dilute strong acid must not report pH 7 from clamping incorrectly
 {
   const d = calculatePh({ mode: "strong-acid", concentration: 1e-8 });
@@ -214,6 +232,10 @@ approx(kspFromSolubility("AB2", 0.01), 4e-6, 1e-12, "AB2 Ksp from s");
   const r = calculateNernst({ E0: 1.1, n: 2, Q: 0.01, temperatureC: 25 });
   approx(r.E, 1.1 - (0.05916 / 2) * Math.log10(0.01), 1e-6, "Nernst Cu-Zn");
 }
+{
+  const r = calculateNernst({ E0: 1.1, n: 2, Q: 10, temperatureC: 25 });
+  approx(r.E, 1.07042, 1e-5, "Nernst Daniell Q = 10");
+}
 
 // --- Equilibrium A ⇌ B, K=4, A0=1 ---
 {
@@ -228,6 +250,23 @@ approx(kspFromSolubility("AB2", 0.01), 4e-6, 1e-12, "AB2 Ksp from s");
   const B = r.species.find((s) => s.label === "B")!.equilibrium;
   approx(A, 0.2, 1e-4, "eq A");
   approx(B, 0.8, 1e-4, "eq B");
+}
+// With A initially absent, Q = [B]/[A] is infinite and the net reaction is reverse.
+{
+  const r = solveEquilibrium(
+    [
+      { id: "1", label: "A", coefficient: 1, role: "reactant", initial: 0 },
+      { id: "2", label: "B", coefficient: 1, role: "product", initial: 1 },
+    ],
+    4,
+  );
+  eq(r.direction, "reverse", "eq reverse direction from infinite Q");
+  approx(
+    r.species.find((s) => s.label === "A")!.equilibrium,
+    0.2,
+    1e-4,
+    "eq reverse A",
+  );
 }
 
 // Haber-ish: N2 + 3H2 ⇌ 2NH3 with high K direction check
@@ -272,6 +311,9 @@ approx(kspFromSolubility("AB2", 0.01), 4e-6, 1e-12, "AB2 Ksp from s");
     [3, 6],
   );
   eq(r.kind, "infinite", "linear infinite kind");
+  const basis = r.parametric!.nullspace[0];
+  approx(basis[0] + 2 * basis[1], 0, 1e-10, "linear nullspace basis row 1");
+  approx(2 * basis[0] + 4 * basis[1], 0, 1e-10, "linear nullspace basis row 2");
 }
 {
   const r = solveLinearSystem(
@@ -292,6 +334,19 @@ approx(
   1e-9,
   "det 2x2",
 );
+{
+  const A = [
+    [1e-8, 0],
+    [0, 1e-8],
+  ];
+  const r = solveLinearSystem(A, [1e-8, 2e-8]);
+  eq(r.kind, "unique", "small-scale nonsingular system");
+  approx(r.solution![0], 1, 1e-8, "small-scale linear x");
+  approx(r.solution![1], 2, 1e-8, "small-scale linear y");
+  approx(determinant(A), 1e-16, 1e-28, "small-scale determinant");
+  const inv = invertMatrix(A);
+  approx(inv![0][0], 1e8, 1e-3, "small-scale inverse");
+}
 
 // --- Expression ---
 {
@@ -306,6 +361,14 @@ approx(
   const f = compileExpression("x^2 + 1", ["x"]);
   approx(f(3), 10, 1e-9, "poly x");
 }
+{
+  const f = compileExpression("-2^2 + 2^-2", []);
+  approx(f(), -3.75, 1e-9, "unary minus power precedence");
+}
+{
+  const f = compileExpression("2^3^2", []);
+  approx(f(), 512, 1e-9, "right-associative power");
+}
 
 // --- Phase portrait RK4 circular field ---
 {
@@ -314,6 +377,17 @@ approx(
   // Exact solution rotates; after small step y ≈ +0.01, x ≈ 1
   approx(next.x, Math.cos(0.01), 1e-5, "rk4 x");
   approx(next.y, Math.sin(0.01), 1e-5, "rk4 y");
+}
+{
+  const predator = compileVectorField("x*(1-y)", "y*(x-1)");
+  const v = predator(2, 0.5);
+  approx(v.x, 1, 1e-12, "Lotka-Volterra prey sign");
+  approx(v.y, 0.5, 1e-12, "Lotka-Volterra predator sign");
+  const invalid = compileVectorField("sqrt(-1)", "y");
+  if (Number.isFinite(invalid(0, 1).x)) {
+    console.error("FAIL phase field domain error is not preserved");
+    failed += 1;
+  } else console.log("OK   phase field domain error is preserved");
 }
 
 // --- Electric field (Coulomb) ---
@@ -324,6 +398,9 @@ approx(
   const E = (K * q) / (r * r);
   approx(E, 8.9875517923, 1e-9, "E field 1nC at 1m");
 }
+
+// --- Projectile convention ---
+approx(8 * 1 - (9.8 / 2) * 1 * 1, 3.1, 1e-12, "projectile uses g/2");
 
 // --- Color conversion round-trip sanity ---
 {

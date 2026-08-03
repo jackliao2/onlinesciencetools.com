@@ -264,6 +264,12 @@ export function EquilibriumCalculator() {
         Add species
       </button>
 
+      <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
+        Enter only dissolved solutes for Kc or gases for Kp; omit pure solids and
+        liquids. This ICE model uses concentrations or partial pressures as
+        activity approximations, so it is not suitable for non-ideal systems.
+      </p>
+
       <div className="mt-6">
         {!result.ok ? (
           <div className="rounded-2xl border border-rose-300/50 bg-rose-50/70 p-5 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-200">

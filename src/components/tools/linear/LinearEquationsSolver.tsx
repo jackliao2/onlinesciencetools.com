@@ -248,6 +248,11 @@ function ResultsPanel({
             ? ` · det(A) ≈ ${formatNum(result.determinant)}`
             : ""}
         </p>
+        {result.numericalWarning ? (
+          <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
+            {result.numericalWarning}
+          </p>
+        ) : null}
 
         {result.kind === "unique" && result.solution ? (
           <div className="mt-3 grid gap-1 font-mono text-sm sm:grid-cols-2">
