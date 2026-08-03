@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { SiteWordmark } from "@/components/brand/SiteWordmark";
 import {
+  SITE_NAME,
   categoryLabels,
   guides,
   tools,
 } from "@/lib/tools";
-import { legalPages, SITE_NAME } from "@/lib/site";
+import { legalPages } from "@/lib/site";
 
 export function Footer() {
   const columns: Array<{
@@ -44,10 +44,10 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
-            <p>
-              <SiteWordmark variant="footer" />
+            <p className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--foreground)]">
+              {SITE_NAME}
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">
               Educational science calculators and study guides for coursework
               and self-study.
             </p>
