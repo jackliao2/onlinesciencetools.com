@@ -4,7 +4,10 @@ export interface AuthorityReference {
   note: string;
 }
 
-/** Curated outbound citations — standards bodies, universities, and textbooks-class sources. */
+/**
+ * Curated outbound citations — standards bodies, universities, and textbooks.
+ * Every href in this file should return HTTP 200 (verified by scripts/check-links.mjs).
+ */
 export const toolReferences: Record<string, AuthorityReference[]> = {
   stoichiometrycalculator: [
     {
@@ -18,14 +21,14 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Official value of Nₐ for mole–particle conversions.",
     },
     {
-      label: "LibreTexts Chemistry — The Mole and Molar Mass",
-      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/03%3A_Stoichiometry_and_Equations/3.03%3A_The_Mole",
+      label: "LibreTexts / OpenStax — Formula mass and the mole",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/03%3A_Composition_of_Substances_and_Solutions/3.01%3A_Formula_Mass_and_the_Mole_Concept",
       note: "Open textbook treatment of moles and formula mass.",
     },
   ],
   equilibriumcalculator: [
     {
-      label: "LibreTexts Chemistry — Chemical Equilibrium",
+      label: "LibreTexts — Chemical Equilibrium",
       href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/15%3A_Chemical_Equilibrium",
       note: "Kc, Kp, and equilibrium expressions.",
     },
@@ -35,19 +38,19 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Formal definition of the equilibrium constant.",
     },
     {
-      label: "Khan Academy — Reaction quotient and Le Chatelier",
+      label: "Khan Academy — Chemical equilibrium",
       href: "https://www.khanacademy.org/science/chemistry/chemical-equilibrium",
       note: "Student-friendly walkthrough of Q versus K.",
     },
   ],
   reactionstoichiometrycalculator: [
     {
-      label: "LibreTexts — Limiting Reactant",
-      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/03%3A_Stoichiometry_and_Equations/3.07%3A_Limiting_Reactants",
-      note: "Theory of limiting reagents and theoretical yield.",
+      label: "LibreTexts / OpenStax — Reaction stoichiometry",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/04%3A_Stoichiometry_of_Chemical_Reactions/4.03%3A_Reaction_Stoichiometry",
+      note: "Mole ratios, limiting reagents, and theoretical yield.",
     },
     {
-      label: "ACS — Stoichiometry resources for educators",
+      label: "ACS — Education resources",
       href: "https://www.acs.org/education.html",
       note: "American Chemical Society education hub.",
     },
@@ -59,8 +62,8 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   balanceequation: [
     {
-      label: "LibreTexts — Balancing Chemical Equations",
-      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/11%3A_Chemical_Reactions/11.03%3A_Balancing_Chemical_Equations",
+      label: "LibreTexts / OpenStax — Writing and balancing equations",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/04%3A_Stoichiometry_of_Chemical_Reactions/4.01%3A_Writing_and_Balancing_Chemical_Equations",
       note: "Atom-balance rules for chemical equations.",
     },
     {
@@ -69,33 +72,43 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Terminology for representing reactions.",
     },
     {
-      label: "PhET — Balancing Chemical Equations (simulation)",
+      label: "PhET — Balancing Chemical Equations",
       href: "https://phet.colorado.edu/en/simulations/balancing-chemical-equations",
       note: "Interactive practice from University of Colorado Boulder.",
     },
   ],
   dilutioncalculator: [
     {
-      label: "LibreTexts — Dilutions and Concentrations",
-      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/16%3A_Solutions/16.07%3A_Dilutions_and_Concentrations",
-      note: "C₁V₁ = C₂V₂ and solution preparation practice.",
+      label: "LibreTexts / OpenStax — Molarity (includes dilution)",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/03%3A_Composition_of_Substances_and_Solutions/3.03%3A_Molarity",
+      note: "Molarity and the C₁V₁ = C₂V₂ dilution relation.",
     },
     {
       label: "NIST — Guide for the Use of the International System of Units",
       href: "https://www.nist.gov/pml/special-publication-811",
       note: "Unit conventions for volume and amount of substance.",
     },
+    {
+      label: "OpenStax Chemistry 2e — Molarity",
+      href: "https://openstax.org/books/chemistry-2e/pages/3-3-molarity",
+      note: "Primary OpenStax chapter on solution concentration and dilution.",
+    },
   ],
   concentrationconverter: [
     {
-      label: "LibreTexts — Solution Concentration",
-      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/04%3A_Reactions_in_Aqueous_Solution/4.05%3A_Concentrations_of_Solutions",
-      note: "Molarity, molality, and related concentration units.",
+      label: "LibreTexts / OpenStax — Other concentration units",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/03%3A_Composition_of_Substances_and_Solutions/3.04%3A_Other_Units_for_Solution_Concentrations",
+      note: "Mass percent, ppm, molality, and related units.",
     },
     {
       label: "IUPAC Gold Book — molality",
       href: "https://goldbook.iupac.org/terms/view/M03970",
       note: "Formal definition of molality.",
+    },
+    {
+      label: "OpenStax Chemistry 2e — Other units for solution concentrations",
+      href: "https://openstax.org/books/chemistry-2e/pages/3-4-other-units-for-solution-concentrations",
+      note: "Canonical open textbook section on concentration units.",
     },
   ],
   phcalculator: [
@@ -110,21 +123,26 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Definition of pH.",
     },
     {
-      label: "NIST — pH standards",
-      href: "https://www.nist.gov/programs-projects/nist-ph-standards",
-      note: "Reference materials and metrology for pH.",
+      label: "NIST — pH metrology",
+      href: "https://www.nist.gov/programs-projects/ph-metrology",
+      note: "NIST program on electrochemical pH measurement standards.",
     },
   ],
   compositioncalculator: [
     {
-      label: "LibreTexts — Percent Composition",
-      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/06%3A_Chemical_Composition/6.07%3A_Mass_Percent_Composition",
-      note: "Mass percent from chemical formulas.",
+      label: "LibreTexts / OpenStax — Formula mass and the mole",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/03%3A_Composition_of_Substances_and_Solutions/3.01%3A_Formula_Mass_and_the_Mole_Concept",
+      note: "Mass percent composition from chemical formulas.",
     },
     {
-      label: "LibreTexts — Empirical Formulas",
-      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/06%3A_Chemical_Composition/6.08%3A_Calculating_Empirical_Formulas",
+      label: "LibreTexts / OpenStax — Empirical and molecular formulas",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/03%3A_Composition_of_Substances_and_Solutions/3.02%3A_Determining_Empirical_and_Molecular_Formulas",
       note: "Converting percent composition to empirical formulas.",
+    },
+    {
+      label: "OpenStax Chemistry 2e — Empirical and molecular formulas",
+      href: "https://openstax.org/books/chemistry-2e/pages/3-2-determining-empirical-and-molecular-formulas",
+      note: "Primary OpenStax chapter for composition problems.",
     },
   ],
   kspcalculator: [
@@ -153,7 +171,7 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   thermochemistrycalculator: [
     {
-      label: "LibreTexts — Enthalpy of Formation",
+      label: "LibreTexts — Enthalpies of Formation",
       href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/05%3A_Thermochemistry/5.07%3A_Enthalpies_of_Formation",
       note: "Using ΔHf° to compute reaction enthalpies.",
     },
@@ -165,8 +183,8 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   kineticscalculator: [
     {
-      label: "LibreTexts — Integrated Rate Laws",
-      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/14%3A_Chemical_Kinetics/14.04%3A_The_Change_of_Concentration_with_Time",
+      label: "LibreTexts / OpenStax — Integrated rate laws",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/12%3A_Kinetics/12.04%3A_Integrated_Rate_Laws",
       note: "Zero-, first-, and second-order integrated laws.",
     },
     {
@@ -177,14 +195,14 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   nernstcalculator: [
     {
-      label: "LibreTexts — The Nernst Equation",
-      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/20%3A_Electrochemistry/20.06%3A_Cell_Potentials_Under_Nonstandard_Conditions",
-      note: "Non-standard cell potentials.",
+      label: "LibreTexts / OpenStax — Potential, free energy, and equilibrium",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/17%3A_Electrochemistry/17.04%3A_Potential_Free_Energy_and_Equilibrium",
+      note: "Nernst relation and ΔG = −nFE.",
     },
     {
-      label: "NIST — Faraday constant",
-      href: "https://physics.nist.gov/cgi-bin/cuu/Value?e",
-      note: "Elementary charge / Faraday-related constants.",
+      label: "NIST — Faraday constant (CODATA)",
+      href: "https://physics.nist.gov/cgi-bin/cuu/Value?f",
+      note: "Official CODATA Faraday constant.",
     },
   ],
   phaseportrait: [
@@ -194,9 +212,9 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Classic undergraduate ODE course materials.",
     },
     {
-      label: "Scholarpedia — Phase portrait",
-      href: "http://www.scholarpedia.org/article/Phase_portrait",
-      note: "Peer-reviewed encyclopedia article on phase portraits.",
+      label: "Wikipedia — Phase portrait",
+      href: "https://en.wikipedia.org/wiki/Phase_portrait",
+      note: "Overview of phase portraits for autonomous ODE systems.",
     },
     {
       label: "MathWorld — Phase Portrait",
@@ -211,7 +229,7 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Graphing y = f(x) in the plane.",
     },
     {
-      label: "Khan Academy — Graphs of functions",
+      label: "Khan Academy — Functions",
       href: "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:functions",
       note: "Algebra-level function graphing practice.",
     },
@@ -223,14 +241,14 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   timegraphing: [
     {
-      label: "HyperPhysics — Projectile Motion",
-      href: "http://hyperphysics.phy-astr.gsu.edu/hbase/traj.html",
-      note: "Parametric trajectories under constant gravity.",
+      label: "OpenStax — Projectile Motion",
+      href: "https://openstax.org/books/university-physics-volume-1/pages/4-3-projectile-motion",
+      note: "University Physics treatment of parametric trajectories under gravity.",
     },
     {
       label: "LibreTexts Physics — Waves",
-      href: "https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/University_Physics_I_-_Mechanics_Sound_Oscillations_and_Waves_(OpenStax)/16%3A_Waves",
-      note: "Traveling-wave forms y = f(x − vt).",
+      href: "https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/Book%3A_University_Physics_I_-_Mechanics_Sound_Oscillations_and_Waves_(OpenStax)/16%3A_Waves",
+      note: "Traveling-wave forms and wave motion.",
     },
     {
       label: "MIT OCW — Classical Mechanics",
@@ -245,14 +263,14 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Gaussian elimination and Ax = b.",
     },
     {
-      label: "MathWorld — System of Linear Equations",
-      href: "https://mathworld.wolfram.com/SystemofLinearEquations.html",
+      label: "MathWorld — Linear System of Equations",
+      href: "https://mathworld.wolfram.com/LinearSystemofEquations.html",
       note: "Existence and uniqueness overview.",
     },
     {
       label: "Khan Academy — Systems of equations",
       href: "https://www.khanacademy.org/math/algebra-home/alg-system-of-equations",
-      note: "Worked practice for 2×2 systems.",
+      note: "Worked practice for systems of equations.",
     },
   ],
   binarycalculator: [
@@ -274,13 +292,13 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
   ],
   colorpicker: [
     {
-      label: "W3C — CSS Color Module",
-      href: "https://www.w3.org/TR/css-color-4/",
+      label: "CSS Working Group — CSS Color Module Level 4",
+      href: "https://drafts.csswg.org/css-color-4/",
       note: "Official definitions for RGB, HSL, and hex colors on the web.",
     },
     {
-      label: "MDN — CSS colors",
-      href: "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value",
+      label: "MDN — CSS color values",
+      href: "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value",
       note: "Developer reference for color formats.",
     },
     {
@@ -301,7 +319,7 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Styling reference paired with sandbox experiments.",
     },
     {
-      label: "W3C — HTML Living Standard (WHATWG)",
+      label: "WHATWG — HTML Living Standard",
       href: "https://html.spec.whatwg.org/",
       note: "The HTML specification that browsers implement.",
     },
@@ -321,9 +339,9 @@ export const guideReferences: Record<string, AuthorityReference[]> = {
       note: "Free university-level physics lecture materials.",
     },
     {
-      label: "HyperPhysics (Georgia State University)",
-      href: "http://hyperphysics.phy-astr.gsu.edu/hbase/index.html",
-      note: "Concept maps across mechanics, E&M, quantum, and thermo.",
+      label: "OpenStax — University Physics Volume 1",
+      href: "https://openstax.org/details/books/university-physics-volume-1",
+      note: "Free university physics textbook covering mechanics through waves.",
     },
     {
       label: "NIST CODATA — Fundamental physical constants",
@@ -333,19 +351,19 @@ export const guideReferences: Record<string, AuthorityReference[]> = {
   ],
   electricfield: [
     {
-      label: "HyperPhysics — Electric Field",
-      href: "http://hyperphysics.phy-astr.gsu.edu/hbase/electric/elefie.html",
-      note: "Point-charge fields and superposition.",
+      label: "OpenStax — Electric Field",
+      href: "https://openstax.org/books/university-physics-volume-2/pages/5-4-electric-field",
+      note: "Point-charge fields and the principle of superposition.",
     },
     {
-      label: "LibreTexts Physics — Electric Fields",
+      label: "LibreTexts Physics — Electric Charges and Fields",
       href: "https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/University_Physics_II_-_Thermodynamics_Electricity_and_Magnetism_(OpenStax)/05%3A_Electric_Charges_and_Fields",
       note: "OpenStax university physics chapter on fields.",
     },
     {
-      label: "MIT OCW — Electricity and Magnetism",
-      href: "https://ocw.mit.edu/courses/8-02-electricity-and-magnetism-spring-2007/",
-      note: "Walter Lewin’s classic E&M course materials.",
+      label: "MIT OCW — Physics II: Electricity and Magnetism",
+      href: "https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2019/",
+      note: "MIT undergraduate electricity and magnetism course materials.",
     },
   ],
 };
