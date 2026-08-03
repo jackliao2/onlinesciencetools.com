@@ -664,4 +664,140 @@ M = dRT / P   (d in g/L)`,
       },
     ],
   },
+  {
+    slug: "thermochemistrycalculator",
+    whatIs: {
+      paragraphs: [
+        "Thermochemistry relates heat to chemical change. The standard enthalpy of reaction can be estimated from tabulated standard enthalpies of formation: ΔH° = Σ nΔHf°(products) − Σ nΔHf°(reactants). Hess’s law says the net ΔH for a path equals the sum of ΔH for the steps, so you can reverse or scale tabulated reactions. Calorimetry measures heat via q = mcΔT for a substance that changes temperature.",
+        "The Thermochemistry Calculator covers formation-based ΔH°, Hess sums, calorimetry, and scaling heat with moles of reaction. Use consistent units (kJ for enthalpies; match mass and c for calorimetry).",
+      ],
+      bullets: [
+        "ΔH° from formation enthalpies",
+        "Hess: reverse a step with a negative coefficient",
+        "q = m c ΔT for temperature changes",
+      ],
+    },
+    formula: {
+      intro: "Key relations:",
+      blocks: [
+        `ΔH° = Σ n ΔHf°(products) − Σ n ΔHf°(reactants)
+ΔH_net = Σ (coeff_i × ΔH_i)
+q = m c ΔT
+q_rxn = n × ΔH`,
+      ],
+    },
+    example: {
+      title: "ΔH° for methane combustion",
+      scenario:
+        "CH₄ + 2 O₂ → CO₂ + 2 H₂O(g) with ΔHf°: CH₄ −74.8, O₂ 0, CO₂ −393.5, H₂O(g) −241.8 kJ/mol.",
+      steps: [
+        "Products: (−393.5) + 2(−241.8) = −877.1 kJ.",
+        "Reactants: (−74.8) + 2(0) = −74.8 kJ.",
+        "ΔH° = −877.1 − (−74.8) = −802.3 kJ/mol-rxn.",
+      ],
+      toolCheck:
+        "Use From ΔHf° with the methane combustion preset values and confirm ΔH° ≈ −802 kJ.",
+    },
+    faq: [
+      {
+        question: "What is ΔHf° for an element in its standard state?",
+        answer:
+          "Zero by definition (for example O₂(g), C(graphite), Fe(s) at 1 bar and the reference temperature).",
+      },
+      {
+        question: "Is q for the system or surroundings?",
+        answer:
+          "In calorimetry, m c ΔT is usually the heat absorbed by the calorimeter contents. The reaction heat is often the negative of that if the reaction is the system heating the water.",
+      },
+    ],
+  },
+  {
+    slug: "kineticscalculator",
+    whatIs: {
+      paragraphs: [
+        "Chemical kinetics describes how fast concentrations change. For elementary decay of a single reactant, the integrated rate laws for orders 0, 1, and 2 relate [A], t, and k. Half-life t½ is the time for [A] to fall to half of its initial value; only first-order t½ is independent of [A]₀.",
+        "The Kinetics Calculator solves for remaining concentration, time, rate constant, or half-life once you choose the order and provide the known quantities.",
+      ],
+      bullets: [
+        "Zero order: [A] = [A]₀ − kt",
+        "First order: ln[A] = ln[A]₀ − kt",
+        "Second order: 1/[A] = 1/[A]₀ + kt",
+      ],
+    },
+    formula: {
+      intro: "Half-lives:",
+      blocks: [
+        `0th: t½ = [A]₀ / (2k)
+1st: t½ = ln 2 / k
+2nd: t½ = 1 / (k[A]₀)`,
+      ],
+    },
+    example: {
+      title: "First-order remaining concentration",
+      scenario:
+        "[A]₀ = 1.00 M, k = 0.001 s⁻¹, t = 600 s. Find [A].",
+      steps: [
+        "[A] = 1.00 e^(−0.001×600) = e^(−0.6) ≈ 0.549 M.",
+        "t½ = ln2 / 0.001 ≈ 693 s.",
+      ],
+      toolCheck:
+        "Order 1, Find [A]ₜ, k = 0.001, [A]₀ = 1, t = 600.",
+    },
+    faq: [
+      {
+        question: "How do I know the order?",
+        answer:
+          "From experiment: linear plots of [A], ln[A], or 1/[A] versus time identify orders 0, 1, or 2. The calculator does not invent the order—you select it from the problem statement or data analysis.",
+      },
+      {
+        question: "What units does k have?",
+        answer:
+          "They depend on order: M/time (0), 1/time (1), 1/(M·time) (2). Keep time units consistent throughout.",
+      },
+    ],
+  },
+  {
+    slug: "nernstcalculator",
+    whatIs: {
+      paragraphs: [
+        "The Nernst equation gives the cell potential when concentrations (or pressures) are not standard: E = E° − (RT/nF) ln Q. At 25 °C textbooks often write E = E° − (0.05916/n) log₁₀ Q. The reaction quotient Q uses the same form as the equilibrium expression for the cell reaction.",
+        "Gibbs free energy relates to potential by ΔG = −nFE. The Nernst Equation Calculator returns E and the corresponding ΔG (and ΔG° from E°).",
+      ],
+      bullets: [
+        "n = moles of electrons transferred in the balanced cell reaction",
+        "Q = 1 recovers E = E°",
+        "ΔG = −nFE (E in volts → ΔG in joules per mole of reaction)",
+      ],
+    },
+    formula: {
+      intro: "Forms used by the tool:",
+      blocks: [
+        `E = E° − (RT/nF) ln Q
+E = E° − (0.05916/n) log₁₀ Q   (25 °C)
+ΔG = −n F E`,
+      ],
+    },
+    example: {
+      title: "Non-standard Zn–Cu cell",
+      scenario: "E° = 1.10 V, n = 2, Q = 0.010 at 25 °C. Find E.",
+      steps: [
+        "E = 1.10 − (0.05916/2) log₁₀(0.010) = 1.10 − 0.02958(−2).",
+        "E = 1.10 + 0.05916 ≈ 1.16 V.",
+      ],
+      toolCheck:
+        "Load the Zn–Cu Q = 0.010 preset and confirm E ≈ 1.16 V.",
+    },
+    faq: [
+      {
+        question: "What goes into Q?",
+        answer:
+          "Products over reactants with stoichiometric exponents, omitting pure solids and pure liquids, just as in K. Aqueous species use concentration (or activity); gases use partial pressure in bar in precise work.",
+      },
+      {
+        question: "Does a positive E mean the reaction is spontaneous?",
+        answer:
+          "For the cell reaction as written, E > 0 means ΔG < 0 under those conditions, so the forward cell reaction is spontaneous.",
+      },
+    ],
+  },
 ];

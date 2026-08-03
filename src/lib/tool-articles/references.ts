@@ -151,6 +151,42 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Molar gas constant reference value.",
     },
   ],
+  thermochemistrycalculator: [
+    {
+      label: "LibreTexts — Enthalpy of Formation",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/05%3A_Thermochemistry/5.07%3A_Enthalpies_of_Formation",
+      note: "Using ΔHf° to compute reaction enthalpies.",
+    },
+    {
+      label: "NIST Chemistry WebBook",
+      href: "https://webbook.nist.gov/chemistry/",
+      note: "Tabulated thermochemical data.",
+    },
+  ],
+  kineticscalculator: [
+    {
+      label: "LibreTexts — Integrated Rate Laws",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/14%3A_Chemical_Kinetics/14.04%3A_The_Change_of_Concentration_with_Time",
+      note: "Zero-, first-, and second-order integrated laws.",
+    },
+    {
+      label: "IUPAC Gold Book — half-life",
+      href: "https://goldbook.iupac.org/terms/view/H02716",
+      note: "Definition of half-life.",
+    },
+  ],
+  nernstcalculator: [
+    {
+      label: "LibreTexts — The Nernst Equation",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/20%3A_Electrochemistry/20.06%3A_Cell_Potentials_Under_Nonstandard_Conditions",
+      note: "Non-standard cell potentials.",
+    },
+    {
+      label: "NIST — Faraday constant",
+      href: "https://physics.nist.gov/cgi-bin/cuu/Value?e",
+      note: "Elementary charge / Faraday-related constants.",
+    },
+  ],
   phaseportrait: [
     {
       label: "MIT OCW — Differential Equations",

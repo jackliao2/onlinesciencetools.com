@@ -350,6 +350,77 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
     },
   ],
 
+  thermochemistrycalculator: [
+    {
+      title: "ΔH° from formation data",
+      prompt:
+        "For CH₄ + 2 O₂ → CO₂ + 2 H₂O(g), ΔHf°: CH₄ −74.8, CO₂ −393.5, H₂O(g) −241.8, O₂ 0. Find ΔH°.",
+      steps: [
+        "Σ products = −393.5 + 2(−241.8) = −877.1.",
+        "Σ reactants = −74.8.",
+        "ΔH° = −877.1 − (−74.8) = −802.3 kJ.",
+      ],
+      answer: "ΔH° ≈ −802 kJ/mol-rxn",
+    },
+    {
+      title: "Calorimetry",
+      prompt: "100 g water, c = 4.184 J/g·°C, ΔT = +5.0 °C. Find q.",
+      steps: ["q = m c ΔT = 100 × 4.184 × 5.0 = 2092 J."],
+      answer: "q = 2.09×10³ J",
+    },
+    {
+      title: "Hess reverse step",
+      prompt:
+        "If step A has ΔH = +50 kJ and you reverse it, what ΔH do you use in the Hess sum?",
+      steps: ["Reversing flips the sign → −50 kJ (coefficient −1 × +50)."],
+      answer: "−50 kJ",
+    },
+  ],
+
+  kineticscalculator: [
+    {
+      title: "First-order half-life",
+      prompt: "k = 0.001 s⁻¹ for a first-order decay. Find t½.",
+      steps: ["t½ = ln 2 / k ≈ 0.693 / 0.001 = 693 s."],
+      answer: "t½ ≈ 693 s",
+    },
+    {
+      title: "Remaining concentration",
+      prompt: "[A]₀ = 1.0 M, first-order k = 0.001 s⁻¹, t = 600 s. Find [A].",
+      steps: ["[A] = e^(−0.6) ≈ 0.549 M."],
+      answer: "[A] ≈ 0.549 M",
+    },
+    {
+      title: "Second-order half-life",
+      prompt: "Second order, k = 0.50 L/(mol·s), [A]₀ = 0.20 M. Find t½.",
+      steps: ["t½ = 1/(k[A]₀) = 1/(0.50×0.20) = 10 s."],
+      answer: "t½ = 10 s",
+    },
+  ],
+
+  nernstcalculator: [
+    {
+      title: "Standard conditions",
+      prompt: "E° = 1.10 V, n = 2, Q = 1. What is E at 25 °C?",
+      steps: ["log Q = 0 → E = E° = 1.10 V."],
+      answer: "E = 1.10 V",
+    },
+    {
+      title: "Non-standard Q",
+      prompt: "E° = 1.10 V, n = 2, Q = 0.010 at 25 °C. Estimate E.",
+      steps: [
+        "E = 1.10 − (0.05916/2) log(0.010) ≈ 1.10 + 0.059 ≈ 1.16 V.",
+      ],
+      answer: "E ≈ 1.16 V",
+    },
+    {
+      title: "Sign of ΔG",
+      prompt: "If E = +0.50 V and n = 2, is ΔG negative?",
+      steps: ["ΔG = −nFE < 0 when E > 0."],
+      answer: "Yes, ΔG < 0",
+    },
+  ],
+
   compositioncalculator: [
     {
       title: "Percent oxygen in water",

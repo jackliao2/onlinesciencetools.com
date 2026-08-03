@@ -8,6 +8,7 @@ export type ToolGroup =
   | "solutions"
   | "acids"
   | "gases"
+  | "energy"
   | "graphing"
   | "algebra"
   | "web";
@@ -41,6 +42,7 @@ export const toolGroupLabels: Record<ToolGroup, string> = {
   solutions: "Solutions & concentration",
   acids: "Equilibrium & acids",
   gases: "Gases",
+  energy: "Energy, rates & electrochemistry",
   graphing: "Graphing & dynamics",
   algebra: "Algebra",
   web: "Web & numbers",
@@ -52,6 +54,7 @@ export const chemistryGroupOrder: ToolGroup[] = [
   "solutions",
   "acids",
   "gases",
+  "energy",
 ];
 export const mathGroupOrder: ToolGroup[] = ["graphing", "algebra"];
 export const computingGroupOrder: ToolGroup[] = ["web"];
@@ -241,6 +244,62 @@ export const tools: Tool[] = [
       "Boyle Charles",
     ],
     accent: "sky",
+  },
+  // Chemistry — energy / rates / electro
+  {
+    slug: "thermochemistrycalculator",
+    href: "/tools/thermochemistrycalculator",
+    title: "Thermochemistry Calculator",
+    shortTitle: "Thermochemistry",
+    description:
+      "Compute ΔH° from formation enthalpies, apply Hess’s law, run calorimetry q = mcΔT, and scale heat with moles.",
+    category: "chemistry",
+    group: "energy",
+    status: "live",
+    keywords: [
+      "thermochemistry calculator",
+      "enthalpy of formation",
+      "Hess law",
+      "calorimetry",
+      "delta H",
+    ],
+    accent: "amber",
+  },
+  {
+    slug: "kineticscalculator",
+    href: "/tools/kineticscalculator",
+    title: "Kinetics Calculator",
+    shortTitle: "Kinetics",
+    description:
+      "Use zero-, first-, and second-order integrated rate laws to find concentration, time, k, or half-life.",
+    category: "chemistry",
+    group: "energy",
+    status: "live",
+    keywords: [
+      "kinetics calculator",
+      "half life",
+      "first order kinetics",
+      "integrated rate law",
+    ],
+    accent: "orange",
+  },
+  {
+    slug: "nernstcalculator",
+    href: "/tools/nernstcalculator",
+    title: "Nernst Equation Calculator",
+    shortTitle: "Nernst Equation",
+    description:
+      "Calculate non-standard cell potential E from E°, n, and Q, plus ΔG = −nFE.",
+    category: "chemistry",
+    group: "energy",
+    status: "live",
+    keywords: [
+      "Nernst equation calculator",
+      "cell potential",
+      "electrochemistry",
+      "delta G",
+    ],
+    accent: "rose",
   },
   // Math
   {
