@@ -99,6 +99,12 @@ export function empiricalFromElements(
       throw new CompositionError(`Amount for ${el} must be a positive number.`);
     }
   }
+  const duplicate = amounts
+    .map((row) => row.element.trim())
+    .find((element, index, elements) => elements.indexOf(element) !== index);
+  if (duplicate) {
+    throw new CompositionError(`Enter ${duplicate} only once; combine its masses first.`);
+  }
 
   const sum = amounts.reduce((s, a) => s + a.value, 0);
   const asPercent = Math.abs(sum - 100) < 2 || amounts.every((a) => a.value <= 100);

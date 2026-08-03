@@ -148,6 +148,7 @@ function parseGroup(
   stop?: string,
 ): Map<string, number> {
   const counts = new Map<string, number>();
+  let closed = !stop;
 
   const add = (map: Map<string, number>, multiplier = 1) => {
     for (const [el, n] of map) {
@@ -160,6 +161,7 @@ function parseGroup(
 
     if (stop && token === stop) {
       index.value += 1;
+      closed = true;
       break;
     }
 
@@ -177,6 +179,8 @@ function parseGroup(
       const hydrateMult = readMultiplier(tokens, index, 1);
       const hydrate = parseGroup(tokens, index, stop);
       add(hydrate, hydrateMult);
+      // Nested parse either required no closer or already consumed it.
+      closed = true;
       break;
     }
 
@@ -191,6 +195,10 @@ function parseGroup(
     }
 
     throw new FormulaParseError(`Unexpected token "${token}" in formula.`);
+  }
+
+  if (stop && !closed) {
+    throw new FormulaParseError(`Missing closing "${stop}" in formula.`);
   }
 
   return counts;

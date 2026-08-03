@@ -75,7 +75,7 @@ function toRational(
   if (!Number.isFinite(value)) return { n: 0, d: 1 };
   const sign = value < 0 ? -1 : 1;
   let x = Math.abs(value);
-  let a0 = Math.floor(x);
+  const a0 = Math.floor(x);
   if (Math.abs(x - a0) < 1e-12) return { n: sign * a0, d: 1 };
 
   let p0 = 1;
@@ -224,8 +224,51 @@ export function balanceEquation(raw: string): BalanceResult {
       break;
     }
   }
+  if (!x && freeCols.length > 1) {
+    // A single null-space basis vector may contain zero entries even though a
+    // positive combination of basis vectors balances every listed species.
+    // Search small positive free-variable ratios and retain the simplest
+    // positive integer result.
+    let bestScore = Number.POSITIVE_INFINITY;
+    const weights = Array(freeCols.length).fill(1);
+    const consider = () => {
+      const trial = Array(n).fill(0);
+      freeCols.forEach((free, i) => {
+        trial[free] = weights[i];
+      });
+      for (let r = 0; r < rank; r += 1) {
+        const col = pivotOfRow[r];
+        let sum = 0;
+        for (const free of freeCols) sum += rows[r][free] * trial[free];
+        trial[col] = -sum;
+      }
+      if (!trial.every((v) => v > 1e-9)) return;
+      try {
+        const ints = toIntegerCoefficients(trial);
+        const score = ints.reduce((sum, value) => sum + value, 0);
+        if (score < bestScore) {
+          bestScore = score;
+          x = trial;
+        }
+      } catch {
+        // Skip free-variable weights that do not clear to integers.
+      }
+    };
+    const search = (index: number) => {
+      if (index === weights.length) {
+        consider();
+        return;
+      }
+      for (let value = 1; value <= 12; value += 1) {
+        weights[index] = value;
+        search(index + 1);
+      }
+    };
+    if (freeCols.length <= 3) search(0);
+  }
   if (!x) {
-    // Fall back to any non-zero null vector and hope integer scaling works.
+    // Fall back to any non-zero null vector and let integer conversion report
+    // an informative error if it cannot represent every listed species.
     for (const free of freeCols) {
       const trial = nullVector(free);
       if (trial.some((v) => Math.abs(v) > 1e-9)) {

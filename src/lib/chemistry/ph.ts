@@ -42,6 +42,28 @@ function validatePositive(value: number, label: string): void {
   }
 }
 
+function solveWaterAwareIonConcentration(
+  concentration: number,
+  constant: number,
+  kw: number,
+): number {
+  // For a weak acid, h - CKa/(Ka + h) - Kw/h = 0. The same equation
+  // applies to [OH−] for a weak base with Kb. It is strictly increasing for
+  // positive h, so bisection gives the physical root without an approximation.
+  const residual = (ion: number) =>
+    ion - (concentration * constant) / (constant + ion) - kw / ion;
+  let low = Number.MIN_VALUE;
+  let high = Math.max(1, concentration + constant + Math.sqrt(kw));
+
+  while (residual(high) <= 0) high *= 2;
+  for (let i = 0; i < 200; i += 1) {
+    const mid = (low + high) / 2;
+    if (residual(mid) > 0) high = mid;
+    else low = mid;
+  }
+  return (low + high) / 2;
+}
+
 /** Strong monoprotic acid with water autoionization when dilute. */
 function strongAcid(c: number, kw: number): Omit<PhResult, "mode" | "expression"> {
   validatePositive(c, "Concentration");
@@ -86,7 +108,7 @@ function strongBase(c: number, kw: number): Omit<PhResult, "mode" | "expression"
   };
 }
 
-/** Weak monoprotic acid: Ka = x²/(C−x), with water if needed for very weak/dilute. */
+/** Weak monoprotic acid with water autoionization. */
 function weakAcid(
   c: number,
   ka: number,
@@ -98,32 +120,18 @@ function weakAcid(
     throw new PhError("Ka ≥ 1 looks like a strong acid — use Strong acid mode.");
   }
 
-  // Exact charge/mass for HA ⇌ H+ + A− with water:
-  // Often sufficient: Ka = x²/(C−x) → x² + Ka x − Ka C = 0
-  const x = (-ka + Math.sqrt(ka * ka + 4 * ka * c)) / 2;
-  let h = x;
+  const h = solveWaterAwareIonConcentration(c, ka, kw);
   const notes = [
-    "Solved from Ka = [H⁺][A⁻]/[HA] with [H⁺] ≈ [A⁻] = x and [HA] = C − x.",
+    "Solved with acid mass balance, charge balance, and water autoionization.",
   ];
 
-  // If result is near neutral water contribution, blend a note (not a full cubic for simplicity)
   if (h < 10 * Math.sqrt(kw)) {
     notes.push(
-      "Solution is near-neutral; for ultra-weak/dilute acids a full water cubic may be needed in advanced work.",
+      "Solution is near-neutral, so water autoionization materially affects the pH.",
     );
   }
 
-  // Ensure physical bounds vs water
-  const waterFloor = Math.sqrt(kw);
-  if (h < waterFloor) {
-    h = waterFloor;
-    notes.push("Result clamped near √Kw because the weak-acid approximation alone under-predicted [H⁺].");
-  }
-
   const oh = kw / h;
-  if (x / c > 0.05) {
-    notes.push("More than ~5% dissociation — the common ‘x ≪ C’ shortcut would be inaccurate; the quadratic was used.");
-  }
 
   return {
     pH: -Math.log10(h),
@@ -145,20 +153,15 @@ function weakBase(
     throw new PhError("Kb ≥ 1 looks like a strong base — use Strong base mode.");
   }
 
-  const x = (-kb + Math.sqrt(kb * kb + 4 * kb * c)) / 2;
-  let oh = x;
+  const oh = solveWaterAwareIonConcentration(c, kb, kw);
   const notes = [
-    "Solved from Kb = [OH⁻][BH⁺]/[B] with [OH⁻] ≈ [BH⁺] = x and [B] = C − x.",
+    "Solved with base mass balance, charge balance, and water autoionization.",
   ];
 
-  const waterFloor = Math.sqrt(kw);
-  if (oh < waterFloor) {
-    oh = waterFloor;
-    notes.push("Result clamped near √Kw because the weak-base approximation alone under-predicted [OH⁻].");
-  }
-
-  if (x / c > 0.05) {
-    notes.push("More than ~5% ionization — quadratic solution used instead of x ≪ C.");
+  if (oh < 10 * Math.sqrt(kw)) {
+    notes.push(
+      "Solution is near-neutral, so water autoionization materially affects the pH.",
+    );
   }
 
   const h = kw / oh;
@@ -201,6 +204,7 @@ function buffer(
 
 export function calculatePh(input: PhInput): PhResult {
   const kw = input.kw ?? KW_25C;
+  validatePositive(kw, "Kw");
 
   switch (input.mode) {
     case "strong-acid": {

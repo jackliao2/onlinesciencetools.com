@@ -110,7 +110,7 @@ export function solveKinetics(input: KineticsInput): KineticsResult {
   const { order, k: kIn, c0, t, c, solveFor = "c" } = input;
   const notes: string[] = [];
 
-  let expression =
+  const expression =
     order === 0
       ? "[A] = [A]₀ − kt"
       : order === 1

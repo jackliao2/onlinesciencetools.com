@@ -80,8 +80,10 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
       molarity = value / molarMass;
       break;
     case "massPercent": {
-      if (value > 100) {
-        throw new ConcentrationError("Mass percent cannot exceed 100%.");
+      if (value >= 100) {
+        throw new ConcentrationError(
+          "Mass percent must be below 100% so the solution contains solvent.",
+        );
       }
       const gramsSolute = (value / 100) * massSolutionPerL;
       molarity = gramsSolute / molarMass;
@@ -119,17 +121,16 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
   }
 
   const gramsPerLiter = molarity * molarMass;
-  if (gramsPerLiter > massSolutionPerL + 1e-9) {
+  if (gramsPerLiter >= massSolutionPerL * (1 - 1e-12)) {
     throw new ConcentrationError(
-      "Solute mass exceeds solution mass — check density or concentration.",
+      "Solute mass must be less than solution mass so the solution contains solvent.",
     );
   }
 
   const kgSolventPerLiter = (massSolutionPerL - gramsPerLiter) / 1000;
   const massPercent = (gramsPerLiter / massSolutionPerL) * 100;
   const ppm = (gramsPerLiter / massSolutionPerL) * 1e6;
-  const molality =
-    kgSolventPerLiter > 0 ? molarity / kgSolventPerLiter : Number.POSITIVE_INFINITY;
+  const molality = molarity / kgSolventPerLiter;
 
   return {
     molarMass,

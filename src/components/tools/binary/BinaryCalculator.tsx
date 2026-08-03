@@ -13,19 +13,28 @@ const BASE_LABELS: Record<Base, string> = {
   16: "Hexadecimal",
 };
 
-function parseInBase(value: string, base: Base): { ok: true; num: number } | { ok: false; error: string } {
+function parseInBase(
+  value: string,
+  base: Base,
+): { ok: true; num: number } | { ok: false; error: string } {
   const trimmed = value.trim();
   if (!trimmed) return { ok: false, error: "Enter a value." };
 
   const patterns: Record<Base, RegExp> = {
-    2: /^[01]+$/,
-    8: /^[0-7]+$/,
-    10: /^-?\d+(\.\d+)?$/,
-    16: /^[0-9a-fA-F]+$/,
+    2: /^-?[01]+$/,
+    8: /^-?[0-7]+$/,
+    10: /^-?\d+$/,
+    16: /^-?[0-9a-fA-F]+$/,
   };
 
   if (!patterns[base].test(trimmed)) {
-    return { ok: false, error: `Invalid ${BASE_LABELS[base].toLowerCase()} digits.` };
+    return {
+      ok: false,
+      error:
+        base === 10
+          ? "Enter a whole number (fractions are not supported)."
+          : `Invalid ${BASE_LABELS[base].toLowerCase()} digits.`,
+    };
   }
 
   const num = base === 10 ? Number(trimmed) : parseInt(trimmed, base);
@@ -83,7 +92,7 @@ export function BinaryCalculator() {
         break;
       case "/":
         if (b.num === 0) return { error: "Division by zero." };
-        result = Math.floor(a.num / b.num);
+        result = Math.trunc(a.num / b.num);
         break;
     }
 
