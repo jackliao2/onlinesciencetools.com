@@ -96,10 +96,11 @@ export default function PrivacyPage() {
             preference if such a feature is added).
           </li>
           <li>
-            <strong>Analytics:</strong> we may use privacy-conscious analytics
-            that collect aggregated usage metrics (popular pages, approximate
-            geography, device class). We will not use invasive cross-site
-            advertising trackers as part of the core educational product.
+            <strong>Analytics:</strong> we use Google Analytics (gtag.js) to
+            collect aggregated usage metrics such as popular pages, approximate
+            geography, and device class. Google may process this data under its
+            own privacy policy. We do not use invasive cross-site advertising
+            trackers as part of the core educational product.
           </li>
           <li>
             <strong>Third-party embeds:</strong> if a future page embeds
