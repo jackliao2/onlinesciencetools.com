@@ -115,6 +115,42 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Reference materials and metrology for pH.",
     },
   ],
+  compositioncalculator: [
+    {
+      label: "LibreTexts — Percent Composition",
+      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/06%3A_Chemical_Composition/6.07%3A_Mass_Percent_Composition",
+      note: "Mass percent from chemical formulas.",
+    },
+    {
+      label: "LibreTexts — Empirical Formulas",
+      href: "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/06%3A_Chemical_Composition/6.08%3A_Calculating_Empirical_Formulas",
+      note: "Converting percent composition to empirical formulas.",
+    },
+  ],
+  kspcalculator: [
+    {
+      label: "LibreTexts — Solubility Equilibria",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/17%3A_Additional_Aspects_of_Aqueous_Equilibria/17.04%3A_Solubility_Equilibria",
+      note: "Ksp and molar solubility.",
+    },
+    {
+      label: "IUPAC Gold Book — solubility product",
+      href: "https://goldbook.iupac.org/terms/view/S05727",
+      note: "Definition of the solubility product.",
+    },
+  ],
+  gaslawcalculator: [
+    {
+      label: "LibreTexts — The Ideal Gas Law",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/10%3A_Gases/10.04%3A_The_Ideal_Gas_Equation",
+      note: "PV = nRT and related gas calculations.",
+    },
+    {
+      label: "NIST — CODATA value of R",
+      href: "https://physics.nist.gov/cgi-bin/cuu/Value?r",
+      note: "Molar gas constant reference value.",
+    },
+  ],
   phaseportrait: [
     {
       label: "MIT OCW — Differential Equations",

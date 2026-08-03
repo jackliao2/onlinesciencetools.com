@@ -350,6 +350,92 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
     },
   ],
 
+  compositioncalculator: [
+    {
+      title: "Percent oxygen in water",
+      prompt: "What is the mass percent of oxygen in H₂O?",
+      steps: [
+        "M(H₂O) ≈ 18.015 g/mol; O contributes ≈ 15.999 g/mol.",
+        "%O ≈ (15.999/18.015)×100% ≈ 88.81%.",
+      ],
+      answer: "%O ≈ 88.8%",
+    },
+    {
+      title: "Empirical formula",
+      prompt: "A compound is 40.0% C, 6.7% H, 53.3% O. Find the empirical formula.",
+      steps: [
+        "Moles in 100 g: C 3.33, H 6.65, O 3.33 → ratio 1:2:1.",
+        "Empirical formula CH₂O.",
+      ],
+      answer: "CH₂O",
+    },
+    {
+      title: "Molecular formula",
+      prompt: "Empirical formula CH₂O has M ≈ 30 g/mol. Molecular mass ≈ 180 g/mol. Molecular formula?",
+      steps: [
+        "n = 180/30 = 6.",
+        "Molecular formula C₆H₁₂O₆.",
+      ],
+      answer: "C₆H₁₂O₆",
+    },
+  ],
+
+  kspcalculator: [
+    {
+      title: "AgCl solubility",
+      prompt: "Ksp(AgCl) = 1.8×10⁻¹⁰. Find s in pure water.",
+      steps: [
+        "AB salt: Ksp = s².",
+        "s = √(1.8×10⁻¹⁰) ≈ 1.34×10⁻⁵ mol/L.",
+      ],
+      answer: "s ≈ 1.34×10⁻⁵ mol/L",
+    },
+    {
+      title: "AB₂ Ksp from s",
+      prompt: "If PbCl₂ has s = 0.016 M, estimate Ksp (AB₂).",
+      steps: [
+        "Ksp = 4s³ = 4(0.016)³ ≈ 1.6×10⁻⁵.",
+      ],
+      answer: "Ksp ≈ 1.6×10⁻⁵",
+    },
+    {
+      title: "Precipitation check",
+      prompt:
+        "For AgCl, Ksp = 1.8×10⁻¹⁰. If [Ag⁺] = [Cl⁻] = 1.0×10⁻⁴ M, does a precipitate form?",
+      steps: [
+        "Q = (1.0×10⁻⁴)² = 1.0×10⁻⁸.",
+        "Q > Ksp → precipitate expected.",
+      ],
+      answer: "Yes (Q > Ksp)",
+    },
+  ],
+
+  gaslawcalculator: [
+    {
+      title: "Find n",
+      prompt: "P = 1.00 atm, V = 22.4 L, T = 273 K. Find n (R = 0.0821).",
+      steps: [
+        "n = PV/RT ≈ (1×22.4)/(0.0821×273) ≈ 1.00 mol.",
+      ],
+      answer: "n ≈ 1.00 mol",
+    },
+    {
+      title: "Celsius to kelvin",
+      prompt: "A gas is at 25 °C. What T must you use in PV = nRT?",
+      steps: ["T = 25 + 273.15 = 298.15 K."],
+      answer: "298.15 K",
+    },
+    {
+      title: "Molar mass from density",
+      prompt:
+        "A gas has density 1.96 g/L at 1.00 atm and 273 K. Estimate M (R = 0.0821).",
+      steps: [
+        "M = dRT/P ≈ 1.96×0.0821×273/1 ≈ 44 g/mol.",
+      ],
+      answer: "M ≈ 44 g/mol",
+    },
+  ],
+
   dilutioncalculator: [
     {
       title: "Stock volume for a lab dilution",

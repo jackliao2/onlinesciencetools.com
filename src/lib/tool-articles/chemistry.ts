@@ -522,4 +522,146 @@ pKa = −log₁₀(Ka)`,
       },
     ],
   },
+  {
+    slug: "compositioncalculator",
+    whatIs: {
+      paragraphs: [
+        "Percent composition states how much of a compound’s mass comes from each element. It follows directly from the chemical formula and atomic masses: divide each element’s contribution by the molar mass and multiply by 100%. Combustion analysis and elemental analysis report percentages that you then convert into an empirical formula—the simplest whole-number mole ratio of atoms.",
+        "If an independent molecular mass is known (from mass spectrometry or gas-density data), multiply the empirical formula by an integer so the molar mass matches. The Composition & Empirical Formula Calculator handles both directions: formula → mass percents, and percent/mass data → empirical (and optional molecular) formula.",
+      ],
+      bullets: [
+        "% element = (mass of element in 1 mol) / (molar mass) × 100%",
+        "Empirical formula from moles of each element, scaled to smallest integers",
+        "Molecular formula = (empirical) × n, where n ≈ M_molecular / M_empirical",
+      ],
+    },
+    formula: {
+      intro: "Core relations:",
+      blocks: [
+        `%X = (n_X × A_X / M) × 100%
+
+moles of X = (mass % of X) / A_X   (using 100 g sample)
+Divide each mole amount by the smallest → relative indices
+Clear fractions to the smallest integers → empirical formula`,
+      ],
+    },
+    example: {
+      title: "Empirical formula from 40.0% C, 6.7% H, 53.3% O",
+      scenario:
+        "An organic compound is 40.0% C, 6.7% H, and 53.3% O by mass. Its molar mass is about 180 g/mol. Find the empirical and molecular formulas.",
+      steps: [
+        "In 100 g: 40.0 g C, 6.7 g H, 53.3 g O.",
+        "Moles: C 3.331, H 6.647, O 3.331 → ratios ≈ 1 : 2 : 1.",
+        "Empirical formula CH₂O (M ≈ 30.03 g/mol).",
+        "n = 180 / 30 ≈ 6 → molecular formula C₆H₁₂O₆.",
+      ],
+      toolCheck:
+        "Use Empirical from % / mass with C 40, H 6.7, O 53.3 and molecular mass 180.",
+    },
+    faq: [
+      {
+        question: "Do percents have to sum to exactly 100?",
+        answer:
+          "Experimental values often sum to 99–101% because of rounding. The calculator treats values near 100% as mass percents; if amounts look like grams with a sum far from 100, it treats them as relative masses.",
+      },
+      {
+        question: "Why might indices like 1.5 appear?",
+        answer:
+          "Mole ratios are not always integers before scaling. Multiplying by 2 clears a 1.5 ratio (for example CH₃O → C₂H₆O₂).",
+      },
+    ],
+  },
+  {
+    slug: "kspcalculator",
+    whatIs: {
+      paragraphs: [
+        "The solubility product Ksp is the equilibrium constant for dissolving a sparingly soluble ionic solid. For a salt that dissolves as x cations and y anions per formula unit, Ksp = [cation]^x[anion]^y at saturation. Molar solubility s is the moles of formula unit that dissolve per liter of saturated solution in pure water.",
+        "Comparing the ion product Q (same form as Ksp but with actual concentrations) to Ksp predicts precipitation: Q > Ksp favors solid formation. The Ksp Calculator converts between s and Ksp for common salt stoichiometries and evaluates Q versus Ksp.",
+      ],
+      bullets: [
+        "AB salt: Ksp = s²",
+        "AB₂ salt: Ksp = 4s³",
+        "A₂B salt: Ksp = 4s³",
+        "Q > Ksp → precipitate expected",
+      ],
+    },
+    formula: {
+      intro: "For MxAy(s) ⇌ x M + y A with solubility s:",
+      blocks: [
+        `Ksp = (x s)^x (y s)^y = x^x y^y s^(x+y)
+
+s = (Ksp / (x^x y^y))^(1/(x+y))
+Q = [M]^x [A]^y`,
+      ],
+    },
+    example: {
+      title: "Solubility of AgCl from Ksp",
+      scenario:
+        "AgCl is type AB with Ksp = 1.8×10⁻¹⁰ at 25 °C. Find the molar solubility in pure water.",
+      steps: [
+        "Ksp = s² = 1.8×10⁻¹⁰.",
+        "s = √(1.8×10⁻¹⁰) ≈ 1.34×10⁻⁵ mol/L.",
+      ],
+      toolCheck:
+        "Choose Ksp → solubility, salt type AB, Ksp = 1.8e-10.",
+    },
+    faq: [
+      {
+        question: "Does this include the common-ion effect?",
+        answer:
+          "The s ↔ Ksp modes assume pure water (no extra common ion). For common-ion problems, set up the ICE table with the extra ion and use the Equilibrium Calculator or solve algebraically; you can still check Q vs Ksp with measured ion concentrations.",
+      },
+      {
+        question: "Are Ksp values temperature-dependent?",
+        answer:
+          "Yes. Tabulated Ksp values are for a stated temperature (often 25 °C). Using a Ksp at the wrong temperature gives the wrong solubility.",
+      },
+    ],
+  },
+  {
+    slug: "gaslawcalculator",
+    whatIs: {
+      paragraphs: [
+        "The ideal gas law PV = nRT relates pressure, volume, amount, and absolute temperature for gases at moderate conditions. Classroom calculations usually use R = 0.082057 L·atm/(mol·K) with P in atm, V in liters, and T in kelvin. Real gases deviate at high pressure or low temperature, but the ideal model is the standard starting point in general chemistry.",
+        "The Ideal Gas Law Calculator solves for whichever variable you leave blank and can estimate molar mass from gas density via M = dRT/P.",
+      ],
+      bullets: [
+        "Always convert temperature to kelvin for PV = nRT",
+        "Keep P, V, R unit-consistent (tool converts atm/kPa/mmHg and L/mL)",
+        "Molar mass from density: M = dRT/P with d in g/L",
+      ],
+    },
+    formula: {
+      intro: "Ideal gas relations used here:",
+      blocks: [
+        `PV = nRT
+R = 0.082057 L·atm/(mol·K)
+
+T(K) = t(°C) + 273.15
+M = dRT / P   (d in g/L)`,
+      ],
+    },
+    example: {
+      title: "Moles of gas at STP-like conditions",
+      scenario:
+        "A sample occupies 22.4 L at 1.00 atm and 273.15 K. How many moles are present?",
+      steps: [
+        "n = PV/(RT) = (1.00 × 22.4) / (0.082057 × 273.15) ≈ 1.00 mol.",
+      ],
+      toolCheck:
+        "Enter P = 1.00 atm, V = 22.4 L, leave n blank, T = 273.15 K.",
+    },
+    faq: [
+      {
+        question: "Why must temperature be in kelvin?",
+        answer:
+          "Gas laws are proportional to absolute temperature. Zero on the Celsius scale is not zero thermal energy; 0 °C is 273.15 K.",
+      },
+      {
+        question: "When does the ideal gas law fail?",
+        answer:
+          "At high pressures and low temperatures, attractions and molecular volume matter. Use van der Waals or tabulated compressibility for precise work; for homework STP/room-condition problems, PV = nRT is expected.",
+      },
+    ],
+  },
 ];

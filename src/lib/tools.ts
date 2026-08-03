@@ -7,6 +7,7 @@ export type ToolGroup =
   | "reactions"
   | "solutions"
   | "acids"
+  | "gases"
   | "graphing"
   | "algebra"
   | "web";
@@ -39,6 +40,7 @@ export const toolGroupLabels: Record<ToolGroup, string> = {
   reactions: "Reactions & stoichiometry",
   solutions: "Solutions & concentration",
   acids: "Equilibrium & acids",
+  gases: "Gases",
   graphing: "Graphing & dynamics",
   algebra: "Algebra",
   web: "Web & numbers",
@@ -49,6 +51,7 @@ export const chemistryGroupOrder: ToolGroup[] = [
   "reactions",
   "solutions",
   "acids",
+  "gases",
 ];
 export const mathGroupOrder: ToolGroup[] = ["graphing", "algebra"];
 export const computingGroupOrder: ToolGroup[] = ["web"];
@@ -106,6 +109,24 @@ export const tools: Tool[] = [
       "theoretical yield",
     ],
     accent: "sky",
+  },
+  {
+    slug: "compositioncalculator",
+    href: "/tools/compositioncalculator",
+    title: "Composition & Empirical Formula Calculator",
+    shortTitle: "Composition / Empirical",
+    description:
+      "Get mass percent composition from a formula, or find empirical and molecular formulas from percent data.",
+    category: "chemistry",
+    group: "reactions",
+    status: "live",
+    keywords: [
+      "percent composition",
+      "empirical formula calculator",
+      "molecular formula",
+      "mass percent",
+    ],
+    accent: "teal",
   },
   // Chemistry — solutions
   {
@@ -183,6 +204,43 @@ export const tools: Tool[] = [
       "buffer pH",
     ],
     accent: "teal",
+  },
+  {
+    slug: "kspcalculator",
+    href: "/tools/kspcalculator",
+    title: "Ksp Calculator",
+    shortTitle: "Ksp / Solubility",
+    description:
+      "Convert between Ksp and molar solubility, and compare ion product Q with Ksp for precipitation.",
+    category: "chemistry",
+    group: "acids",
+    status: "live",
+    keywords: [
+      "Ksp calculator",
+      "solubility product",
+      "molar solubility",
+      "precipitation Q Ksp",
+    ],
+    accent: "emerald",
+  },
+  // Chemistry — gases
+  {
+    slug: "gaslawcalculator",
+    href: "/tools/gaslawcalculator",
+    title: "Ideal Gas Law Calculator",
+    shortTitle: "Ideal Gas Law",
+    description:
+      "Solve PV = nRT for pressure, volume, moles, or temperature, with optional molar mass from density.",
+    category: "chemistry",
+    group: "gases",
+    status: "live",
+    keywords: [
+      "ideal gas law calculator",
+      "PV=nRT",
+      "gas density molar mass",
+      "Boyle Charles",
+    ],
+    accent: "sky",
   },
   // Math
   {
