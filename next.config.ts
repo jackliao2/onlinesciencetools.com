@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         destination: "/tools/colorpicker",
         permanent: true,
       },
+      {
+        source: "/Color_Converter.swf",
+        destination: "/tools/colorpicker",
+        permanent: true,
+      },
       // Phase-1 placeholder slugs → historical paths
       {
         source: "/tools/chemistry-equation-balancer",
