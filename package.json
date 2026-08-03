@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audit:tools": "npx --yes tsx scripts/audit-tools.mts"
+    "audit:tools": "npx --yes tsx scripts/audit-tools.mts",
+    "indexnow": "npx --yes tsx scripts/submit-indexnow.mts"
   },
   "dependencies": {
     "lucide-react": "^1.28.0",
