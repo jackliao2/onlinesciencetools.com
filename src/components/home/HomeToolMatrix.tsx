@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { SiteWordmark } from "@/components/brand/SiteWordmark";
 import { filterSearchItems, getSearchIndex } from "@/lib/search";
 import {
   categoryLabels,
@@ -50,10 +51,10 @@ export function HomeToolMatrix() {
       <header className="border-b border-[var(--border)] pb-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
-            <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
-              Online Science Tools
+            <h1>
+              <SiteWordmark variant="hero" />
             </h1>
-            <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
+            <p className="mt-2.5 max-w-md text-sm leading-relaxed text-[var(--muted)]">
               Browse by subject and topic group. Click a tool to open the
               calculator.
             </p>

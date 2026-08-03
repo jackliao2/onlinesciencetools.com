@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FlaskConical } from "lucide-react";
+import { SiteWordmark } from "@/components/brand/SiteWordmark";
 import { SiteSearch } from "@/components/search/SiteSearch";
 
 export function Header() {
@@ -8,12 +9,10 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:px-6 lg:h-16 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:py-0">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="group flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--accent)] text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--accent)] text-white transition-transform group-hover:scale-[1.03]">
               <FlaskConical className="h-4 w-4" aria-hidden />
             </span>
-            <span className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-tight text-[var(--foreground)] sm:text-base">
-              Online Science Tools
-            </span>
+            <SiteWordmark variant="header" />
           </Link>
 
           <nav className="flex items-center gap-1 text-sm lg:hidden">
