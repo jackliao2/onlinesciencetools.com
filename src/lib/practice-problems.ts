@@ -185,6 +185,56 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
     },
   ],
 
+  redoxbalancer: [
+    {
+      title: "Permanganate + Fe²⁺ (acidic)",
+      prompt: "Balance in acid: MnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺.",
+      steps: [
+        "Mn half: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O.",
+        "Fe half: Fe²⁺ → Fe³⁺ + e⁻; multiply by 5.",
+        "Add and cancel electrons.",
+      ],
+      answer: "MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O",
+    },
+    {
+      title: "Zinc dissolving in acid",
+      prompt: "Balance: Zn + H⁺ → Zn²⁺ + H₂.",
+      steps: [
+        "Oxidation: Zn → Zn²⁺ + 2e⁻.",
+        "Reduction: 2H⁺ + 2e⁻ → H₂.",
+        "Combine: Zn + 2H⁺ → Zn²⁺ + H₂.",
+      ],
+      answer: "Zn + 2H⁺ → Zn²⁺ + H₂",
+    },
+    {
+      title: "Dichromate + Fe²⁺",
+      prompt: "Balance in acid: Cr₂O₇²⁻ + Fe²⁺ → Cr³⁺ + Fe³⁺.",
+      steps: [
+        "Cr half needs 14 H⁺ and 6 e⁻, producing 2 Cr³⁺ + 7 H₂O.",
+        "Six Fe²⁺ supply six electrons.",
+      ],
+      answer: "Cr₂O₇²⁻ + 6Fe²⁺ + 14H⁺ → 2Cr³⁺ + 6Fe³⁺ + 7H₂O",
+    },
+    {
+      title: "Basic permanganate + sulfite",
+      prompt: "Balance in base: MnO₄⁻ + SO₃²⁻ → MnO₂ + SO₄²⁻.",
+      steps: [
+        "Balance as if acidic, then neutralize H⁺ with OH⁻.",
+        "Net water and OH⁻ remain on opposite sides.",
+      ],
+      answer: "2MnO₄⁻ + 3SO₃²⁻ + H₂O → 2MnO₂ + 3SO₄²⁻ + 2OH⁻",
+    },
+    {
+      title: "Charge check",
+      prompt: "Why must net charge match on both sides of a balanced ionic redox equation?",
+      steps: [
+        "Electrons are conserved when half-reactions are combined.",
+        "Charge conservation is required along with atom conservation.",
+      ],
+      answer: "Atom and charge conservation (electrons cancel between halves)",
+    },
+  ],
+
   phaseportrait: [
     {
       title: "Classify a linear system",
@@ -670,6 +720,55 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
         "pOH = 14 − 3.52 ≈ 10.48.",
       ],
       answer: "pH ≈ 3.52; pOH ≈ 10.48",
+    },
+  ],
+
+  buffercalculator: [
+    {
+      title: "Equal concentrations",
+      prompt:
+        "A phosphate buffer has pKa = 7.20 and [H₂PO₄⁻] = [HPO₄²⁻]. What is pH?",
+      steps: [
+        "pH = pKa + log([A⁻]/[HA]) = 7.20 + log(1) = 7.20.",
+      ],
+      answer: "pH = 7.20",
+    },
+    {
+      title: "Ratio from target pH",
+      prompt:
+        "For acetate buffer (pKa = 4.76) at pH 5.00, what is [A⁻]/[HA]?",
+      steps: [
+        "r = 10^(pH − pKa) = 10^(0.24) ≈ 1.74.",
+      ],
+      answer: "[A⁻]/[HA] ≈ 1.74",
+    },
+    {
+      title: "Split total concentration",
+      prompt:
+        "C = 0.10 M and r = [A⁻]/[HA] = 1.585. Find [HA] and [A⁻].",
+      steps: [
+        "[HA] = C/(1+r) ≈ 0.0387 M.",
+        "[A⁻] = C − [HA] ≈ 0.0613 M.",
+      ],
+      answer: "[HA] ≈ 0.0387 M; [A⁻] ≈ 0.0613 M",
+    },
+    {
+      title: "Mass from moles",
+      prompt:
+        "You need 0.0613 mol of Na₂HPO₄ (M ≈ 142 g/mol). What mass?",
+      steps: [
+        "m = n × M ≈ 0.0613 × 142 ≈ 8.70 g.",
+      ],
+      answer: "≈ 8.70 g",
+    },
+    {
+      title: "Choosing a buffer system",
+      prompt: "Target pH is 7.4. Is acetate (pKa ≈ 4.8) a good primary choice?",
+      steps: [
+        "Useful range is roughly pKa ± 1.",
+        "7.4 is far from 4.8; prefer phosphate (pKa₂ ≈ 7.2) or Tris (~8.1).",
+      ],
+      answer: "No — choose a system with pKa near 7.4 (e.g. phosphate)",
     },
   ],
 

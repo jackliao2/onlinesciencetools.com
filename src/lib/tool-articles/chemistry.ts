@@ -337,12 +337,86 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
       {
         question: "How do I balance redox reactions in acidic solution?",
         answer:
-          "Split the reaction into oxidation and reduction half-reactions. Balance atoms other than O and H first, then balance O by adding H₂O and H by adding H⁺ (in acidic medium). Balance charge by adding electrons. Multiply each half-reaction so electrons lost equal electrons gained, then add the half-reactions and cancel species appearing on both sides. The balancer handles many simple redox equations automatically, but the half-reaction method remains essential for exam problems.",
+          "Split the reaction into oxidation and reduction half-reactions. Balance atoms other than O and H first, then balance O by adding H₂O and H by adding H⁺ (in acidic medium). Balance charge by adding electrons. Multiply each half-reaction so electrons lost equal electrons gained, then add the half-reactions and cancel species appearing on both sides. For a dedicated acidic/basic medium tool with atom and charge checks, use the Redox Equation Balancer.",
       },
       {
         question: "Why does balancing matter for enthalpy calculations?",
         answer:
           "Enthalpy of reaction ΔH is reported per mole of reaction as written. If you double all coefficients, ΔH doubles. Thermochemical equations must be balanced so the stated ΔH corresponds to the correct mole ratio of reactants and products. Using an unbalanced equation leads to enthalpy values that are off by an integer factor, producing incorrect heat predictions in calorimetry problems.",
+      },
+    ],
+  },
+  {
+    slug: "redoxbalancer",
+    whatIs: {
+      paragraphs: [
+        "Redox reactions transfer electrons between species: oxidation loses electrons, reduction gains them. Many aqueous redox equations cannot be balanced by inspection alone because oxygen, hydrogen, and charge must be adjusted together with the principal atoms. The half-reaction method (ion–electron method) separates oxidation and reduction, balances atoms and charge in each half, then combines them so electrons cancel.",
+        "In acidic medium, oxygen is balanced with H₂O and hydrogen with H⁺. In basic medium, the same acidic skeleton is converted by adding OH⁻ to neutralize H⁺, producing water on one side and leaving net OH⁻ where needed. Both atom counts and net charge must match on the reactant and product sides of the final equation.",
+        "The Redox Equation Balancer on Online Science Tools accepts ionic or molecular skeletons such as MnO4- + Fe2+ = Mn2+ + Fe3+, chooses acidic or basic medium, and returns the smallest whole-number equation with step notes and an atom/charge check. Use it to verify homework half-reaction work, then carry coefficients into the Reaction Stoichiometry Calculator when yields matter.",
+      ],
+      bullets: [
+        "Split into oxidation and reduction half-reactions when needed",
+        "Acidic: balance O with H₂O, H with H⁺, then charge with e⁻",
+        "Basic: convert H⁺ by adding equal OH⁻ (H⁺ + OH⁻ → H₂O)",
+        "Electrons lost must equal electrons gained before adding halves",
+      ],
+    },
+    formula: {
+      intro:
+        "Conservation constraints for a redox equation in aqueous solution:",
+      blocks: [
+        `For every element X:
+  Σ atoms(X)_reactants = Σ atoms(X)_products
+
+Charge:
+  Σ (coeff × charge)_reactants = Σ (coeff × charge)_products
+
+Acidic half-reaction pattern (example MnO₄⁻ → Mn²⁺):
+  MnO₄⁻ → Mn²⁺
+  MnO₄⁻ → Mn²⁺ + 4H₂O
+  MnO₄⁻ + 8H⁺ → Mn²⁺ + 4H₂O
+  MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O`,
+      ],
+      notes: [
+        "Write ion charges as Fe2+, MnO4-, or with carets (SO4^2-).",
+        "Spectator ions may be omitted in net ionic redox equations.",
+        "If the skeleton already includes H₂O / H⁺ / OH⁻, the balancer may still adjust them.",
+      ],
+    },
+    example: {
+      title: "Permanganate oxidizing Fe²⁺ (acidic)",
+      scenario:
+        "Balance MnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺ in acidic aqueous solution.",
+      steps: [
+        "Reduction: MnO₄⁻ → Mn²⁺; add 4 H₂O, then 8 H⁺, then 5 e⁻.",
+        "Oxidation: Fe²⁺ → Fe³⁺ + e⁻.",
+        "Multiply the iron half by 5 so electrons cancel (5e⁻).",
+        "Add: MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O.",
+        "Check: Mn, Fe, O, H atoms and net charge (+17) match on both sides.",
+      ],
+      toolCheck:
+        "Enter MnO4- + Fe2+ = Mn2+ + Fe3+, choose Acidic, and confirm the same coefficients in the Redox Equation Balancer.",
+    },
+    faq: [
+      {
+        question: "Is this a half reaction calculator for acidic and basic media?",
+        answer:
+          "Yes. Choose acidic or basic medium. The tool balances atoms and charge, adding H₂O, H⁺, or OH⁻ as required, and shows steps plus an atom inventory so you can compare with hand-worked half-reactions.",
+      },
+      {
+        question: "How do I enter ion charges?",
+        answer:
+          "Append the charge after the formula: Fe2+, Zn2+, MnO4-, or use a caret for polyatomic ions such as Cr2O7^2- and SO4^2-. Neutral species like Zn, H2, and MnO2 need no charge suffix.",
+      },
+      {
+        question: "When should I use basic medium?",
+        answer:
+          "Use basic when the reaction occurs in alkaline solution or the expected products include OH⁻ (for example permanganate to MnO₂ with sulfite in base). Switching medium changes how H⁺/OH⁻/H₂O appear in the final equation.",
+      },
+      {
+        question: "How is this different from the Chemistry Equation Balancer?",
+        answer:
+          "The general balancer conserves atoms for molecular equations. The redox balancer also conserves charge and can introduce solvent-derived H₂O, H⁺, and OH⁻ that were not in your skeleton—essential for aqueous half-reaction problems.",
       },
     ],
   },
@@ -539,6 +613,76 @@ pKa = −log₁₀(Ka)`,
         question: "How do Ka and Kb relate for a conjugate pair?",
         answer:
           "Ka × Kb = Kw at the same temperature. If you know Ka for acetic acid, Kb for acetate is Kw/Ka.",
+      },
+    ],
+  },
+  {
+    slug: "buffercalculator",
+    whatIs: {
+      paragraphs: [
+        "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, acetate, Tris, citrate, ammonia, bicarbonate), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
+        "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work.",
+        "The Buffer Preparation Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
+      ],
+      bullets: [
+        "pH = pKa + log₁₀([A⁻]/[HA]) (Henderson–Hasselbalch)",
+        "C = [HA] + [A⁻]; solve for each concentration from the ratio and C",
+        "mass = moles × molar mass; moles = molarity × volume (L)",
+        "Stay near the system pKa for practical buffer capacity",
+      ],
+    },
+    formula: {
+      intro: "Recipe from target pH, total molarity C, and volume V:",
+      blocks: [
+        `pH = pKa + log₁₀([A⁻]/[HA])
+r = [A⁻]/[HA] = 10^(pH − pKa)
+
+[HA] = C / (1 + r)
+[A⁻] = C − [HA] = C · r / (1 + r)
+
+n_HA = [HA] · V
+n_A  = [A⁻] · V
+m = n · M (molar mass of the acid or base reagent)`,
+      ],
+      notes: [
+        "Reagent formulas are the usual lab salts/acids (e.g. NaH₂PO₄ / Na₂HPO₄ for phosphate).",
+        "Ionic strength, temperature, and activity corrections are omitted.",
+        "Tris and citrate recipes are approximate single-pKa models.",
+      ],
+    },
+    example: {
+      title: "0.10 M phosphate buffer, pH 7.40, 1.00 L",
+      scenario:
+        "Prepare 1.00 L of 0.10 M phosphate buffer at pH 7.40 using NaH₂PO₄ / Na₂HPO₄ (pKa₂ ≈ 7.20).",
+      steps: [
+        "r = 10^(7.40 − 7.20) = 10^0.20 ≈ 1.585.",
+        "[HA] = 0.10 / (1 + 1.585) ≈ 0.0387 M; [A⁻] ≈ 0.0613 M.",
+        "moles: n_HA ≈ 0.0387 mol; n_A ≈ 0.0613 mol.",
+        "Masses ≈ 4.64 g NaH₂PO₄ and 8.70 g Na₂HPO₄ (anhydrous formulas).",
+      ],
+      toolCheck:
+        "Select Phosphate, pH 7.40, 0.10 M, 1000 mL in the Buffer Preparation Calculator and compare the gram amounts.",
+    },
+    faq: [
+      {
+        question: "Is this a phosphate buffer calculator?",
+        answer:
+          "Yes. Choose the Phosphate system for the H₂PO₄⁻ / HPO₄²⁻ pair (sodium salts), set target pH, total molarity, and volume, and read off the grams of each salt. Acetate, citrate, Tris, ammonia, and bicarbonate systems are also available.",
+      },
+      {
+        question: "Why warn when pH is far from pKa?",
+        answer:
+          "Buffer capacity is highest near pKa. Far away, almost all of the buffer is in one form, so small additions of strong acid or base shift pH sharply. Pick a system whose pKa is close to your target.",
+      },
+      {
+        question: "Can I use this for biological Tris or PBS recipes?",
+        answer:
+          "It gives a useful first estimate from Henderson–Hasselbalch. For published protocols (exact hydrates, ionic strength, temperature), follow the lab SOP and verify pH with a calibrated meter.",
+      },
+      {
+        question: "How does this relate to the pH Calculator?",
+        answer:
+          "The pH Calculator estimates pH from known [HA] and [A⁻]. This tool inverts the problem: given target pH and total C, it finds the recipe amounts. Use both to cross-check homework and lab prep.",
       },
     ],
   },

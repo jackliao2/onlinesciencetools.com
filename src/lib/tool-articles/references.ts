@@ -77,6 +77,23 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       note: "Interactive practice from University of Colorado Boulder.",
     },
   ],
+  redoxbalancer: [
+    {
+      label: "OpenStax Chemistry 2e — Balancing oxidation–reduction reactions",
+      href: "https://openstax.org/books/chemistry-2e/pages/17-1-balancing-oxidation-reduction-reactions",
+      note: "Half-reaction method in acidic and basic solution.",
+    },
+    {
+      label: "LibreTexts / OpenStax — Balancing oxidation–reduction reactions",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)/17%3A_Electrochemistry/17.01%3A_Balancing_Oxidation-Reduction_Reactions",
+      note: "Parallel open textbook chapter on redox balancing.",
+    },
+    {
+      label: "IUPAC Gold Book — oxidation",
+      href: "https://goldbook.iupac.org/terms/view/O04362",
+      note: "Formal definition of oxidation.",
+    },
+  ],
   dilutioncalculator: [
     {
       label: "LibreTexts / OpenStax — Molarity (includes dilution)",
@@ -126,6 +143,23 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
       label: "NIST — pH metrology",
       href: "https://www.nist.gov/programs-projects/ph-metrology",
       note: "NIST program on electrochemical pH measurement standards.",
+    },
+  ],
+  buffercalculator: [
+    {
+      label: "LibreTexts — Buffer solutions",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/17%3A_Additional_Aspects_of_Aqueous_Equilibria/17.02%3A_Buffered_Solutions",
+      note: "Buffer composition, capacity, and Henderson–Hasselbalch.",
+    },
+    {
+      label: "IUPAC Gold Book — buffer capacity",
+      href: "https://goldbook.iupac.org/terms/view/B00735",
+      note: "Definition of buffer capacity.",
+    },
+    {
+      label: "NIST — pH metrology",
+      href: "https://www.nist.gov/programs-projects/ph-metrology",
+      note: "Standards context for accurate pH measurement of prepared buffers.",
     },
   ],
   compositioncalculator: [

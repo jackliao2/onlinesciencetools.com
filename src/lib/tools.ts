@@ -139,6 +139,26 @@ export const tools: Tool[] = [
     ],
     accent: "teal",
   },
+  {
+    slug: "redoxbalancer",
+    href: "/tools/redoxbalancer",
+    title: "Redox Equation Balancer",
+    shortTitle: "Redox Balancer",
+    description:
+      "Balance redox equations in acidic or basic medium with atom and charge conservation (H₂O / H⁺ / OH⁻).",
+    category: "chemistry",
+    group: "reactions",
+    status: "live",
+    keywords: [
+      "redox balancer",
+      "redox reactions equations",
+      "half reaction calculator",
+      "half reaction method",
+      "oxidation number method",
+      "balance redox equation",
+    ],
+    accent: "rose",
+  },
   // Chemistry — solutions
   {
     slug: "dilutioncalculator",
@@ -225,6 +245,26 @@ export const tools: Tool[] = [
       "buffer pH",
       "phosphate buffer calculator",
       "buffer ph calculator",
+    ],
+    accent: "teal",
+  },
+  {
+    slug: "buffercalculator",
+    href: "/tools/buffercalculator",
+    title: "Buffer Preparation Calculator",
+    shortTitle: "Buffer Recipe",
+    description:
+      "Prepare named buffers (phosphate, acetate, Tris, and more) from target pH, total concentration, and volume using Henderson–Hasselbalch.",
+    category: "chemistry",
+    group: "acids",
+    status: "live",
+    keywords: [
+      "phosphate buffer calculator",
+      "buffer preparation calculator",
+      "buffer ph calculator",
+      "citrate buffer calculator",
+      "acetate buffer calculator",
+      "henderson hasselbalch buffer",
     ],
     accent: "teal",
   },

@@ -15,6 +15,8 @@ import { solveIdealGas } from "../src/lib/chemistry/gas-law.ts";
 import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
 import { solveKinetics } from "../src/lib/chemistry/kinetics.ts";
 import { calculateNernst } from "../src/lib/chemistry/nernst.ts";
+import { balanceRedox } from "../src/lib/chemistry/redox.ts";
+import { calculateBufferRecipe } from "../src/lib/chemistry/buffer-recipe.ts";
 import {
   solveEquilibrium,
   computeKFromEquilibrium,
@@ -96,6 +98,62 @@ eq(
   "2AgNO3 + CaCl2 → 2AgCl + Ca(NO3)2",
   "balance AgNO3",
 );
+
+// --- Redox ---
+eq(
+  balanceRedox("MnO4- + Fe2+ = Mn2+ + Fe3+", "acidic").equation,
+  "MnO4⁻ + 5Fe^{2+} + 8H⁺ → Mn^{2+} + 5Fe^{3+} + 4H₂O",
+  "redox MnO4/Fe acidic",
+);
+eq(
+  balanceRedox("Cr2O7^2- + Fe2+ = Cr3+ + Fe3+", "acidic").equation,
+  "Cr2O7^{2-} + 6Fe^{2+} + 14H⁺ → 2Cr^{3+} + 6Fe^{3+} + 7H₂O",
+  "redox dichromate/Fe",
+);
+eq(
+  balanceRedox("Zn + H+ = Zn2+ + H2", "acidic").equation,
+  "Zn + 2H⁺ → Zn^{2+} + H2",
+  "redox Zn/H+",
+);
+eq(
+  balanceRedox("MnO4- + SO3^2- = MnO2 + SO4^2-", "basic").equation,
+  "2MnO4⁻ + 3SO3^{2-} + H₂O → 2MnO2 + 3SO4^{2-} + 2OH⁻",
+  "redox MnO4/SO3 basic",
+);
+{
+  const r = balanceRedox("MnO4- + Fe2+ = Mn2+ + Fe3+", "acidic");
+  eq(r.chargeReactants === r.chargeProducts, true, "redox charge balanced");
+  eq(
+    r.atomCheck.every((row) => row.reactantAtoms === row.productAtoms),
+    true,
+    "redox atoms balanced",
+  );
+}
+
+// --- Buffer recipe ---
+{
+  const buf = calculateBufferRecipe({
+    systemId: "phosphate",
+    targetPh: 7.4,
+    totalMolarity: 0.1,
+    volumeL: 1,
+  });
+  approx(buf.ratioBaseOverAcid, 1.5849, 1e-3, "buffer phosphate ratio");
+  approx(buf.acidMassG, 4.6415, 0.02, "buffer phosphate acid mass");
+  approx(buf.baseMassG, 8.704, 0.05, "buffer phosphate base mass");
+  approx(buf.hhCheckPh, 7.4, 1e-9, "buffer HH check");
+}
+{
+  const buf = calculateBufferRecipe({
+    systemId: "acetate",
+    targetPh: 4.76,
+    totalMolarity: 0.2,
+    volumeL: 0.5,
+  });
+  approx(buf.ratioBaseOverAcid, 1, 1e-9, "buffer acetate equal");
+  approx(buf.acidMolarity, 0.1, 1e-9, "buffer acetate [HA]");
+  approx(buf.baseMolarity, 0.1, 1e-9, "buffer acetate [A-]");
+}
 
 // --- Molar mass / composition ---
 approx(parseFormula("H2O").molarMass, 18.01528, 1e-4, "molar H2O");
