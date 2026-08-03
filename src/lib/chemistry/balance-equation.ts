@@ -111,7 +111,10 @@ function toIntegerCoefficients(values: number[]): number[] {
   if (ints.some((n) => n < 0)) {
     ints = ints.map((n) => -n);
   }
-  if (ints.every((n) => n === 0) || ints.some((n) => !Number.isInteger(n))) {
+  if (
+    ints.every((n) => n === 0) ||
+    ints.some((n) => !Number.isInteger(n) || n === 0)
+  ) {
     throw new BalanceError("Could not find a non-trivial balancing solution.");
   }
   return ints;
@@ -156,15 +159,16 @@ export function balanceEquation(raw: string): BalanceResult {
     }
   }
 
-  // Augment with zeros and row-reduce A x = 0; free variable x_n = 1
+  // Row-reduce A x = 0 and recover a positive null-space vector.
   const rows = A.map((row) => [...row]);
   const h = rows.length;
   const w = n;
 
   let rank = 0;
-  const colPivot: number[] = [];
+  const pivotOfRow: number[] = [];
+  const isPivotCol = Array(w).fill(false);
 
-  for (let col = 0; col < w - 1 && rank < h; col += 1) {
+  for (let col = 0; col < w && rank < h; col += 1) {
     let pivot = rank;
     for (let r = rank + 1; r < h; r += 1) {
       if (Math.abs(rows[r][col]) > Math.abs(rows[pivot][col])) pivot = r;
@@ -178,51 +182,71 @@ export function balanceEquation(raw: string): BalanceResult {
     for (let r = 0; r < h; r += 1) {
       if (r === rank) continue;
       const factor = rows[r][col];
+      if (Math.abs(factor) < 1e-14) continue;
       for (let c = col; c < w; c += 1) {
         rows[r][c] -= factor * rows[rank][c];
       }
     }
 
-    colPivot[rank] = col;
+    pivotOfRow[rank] = col;
+    isPivotCol[col] = true;
     rank += 1;
   }
 
-  const x = Array(n).fill(0);
-  x[n - 1] = 1;
-
-  for (let r = rank - 1; r >= 0; r -= 1) {
-    const col = colPivot[r];
-    let sum = 0;
-    for (let c = col + 1; c < n; c += 1) {
-      sum += rows[r][c] * x[c];
-    }
-    x[col] = -sum;
+  const freeCols = Array.from({ length: w }, (_, i) => i).filter(
+    (c) => !isPivotCol[c],
+  );
+  if (freeCols.length === 0) {
+    throw new BalanceError(
+      "This equation is over-constrained or already inconsistent. Check the formulas.",
+    );
   }
 
-  // If leading species got 0, try another free variable
-  if (Math.abs(x[0]) < 1e-9) {
-    for (let free = n - 2; free >= 0; free -= 1) {
-      const trial = Array(n).fill(0);
-      trial[free] = 1;
-      for (let r = rank - 1; r >= 0; r -= 1) {
-        const col = colPivot[r];
-        if (col === undefined) continue;
-        let sum = 0;
-        for (let c = col + 1; c < n; c += 1) {
-          sum += rows[r][c] * trial[c];
-        }
-        trial[col] = -sum;
+  function nullVector(freeCol: number): number[] {
+    const trial = Array(n).fill(0);
+    trial[freeCol] = 1;
+    for (let r = 0; r < rank; r += 1) {
+      const col = pivotOfRow[r];
+      let sum = 0;
+      for (const free of freeCols) {
+        sum += rows[r][free] * trial[free];
       }
-      if (trial.every((v) => Math.abs(v) > 1e-9 || v === 0) && trial.some((v) => Math.abs(v) > 1e-9)) {
-        for (let i = 0; i < n; i += 1) x[i] = trial[i];
+      trial[col] = -sum;
+    }
+    return trial;
+  }
+
+  let x: number[] | null = null;
+  for (const free of [...freeCols].reverse()) {
+    const trial = nullVector(free);
+    if (trial.every((v) => Math.abs(v) > 1e-9)) {
+      x = trial;
+      break;
+    }
+  }
+  if (!x) {
+    // Fall back to any non-zero null vector and hope integer scaling works.
+    for (const free of freeCols) {
+      const trial = nullVector(free);
+      if (trial.some((v) => Math.abs(v) > 1e-9)) {
+        x = trial;
         break;
       }
     }
   }
+  if (!x) {
+    throw new BalanceError("Could not find a non-trivial balancing solution.");
+  }
 
   const coeffs = toIntegerCoefficients(x);
 
-  // Verify balance
+  if (coeffs.some((c) => c <= 0) || !coeffs.every((c) => Number.isInteger(c))) {
+    throw new BalanceError(
+      "Unable to balance this equation automatically. Check formulas and try again.",
+    );
+  }
+
+  // Verify atom balance
   for (const el of elements) {
     let sum = 0;
     for (let j = 0; j < n; j += 1) {
