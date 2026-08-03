@@ -173,3 +173,157 @@ export function sampleVectorField(
   }
   return samples;
 }
+
+export type EquilibriumClass =
+  | "sink"
+  | "source"
+  | "saddle"
+  | "spiral-sink"
+  | "spiral-source"
+  | "center"
+  | "degenerate";
+
+export interface EquilibriumPoint {
+  x: number;
+  y: number;
+  classification: EquilibriumClass;
+  trace: number;
+  det: number;
+}
+
+function numericalJacobian(
+  field: VectorField,
+  x: number,
+  y: number,
+  h = 1e-5,
+): [[number, number], [number, number]] {
+  const fxp = field(x + h, y);
+  const fxm = field(x - h, y);
+  const fyp = field(x, y + h);
+  const fym = field(x, y - h);
+  return [
+    [(fxp.x - fxm.x) / (2 * h), (fyp.x - fym.x) / (2 * h)],
+    [(fxp.y - fxm.y) / (2 * h), (fyp.y - fym.y) / (2 * h)],
+  ];
+}
+
+function classifyJacobian(J: [[number, number], [number, number]]): {
+  classification: EquilibriumClass;
+  trace: number;
+  det: number;
+} {
+  const trace = J[0][0] + J[1][1];
+  const det = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+  const disc = trace * trace - 4 * det;
+
+  if (Math.abs(det) < 1e-10) {
+    return { classification: "degenerate", trace, det };
+  }
+  if (det < 0) return { classification: "saddle", trace, det };
+  if (disc < 0) {
+    if (Math.abs(trace) < 1e-8) return { classification: "center", trace, det };
+    return {
+      classification: trace < 0 ? "spiral-sink" : "spiral-source",
+      trace,
+      det,
+    };
+  }
+  if (trace < 0) return { classification: "sink", trace, det };
+  if (trace > 0) return { classification: "source", trace, det };
+  return { classification: "center", trace, det };
+}
+
+function newtonEquilibria(
+  field: VectorField,
+  start: Vec2,
+  bounds: { xMin: number; xMax: number; yMin: number; yMax: number },
+): Vec2 | null {
+  let x = start.x;
+  let y = start.y;
+  for (let i = 0; i < 20; i += 1) {
+    const v = field(x, y);
+    if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) return null;
+    if (Math.hypot(v.x, v.y) < 1e-10) return { x, y };
+    const J = numericalJacobian(field, x, y);
+    const det = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+    if (Math.abs(det) < 1e-14) return null;
+    const dx = (J[1][1] * v.x - J[0][1] * v.y) / det;
+    const dy = (-J[1][0] * v.x + J[0][0] * v.y) / det;
+    x -= dx;
+    y -= dy;
+    if (
+      x < bounds.xMin - 1 ||
+      x > bounds.xMax + 1 ||
+      y < bounds.yMin - 1 ||
+      y > bounds.yMax + 1
+    ) {
+      return null;
+    }
+    if (Math.hypot(dx, dy) < 1e-10) break;
+  }
+  const v = field(x, y);
+  if (!Number.isFinite(v.x) || !Number.isFinite(v.y) || Math.hypot(v.x, v.y) > 1e-6) {
+    return null;
+  }
+  if (x < bounds.xMin || x > bounds.xMax || y < bounds.yMin || y > bounds.yMax) {
+    return null;
+  }
+  return { x, y };
+}
+
+/** Find equilibria by coarse grid seeds + Newton polish. */
+export function findEquilibria(
+  field: VectorField,
+  bounds: { xMin: number; xMax: number; yMin: number; yMax: number },
+  grid = 24,
+): EquilibriumPoint[] {
+  const found: EquilibriumPoint[] = [];
+  const tol = Math.min(bounds.xMax - bounds.xMin, bounds.yMax - bounds.yMin) * 0.02;
+
+  for (let i = 0; i <= grid; i += 1) {
+    for (let j = 0; j <= grid; j += 1) {
+      const seed = {
+        x: bounds.xMin + (i / grid) * (bounds.xMax - bounds.xMin),
+        y: bounds.yMin + (j / grid) * (bounds.yMax - bounds.yMin),
+      };
+      const eq = newtonEquilibria(field, seed, bounds);
+      if (!eq) continue;
+      if (found.some((p) => Math.hypot(p.x - eq.x, p.y - eq.y) < tol)) continue;
+      const J = numericalJacobian(field, eq.x, eq.y);
+      const cls = classifyJacobian(J);
+      found.push({ x: eq.x, y: eq.y, ...cls });
+    }
+  }
+  return found;
+}
+
+/** Sample approximate nullcline polylines where |f| or |g| is near zero. */
+export function sampleNullclines(
+  field: VectorField,
+  bounds: { xMin: number; xMax: number; yMin: number; yMax: number },
+  density = 80,
+): { fZero: Vec2[]; gZero: Vec2[] } {
+  const fZero: Vec2[] = [];
+  const gZero: Vec2[] = [];
+  const dx = (bounds.xMax - bounds.xMin) / density;
+  const dy = (bounds.yMax - bounds.yMin) / density;
+  const tol =
+    0.02 *
+    Math.max(
+      Math.abs(bounds.xMax - bounds.xMin),
+      Math.abs(bounds.yMax - bounds.yMin),
+      1,
+    );
+
+  for (let i = 0; i <= density; i += 1) {
+    for (let j = 0; j <= density; j += 1) {
+      const x = bounds.xMin + i * dx;
+      const y = bounds.yMin + j * dy;
+      const v = field(x, y);
+      if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) continue;
+      if (Math.abs(v.x) < tol) fZero.push({ x, y });
+      if (Math.abs(v.y) < tol) gZero.push({ x, y });
+    }
+  }
+  return { fZero, gZero };
+}

@@ -11,8 +11,11 @@ import {
 import {
   PHASE_PRESETS,
   compileVectorField,
+  findEquilibria,
   integrateTrajectory,
+  sampleNullclines,
   sampleVectorField,
+  type EquilibriumPoint,
   type Vec2,
 } from "@/lib/math/phase-portrait";
 import { Eraser, MousePointerClick, Play, RefreshCw } from "lucide-react";
@@ -37,6 +40,8 @@ export function PhasePortraitGenerator() {
   const [yMax, setYMax] = useState(PHASE_PRESETS[2].yMax);
   const [trajectories, setTrajectories] = useState<Vec2[][]>([]);
   const [density, setDensity] = useState(14);
+  const [showNullclines, setShowNullclines] = useState(true);
+  const [showEquilibria, setShowEquilibria] = useState(true);
 
   const compiled = useMemo(() => {
     try {
@@ -59,6 +64,24 @@ export function PhasePortraitGenerator() {
     () => ({ xMin, xMax, yMin, yMax }),
     [xMin, xMax, yMin, yMax],
   );
+
+  const equilibria = useMemo((): EquilibriumPoint[] => {
+    if (!field || !showEquilibria) return [];
+    try {
+      return findEquilibria(field, bounds);
+    } catch {
+      return [];
+    }
+  }, [bounds, field, showEquilibria]);
+
+  const nullclines = useMemo(() => {
+    if (!field || !showNullclines) return { fZero: [], gZero: [] };
+    try {
+      return sampleNullclines(field, bounds);
+    } catch {
+      return { fZero: [], gZero: [] };
+    }
+  }, [bounds, field, showNullclines]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -163,6 +186,20 @@ export function PhasePortraitGenerator() {
       ctx.fill();
     }
 
+    // Nullclines
+    if (showNullclines) {
+      ctx.fillStyle = isDark ? "rgba(244,114,182,0.55)" : "rgba(219,39,119,0.45)";
+      for (const p of nullclines.fZero) {
+        const c = toCanvas(p);
+        ctx.fillRect(c.x - 1.2, c.y - 1.2, 2.4, 2.4);
+      }
+      ctx.fillStyle = isDark ? "rgba(96,165,250,0.55)" : "rgba(37,99,235,0.45)";
+      for (const p of nullclines.gZero) {
+        const c = toCanvas(p);
+        ctx.fillRect(c.x - 1.2, c.y - 1.2, 2.4, 2.4);
+      }
+    }
+
     // Trajectories
     trajectories.forEach((path, idx) => {
       if (path.length < 2) return;
@@ -183,12 +220,44 @@ export function PhasePortraitGenerator() {
       ctx.fill();
     });
 
+    // Equilibria
+    if (showEquilibria) {
+      for (const eq of equilibria) {
+        const c = toCanvas({ x: eq.x, y: eq.y });
+        ctx.fillStyle =
+          eq.classification === "saddle"
+            ? "#dc2626"
+            : eq.classification.includes("sink") || eq.classification === "center"
+              ? "#059669"
+              : "#d97706";
+        ctx.strokeStyle = isDark ? "#f8fafc" : "#0f172a";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+
     // Bounds labels
     ctx.fillStyle = isDark ? "rgba(226,232,240,0.7)" : "rgba(51,65,85,0.75)";
     ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, monospace";
     ctx.fillText(`x ∈ [${xMin}, ${xMax}]`, 12, 20);
     ctx.fillText(`y ∈ [${yMin}, ${yMax}]`, 12, 38);
-  }, [bounds, density, field, trajectories, xMax, xMin, yMax, yMin]);
+  }, [
+    bounds,
+    density,
+    equilibria,
+    field,
+    nullclines,
+    showEquilibria,
+    showNullclines,
+    trajectories,
+    xMax,
+    xMin,
+    yMax,
+    yMin,
+  ]);
 
   useEffect(() => {
     draw();
@@ -370,6 +439,40 @@ export function PhasePortraitGenerator() {
             />
           </label>
 
+          <div className="flex flex-col gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-3 text-sm">
+            <label className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showNullclines}
+                onChange={(e) => setShowNullclines(e.target.checked)}
+              />
+              Show nullclines (pink f=0, blue g=0)
+            </label>
+            <label className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showEquilibria}
+                onChange={(e) => setShowEquilibria(e.target.checked)}
+              />
+              Show equilibria + classification
+            </label>
+          </div>
+
+          {showEquilibria && equilibria.length > 0 && (
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-3 text-xs">
+              <p className="font-semibold uppercase tracking-wide text-[var(--muted)]">
+                Equilibria
+              </p>
+              <ul className="mt-2 space-y-1 font-mono">
+                {equilibria.map((eq, i) => (
+                  <li key={`${eq.x}-${eq.y}-${i}`}>
+                    ({eq.x.toFixed(3)}, {eq.y.toFixed(3)}) — {eq.classification}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4 text-sm text-[var(--muted)]">
             <p className="inline-flex items-center gap-2 font-medium text-[var(--foreground)]">
               <MousePointerClick className="h-4 w-4 text-[var(--accent)]" />
@@ -377,9 +480,8 @@ export function PhasePortraitGenerator() {
             </p>
             <p className="mt-1.5 leading-relaxed">
               Click anywhere on the phase plane to launch a trajectory integrated
-              with RK4 in both time directions. Trajectories are numerical
-              approximations; reduce the time step or compare runs before drawing
-              conclusions near unstable or stiff behavior.
+              with RK4 in both time directions. Equilibria use a numerical Jacobian;
+              classification is local (sink/source/saddle/spiral/center).
             </p>
           </div>
 

@@ -6,6 +6,11 @@ export interface SpeciesInput {
   coefficient: number;
   role: SpeciesRole;
   initial: number;
+  /**
+   * When false, the species is treated as a pure solid/liquid (activity ≈ 1)
+   * and is omitted from Q and K.
+   */
+  includeInK?: boolean;
 }
 
 export interface EquilibriumResult {
@@ -22,8 +27,17 @@ export interface EquilibriumResult {
     initial: number;
     change: number;
     equilibrium: number;
+    includeInK: boolean;
   }>;
   expression: string;
+  /** Present when Kp/Kc conversion was requested. */
+  converted?: {
+    from: "Kc" | "Kp";
+    to: "Kc" | "Kp";
+    value: number;
+    deltaN: number;
+    temperatureK: number;
+  };
 }
 
 export class EquilibriumError extends Error {
@@ -33,13 +47,21 @@ export class EquilibriumError extends Error {
   }
 }
 
+/** Gas constant for concentration–pressure conversion, L·atm/(mol·K). */
+export const R_LATM = 0.082057;
+
+function activeSpecies(species: SpeciesInput[]): SpeciesInput[] {
+  return species.filter((s) => s.includeInK !== false);
+}
+
 function reactionQuotient(species: SpeciesInput[]): number {
+  const active = activeSpecies(species);
   let num = 1;
   let den = 1;
   let hasProduct = false;
   let hasReactant = false;
 
-  for (const s of species) {
+  for (const s of active) {
     const c = Math.max(s.initial, 0);
     const term = c ** s.coefficient;
     if (s.role === "product") {
@@ -52,7 +74,9 @@ function reactionQuotient(species: SpeciesInput[]): number {
   }
 
   if (!hasProduct || !hasReactant) {
-    throw new EquilibriumError("Include at least one reactant and one product.");
+    throw new EquilibriumError(
+      "Include at least one reactant and one product in the K expression (uncheck solids/liquids only).",
+    );
   }
 
   if (den === 0) {
@@ -98,17 +122,8 @@ function maxReverseX(species: SpeciesInput[]): number {
 
 function evalQAtX(species: SpeciesInput[], x: number): number {
   const eqs = equilibriumConcentrations(species, x).map((c) => Math.max(c, 0));
-  let num = 1;
-  let den = 1;
-
-  species.forEach((s, i) => {
-    const term = eqs[i] ** s.coefficient;
-    if (s.role === "product") num *= term;
-    else den *= term;
-  });
-
-  if (den === 0) return Number.POSITIVE_INFINITY;
-  return num / den;
+  const withEq = species.map((s, i) => ({ ...s, initial: eqs[i] }));
+  return reactionQuotient(withEq);
 }
 
 /** Solve Q(x) = K for extent x (positive = forward). */
@@ -119,11 +134,9 @@ function solveExtent(species: SpeciesInput[], K: number): number {
   const qAt = (x: number) => evalQAtX(species, x);
   const target = (x: number) => qAt(x) - K;
 
-  // Bracket: reverse extent as negative x
   let lo = -reverseMax;
   let hi = forwardMax;
 
-  // Shrink to feasible interior
   const eps = 1e-12;
   lo += eps;
   hi -= eps;
@@ -136,17 +149,13 @@ function solveExtent(species: SpeciesInput[], K: number): number {
   let flo = target(lo);
   let fhi = target(hi);
 
-  // Handle asymptotic cases near zero concentrations
   if (!Number.isFinite(flo)) flo = Math.sign(flo || 1) * 1e100;
   if (!Number.isFinite(fhi)) fhi = Math.sign(fhi || 1) * 1e100;
 
-  // If already at equilibrium within tolerance
   const q0 = reactionQuotient(species);
   if (Math.abs(q0 - K) / Math.max(K, 1) < 1e-8) return 0;
 
-  // Bisection / regula falsi hybrid
   if (flo * fhi > 0) {
-    // Try denser sampling
     let bestX = 0;
     let bestErr = Math.abs(q0 - K);
     const samples = 200;
@@ -189,21 +198,99 @@ function solveExtent(species: SpeciesInput[], K: number): number {
   return mid;
 }
 
-export function buildExpression(species: SpeciesInput[], constantLabel: string): string {
-  const products = species
+export function buildExpression(
+  species: SpeciesInput[],
+  constantLabel: string,
+): string {
+  const active = activeSpecies(species);
+  const products = active
     .filter((s) => s.role === "product")
     .map((s) =>
       s.coefficient === 1 ? `[${s.label}]` : `[${s.label}]^${s.coefficient}`,
     )
     .join(" · ");
-  const reactants = species
+  const reactants = active
     .filter((s) => s.role === "reactant")
     .map((s) =>
       s.coefficient === 1 ? `[${s.label}]` : `[${s.label}]^${s.coefficient}`,
     )
     .join(" · ");
 
-  return `${constantLabel} = (${products}) / (${reactants})`;
+  return `${constantLabel} = (${products || "1"}) / (${reactants || "1"})`;
+}
+
+/** Δn for Kp = Kc (RT)^Δn using only species included in K (gases). */
+export function gasDeltaN(species: SpeciesInput[]): number {
+  let delta = 0;
+  for (const s of activeSpecies(species)) {
+    delta += s.role === "product" ? s.coefficient : -s.coefficient;
+  }
+  return delta;
+}
+
+/**
+ * Convert between Kc and Kp.
+ * Convention: Kp = Kc (RT)^Δn with R = 0.082057 L·atm/(mol·K), T in kelvin.
+ */
+export function convertKcKp(
+  value: number,
+  from: "Kc" | "Kp",
+  deltaN: number,
+  temperatureK: number,
+): number {
+  if (!(value > 0) || !Number.isFinite(value)) {
+    throw new EquilibriumError("K must be a positive number.");
+  }
+  if (!(temperatureK > 0) || !Number.isFinite(temperatureK)) {
+    throw new EquilibriumError("Temperature must be above 0 K.");
+  }
+  if (!Number.isFinite(deltaN)) {
+    throw new EquilibriumError("Δn must be a finite number.");
+  }
+  const factor = (R_LATM * temperatureK) ** deltaN;
+  if (!(factor > 0) || !Number.isFinite(factor)) {
+    throw new EquilibriumError("Could not compute (RT)^Δn for this temperature and Δn.");
+  }
+  return from === "Kc" ? value * factor : value / factor;
+}
+
+/** Compute K directly from equilibrium amounts (no ICE solve). */
+export function computeKFromEquilibrium(
+  species: SpeciesInput[],
+  constantLabel: "Kc" | "Kp" = "Kc",
+): { K: number; expression: string; Q: number } {
+  for (const s of species) {
+    if (!(s.coefficient > 0) || !Number.isInteger(s.coefficient)) {
+      throw new EquilibriumError(
+        `Coefficient for ${s.label || "a species"} must be a positive integer.`,
+      );
+    }
+    if (!(s.initial >= 0) || !Number.isFinite(s.initial)) {
+      throw new EquilibriumError(
+        `Equilibrium amount for ${s.label || "a species"} must be non-negative.`,
+      );
+    }
+    if (!s.label.trim()) {
+      throw new EquilibriumError("Every species needs a label.");
+    }
+  }
+  if (!species.some((s) => s.initial > 0 && s.includeInK !== false)) {
+    throw new EquilibriumError(
+      "Enter at least one non-zero equilibrium amount for a species included in K.",
+    );
+  }
+
+  const K = reactionQuotient(species);
+  if (!Number.isFinite(K) || !(K > 0)) {
+    throw new EquilibriumError(
+      "Could not compute a finite positive K from these equilibrium amounts (check zeros in the denominator).",
+    );
+  }
+  return {
+    K,
+    Q: K,
+    expression: buildExpression(species, constantLabel),
+  };
 }
 
 export function solveEquilibrium(
@@ -273,6 +360,7 @@ export function solveEquilibrium(
       initial: s.initial,
       change: s.role === "product" ? s.coefficient * x : -s.coefficient * x,
       equilibrium: Math.max(eqs[i], 0),
+      includeInK: s.includeInK !== false,
     })),
   };
 }

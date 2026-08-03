@@ -20,6 +20,9 @@ interface Species {
   role: Role;
   amount: string;
   unit: AmountUnit;
+  /** Actual recovered product amount (products only); blank = skip % yield. */
+  actualAmount: string;
+  actualUnit: AmountUnit;
   manualMolarMass: string;
   useManualMass: boolean;
 }
@@ -32,6 +35,8 @@ const DEFAULT_SPECIES: Species[] = [
     role: "reactant",
     amount: "4",
     unit: "grams",
+    actualAmount: "",
+    actualUnit: "grams",
     manualMolarMass: "",
     useManualMass: false,
   },
@@ -42,6 +47,8 @@ const DEFAULT_SPECIES: Species[] = [
     role: "reactant",
     amount: "32",
     unit: "grams",
+    actualAmount: "",
+    actualUnit: "grams",
     manualMolarMass: "",
     useManualMass: false,
   },
@@ -52,6 +59,8 @@ const DEFAULT_SPECIES: Species[] = [
     role: "product",
     amount: "0",
     unit: "moles",
+    actualAmount: "30",
+    actualUnit: "grams",
     manualMolarMass: "",
     useManualMass: false,
   },
@@ -102,6 +111,8 @@ export function ReactionStoichiometryCalculator() {
         role: "reactant",
         amount: "0",
         unit: "moles",
+        actualAmount: "",
+        actualUnit: "grams",
         manualMolarMass: "",
         useManualMass: false,
       },
@@ -174,14 +185,49 @@ export function ReactionStoichiometryCalculator() {
       const coeff = Number(p.coefficient);
       const mm = resolveMolarMass(p);
       const theoreticalMoles = limitingExtent * coeff;
+      const theoreticalMass = massFromMoles(theoreticalMoles, mm.molarMass);
+      const actualRaw = p.actualAmount.trim();
+      let actualMoles: number | null = null;
+      let actualMass: number | null = null;
+      let percentYield: number | null = null;
+      if (actualRaw !== "") {
+        const actualValue = Number(actualRaw);
+        if (!Number.isFinite(actualValue) || actualValue < 0) {
+          return {
+            species: p,
+            error: "Actual product amount must be a non-negative number.",
+          } as const;
+        }
+        actualMoles = toMoles(actualValue, p.actualUnit, mm.molarMass);
+        actualMass = massFromMoles(actualMoles, mm.molarMass);
+        if (theoreticalMoles > 0) {
+          percentYield = (actualMoles / theoreticalMoles) * 100;
+        }
+      }
       return {
         formula: p.formula,
         coefficient: coeff,
         molarMass: mm.molarMass,
         theoreticalMoles,
-        theoreticalMass: massFromMoles(theoreticalMoles, mm.molarMass),
+        theoreticalMass,
+        actualMoles,
+        actualMass,
+        percentYield,
       };
     });
+
+    const productError = productYields.find((p) => "error" in p);
+    if (productError && "error" in productError) {
+      const label = productError.species?.formula || "Product";
+      return {
+        error: `${label}: ${productError.error}`,
+      };
+    }
+
+    const cleanProductYields = productYields.filter(
+      (p): p is Exclude<(typeof productYields)[number], { error: string }> =>
+        !("error" in p),
+    );
 
     const leftoverReactants = reactantData.map((r) => {
       const consumed = limitingExtent * r.coefficient;
@@ -200,7 +246,7 @@ export function ReactionStoichiometryCalculator() {
     return {
       limitingReagent: limiting.species.formula,
       extent: limitingExtent,
-      productYields,
+      productYields: cleanProductYields,
       leftoverReactants,
     };
   }, [species]);
@@ -235,8 +281,9 @@ export function ReactionStoichiometryCalculator() {
       </div>
 
       <p className="mt-4 text-sm text-[var(--muted)]">
-        Enter a balanced reaction: coefficient, formula, role, and starting amount
-        for each reactant. Molar mass is parsed from the formula or entered manually.
+        Enter a balanced reaction with reactant starting amounts. For products, optionally
+        enter the actual recovered amount to compute percent yield versus the limiting-reagent
+        theoretical yield. Molar mass is parsed from the formula or entered manually.
       </p>
 
       <div className="mt-6 space-y-4">
@@ -276,7 +323,7 @@ export function ReactionStoichiometryCalculator() {
                 <option value="product">Product</option>
               </select>
             </label>
-            {s.role === "reactant" && (
+            {s.role === "reactant" ? (
               <>
                 <label className="block">
                   <span className="mb-1 block text-xs font-medium text-[var(--muted)]">Amount</span>
@@ -292,6 +339,37 @@ export function ReactionStoichiometryCalculator() {
                     value={s.unit}
                     onChange={(e) =>
                       updateSpecies(s.id, { unit: e.target.value as AmountUnit })
+                    }
+                    className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none ring-[var(--accent)] focus:ring-2"
+                  >
+                    <option value="moles">mol</option>
+                    <option value="grams">g</option>
+                  </select>
+                </label>
+              </>
+            ) : (
+              <>
+                <label className="block">
+                  <span className="mb-1 block text-xs font-medium text-[var(--muted)]">
+                    Actual yield
+                  </span>
+                  <input
+                    value={s.actualAmount}
+                    onChange={(e) =>
+                      updateSpecies(s.id, { actualAmount: e.target.value })
+                    }
+                    placeholder="optional"
+                    className="w-24 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm outline-none ring-[var(--accent)] focus:ring-2"
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-1 block text-xs font-medium text-[var(--muted)]">Unit</span>
+                  <select
+                    value={s.actualUnit}
+                    onChange={(e) =>
+                      updateSpecies(s.id, {
+                        actualUnit: e.target.value as AmountUnit,
+                      })
                     }
                     className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none ring-[var(--accent)] focus:ring-2"
                   >
@@ -354,6 +432,9 @@ function ResultsPanel({
           molarMass: number;
           theoreticalMoles: number;
           theoreticalMass: number;
+          actualMoles: number | null;
+          actualMass: number | null;
+          percentYield: number | null;
         }>;
         leftoverReactants: Array<{
           formula: string;
@@ -399,28 +480,41 @@ function ResultsPanel({
       {result.productYields.length > 0 && (
         <div className="overflow-hidden rounded-2xl border border-[var(--border)]">
           <div className="border-b border-[var(--border)] bg-[var(--surface-2)] px-4 py-3">
-            <h3 className="text-sm font-semibold">Theoretical product yields</h3>
+            <h3 className="text-sm font-semibold">
+              Product yields (theoretical vs actual)
+            </h3>
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              % yield = (actual moles / theoretical moles from limiting reagent) × 100
+            </p>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
               <thead className="bg-[var(--surface)] text-[var(--muted)]">
                 <tr>
                   <th className="px-4 py-3 font-medium">Product</th>
-                  <th className="px-4 py-3 font-medium">Coeff</th>
                   <th className="px-4 py-3 font-medium">Theoretical (mol)</th>
                   <th className="px-4 py-3 font-medium">Theoretical (g)</th>
+                  <th className="px-4 py-3 font-medium">Actual (g)</th>
+                  <th className="px-4 py-3 font-medium">% yield</th>
                 </tr>
               </thead>
               <tbody>
                 {result.productYields.map((row) => (
                   <tr key={row.formula} className="border-t border-[var(--border)]">
                     <td className="px-4 py-3 font-mono font-semibold">{row.formula}</td>
-                    <td className="px-4 py-3 font-mono">{row.coefficient}</td>
                     <td className="px-4 py-3 font-mono">
                       {formatScientific(row.theoreticalMoles)}
                     </td>
                     <td className="px-4 py-3 font-mono">
                       {formatScientific(row.theoreticalMass)}
+                    </td>
+                    <td className="px-4 py-3 font-mono">
+                      {row.actualMass == null ? "—" : formatScientific(row.actualMass)}
+                    </td>
+                    <td className="px-4 py-3 font-mono font-semibold text-[var(--accent)]">
+                      {row.percentYield == null
+                        ? "—"
+                        : `${formatScientific(row.percentYield)}%`}
                     </td>
                   </tr>
                 ))}

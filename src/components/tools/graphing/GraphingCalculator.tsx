@@ -6,9 +6,11 @@ import {
   useMemo,
   useRef,
   useState,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
 } from "react";
 import { compileExpression } from "@/lib/math/expression";
-import { LineChart, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { LineChart, Plus, RotateCcw, Trash2, ZoomIn, ZoomOut } from "lucide-react";
 
 const COLORS = ["#2563eb", "#db2777", "#059669", "#d97706", "#7c3aed", "#0891b2"];
 
@@ -32,6 +34,8 @@ export function GraphingCalculator() {
   const [yMin, setYMin] = useState(-5);
   const [yMax, setYMax] = useState(5);
   const [sampleCount] = useState(800);
+  const [traceX, setTraceX] = useState("0");
+  const [hoverX, setHoverX] = useState<number | null>(null);
 
   const compiled = useMemo(() => {
     return expressions.map((row) => {
@@ -50,6 +54,29 @@ export function GraphingCalculator() {
       }
     });
   }, [expressions]);
+
+  const activeTraceX = hoverX ?? Number(traceX);
+
+  const traceValues = useMemo(() => {
+    if (!Number.isFinite(activeTraceX)) return [];
+    return compiled
+      .map((item, index) => {
+        if (!item.ok) return null;
+        try {
+          const y = item.fn(activeTraceX);
+          if (!Number.isFinite(y)) return null;
+          return {
+            id: item.id,
+            expr: item.expr,
+            y,
+            color: COLORS[index % COLORS.length],
+          };
+        } catch {
+          return null;
+        }
+      })
+      .filter((v): v is NonNullable<typeof v> => v !== null);
+  }, [activeTraceX, compiled]);
 
   const extrema = useMemo(() => {
     const points: Array<{
@@ -203,7 +230,6 @@ export function GraphingCalculator() {
       ctx.stroke();
     });
 
-    // Local extrema markers
     extrema.forEach((pt) => {
       const { cx, cy } = toCanvas(pt.x, pt.y);
       if (cx < 0 || cx > width || cy < 0 || cy > height) return;
@@ -224,7 +250,43 @@ export function GraphingCalculator() {
       ctx.fill();
       ctx.stroke();
     });
-  }, [compiled, extrema, xMin, xMax, yMin, yMax, sampleCount]);
+
+    if (Number.isFinite(activeTraceX)) {
+      const { cx } = toCanvas(activeTraceX, 0);
+      if (cx >= 0 && cx <= width) {
+        ctx.strokeStyle = isDark ? "rgba(251,191,36,0.7)" : "rgba(217,119,6,0.7)";
+        ctx.lineWidth = 1.25;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(cx, 0);
+        ctx.lineTo(cx, height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        traceValues.forEach((tv) => {
+          const { cy } = toCanvas(activeTraceX, tv.y);
+          if (cy < 0 || cy > height) return;
+          ctx.fillStyle = tv.color;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? "#0b1220" : "#fff";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        });
+      }
+    }
+  }, [
+    activeTraceX,
+    compiled,
+    extrema,
+    sampleCount,
+    traceValues,
+    xMax,
+    xMin,
+    yMax,
+    yMin,
+  ]);
 
   useEffect(() => {
     draw();
@@ -237,6 +299,48 @@ export function GraphingCalculator() {
       mq.removeEventListener("change", draw);
     };
   }, [draw]);
+
+  const zoomAbout = (factor: number, centerX?: number) => {
+    const cx = centerX ?? (xMin + xMax) / 2;
+    const cy = (yMin + yMax) / 2;
+    const halfX = ((xMax - xMin) / 2) * factor;
+    const halfY = ((yMax - yMin) / 2) * factor;
+    setXMin(cx - halfX);
+    setXMax(cx + halfX);
+    setYMin(cy - halfY);
+    setYMax(cy + halfY);
+  };
+
+  const onWheel = (e: ReactWheelEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const frac = (e.clientX - rect.left) / rect.width;
+    const worldX = xMin + frac * (xMax - xMin);
+    zoomAbout(e.deltaY > 0 ? 1.15 : 1 / 1.15, worldX);
+  };
+
+  const onPointerMove = (e: ReactPointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const frac = (e.clientX - rect.left) / rect.width;
+    const x = xMin + frac * (xMax - xMin);
+    setHoverX(x);
+  };
+
+  const onPointerLeave = () => setHoverX(null);
+
+  const onPointerClick = (e: ReactPointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const frac = (e.clientX - rect.left) / rect.width;
+    const x = xMin + frac * (xMax - xMin);
+    setTraceX(String(Number(x.toFixed(6))));
+    setHoverX(null);
+  };
 
   const addExpression = () => {
     setExpressions((prev) => [
@@ -251,6 +355,8 @@ export function GraphingCalculator() {
     setXMax(10);
     setYMin(-5);
     setYMax(5);
+    setTraceX("0");
+    setHoverX(null);
   };
 
   return (
@@ -262,11 +368,27 @@ export function GraphingCalculator() {
             2D function plotter
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => zoomAbout(1 / 1.25)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)]"
+          >
+            <ZoomIn className="h-3.5 w-3.5" />
+            Zoom in
+          </button>
+          <button
+            type="button"
+            onClick={() => zoomAbout(1.25)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)]"
+          >
+            <ZoomOut className="h-3.5 w-3.5" />
+            Zoom out
+          </button>
           <button
             type="button"
             onClick={addExpression}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)]"
           >
             <Plus className="h-3.5 w-3.5" />
             Add f(x)
@@ -274,7 +396,7 @@ export function GraphingCalculator() {
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)]"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Reset
@@ -348,12 +470,55 @@ export function GraphingCalculator() {
               </label>
             ))}
           </div>
+
+          <label className="block">
+            <span className="mb-1 block text-xs font-medium text-[var(--muted)]">
+              Trace x (or hover / click the plot)
+            </span>
+            <input
+              type="number"
+              step="any"
+              value={traceX}
+              onChange={(e) => setTraceX(e.target.value)}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono text-sm outline-none ring-[var(--accent)] focus:ring-2"
+            />
+          </label>
+
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+              Values at x ={" "}
+              {Number.isFinite(activeTraceX) ? activeTraceX.toFixed(4) : "—"}
+            </p>
+            {traceValues.length === 0 ? (
+              <p className="mt-2 text-sm text-[var(--muted)]">No finite y values.</p>
+            ) : (
+              <ul className="mt-2 space-y-1.5">
+                {traceValues.map((tv) => (
+                  <li key={tv.id} className="font-mono text-sm">
+                    <span style={{ color: tv.color }}>{tv.expr}</span>
+                    {" = "}
+                    {Number(tv.y.toPrecision(8)).toString()}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         <div className="space-y-3">
           <div className="overflow-hidden rounded-2xl border border-[var(--border)]">
-            <canvas ref={canvasRef} className="h-[360px] w-full sm:h-[420px]" />
+            <canvas
+              ref={canvasRef}
+              className="h-[360px] w-full cursor-crosshair sm:h-[420px]"
+              onWheel={onWheel}
+              onPointerMove={onPointerMove}
+              onPointerLeave={onPointerLeave}
+              onClick={onPointerClick}
+            />
           </div>
+          <p className="text-xs text-[var(--muted)]">
+            Scroll to zoom · hover to preview · click to lock the trace x-value.
+          </p>
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
               Local extrema (window)

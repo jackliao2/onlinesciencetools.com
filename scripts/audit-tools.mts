@@ -2,7 +2,7 @@
  * Cross-tool correctness audit — exits non-zero on failure.
  */
 import { balanceEquation } from "../src/lib/chemistry/balance-equation.ts";
-import { parseFormula } from "../src/lib/chemistry/molar-mass.ts";
+import { parseFormula, molesFromMass } from "../src/lib/chemistry/molar-mass.ts";
 import {
   empiricalFromElements,
   percentCompositionFromFormula,
@@ -15,14 +15,23 @@ import { solveIdealGas } from "../src/lib/chemistry/gas-law.ts";
 import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
 import { solveKinetics } from "../src/lib/chemistry/kinetics.ts";
 import { calculateNernst } from "../src/lib/chemistry/nernst.ts";
-import { solveEquilibrium } from "../src/lib/chemistry/equilibrium.ts";
+import {
+  solveEquilibrium,
+  computeKFromEquilibrium,
+  convertKcKp,
+  gasDeltaN,
+} from "../src/lib/chemistry/equilibrium.ts";
 import {
   solveLinearSystem,
   determinant,
   invertMatrix,
 } from "../src/lib/math/linear-system.ts";
 import { compileExpression } from "../src/lib/math/expression.ts";
-import { compileVectorField, rk4Step } from "../src/lib/math/phase-portrait.ts";
+import {
+  compileVectorField,
+  rk4Step,
+  findEquilibria,
+} from "../src/lib/math/phase-portrait.ts";
 
 let failed = 0;
 
@@ -411,6 +420,70 @@ approx(8 * 1 - (9.8 / 2) * 1 * 1, 3.1, 1e-12, "projectile uses g/2");
   approx(r, 51, 0, "hex r");
   approx(g, 102, 0, "hex g");
   approx(b, 153, 0, "hex b");
+}
+
+// --- % yield (reaction stoichiometry core) ---
+{
+  // 4 g H2 + 32 g O2 → theoretical 2 mol H2O; 30 g actual ≈ 83.2%
+  const mmH2O = parseFormula("H2O").molarMass;
+  const theoMoles = 2; // limiting extent 1 * coeff 2
+  const actualMoles = molesFromMass(30, mmH2O);
+  const pct = (actualMoles / theoMoles) * 100;
+  approx(pct, 83.24, 0.2, "percent yield H2O example");
+}
+
+// --- Solve for K + Kc↔Kp ---
+{
+  const computed = computeKFromEquilibrium(
+    [
+      { id: "1", label: "A", coefficient: 1, role: "reactant", initial: 0.2 },
+      { id: "2", label: "B", coefficient: 1, role: "product", initial: 0.8 },
+    ],
+    "Kc",
+  );
+  approx(computed.K, 4, 1e-10, "K from equilibrium amounts");
+}
+{
+  // Haber gases: Δn = 2 - (1+3) = -2
+  const species = [
+    { id: "1", label: "N2", coefficient: 1, role: "reactant" as const, initial: 1 },
+    { id: "2", label: "H2", coefficient: 3, role: "reactant" as const, initial: 3 },
+    { id: "3", label: "NH3", coefficient: 2, role: "product" as const, initial: 0 },
+  ];
+  approx(gasDeltaN(species), -2, 1e-12, "Haber Δn");
+  const Kc = 0.06;
+  const T = 298.15;
+  const Kp = convertKcKp(Kc, "Kc", -2, T);
+  const back = convertKcKp(Kp, "Kp", -2, T);
+  approx(back, Kc, 1e-10, "Kc↔Kp roundtrip");
+}
+
+// --- Phase equilibria classification ---
+{
+  const saddle = findEquilibria(compileVectorField("x", "-y"), {
+    xMin: -3,
+    xMax: 3,
+    yMin: -3,
+    yMax: 3,
+  });
+  const origin = saddle.find((p) => Math.hypot(p.x, p.y) < 0.05);
+  if (!origin || origin.classification !== "saddle") {
+    console.error("FAIL saddle classification", origin);
+    failed += 1;
+  } else console.log("OK   saddle classification:", origin.classification);
+}
+{
+  const center = findEquilibria(compileVectorField("-y", "x"), {
+    xMin: -3,
+    xMax: 3,
+    yMin: -3,
+    yMax: 3,
+  });
+  const origin = center.find((p) => Math.hypot(p.x, p.y) < 0.05);
+  if (!origin || origin.classification !== "center") {
+    console.error("FAIL center classification", origin);
+    failed += 1;
+  } else console.log("OK   center classification:", origin.classification);
 }
 
 console.log(failed === 0 ? "\nALL PASSED" : `\n${failed} FAILURES`);
