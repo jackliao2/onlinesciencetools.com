@@ -90,92 +90,121 @@ Mass percent of element i:
   },
   {
     slug: "equilibriumcalculator",
+    introHeading: "Chemical equilibrium calculator (Kc, Kp, Q, ICE)",
     whatIs: {
       paragraphs: [
-        "Chemical equilibrium occurs when a reversible reaction reaches a state where the forward and reverse reaction rates are equal, so macroscopic concentrations and partial pressures no longer change with time. This does not mean the reaction has stopped—molecules continue to react in both directions, but the net change is zero. The equilibrium state is described mathematically by the equilibrium constant K, which relates the concentrations or partial pressures of products and reactants at equilibrium.",
-        "For a general reaction aA + bB ⇌ cC + dD, the concentration-based equilibrium constant Kc is defined as the ratio of product concentrations raised to their stoichiometric powers divided by reactant concentrations raised to their powers, each evaluated at equilibrium. A related constant Kp uses partial pressures instead of molar concentrations and applies especially to gas-phase equilibria. The reaction quotient Q has the same mathematical form as K but uses current (not necessarily equilibrium) concentrations, telling you which direction the net reaction will proceed.",
-        "The ICE table method—Initial, Change, Equilibrium—is the standard classroom technique for organizing equilibrium algebra. You record initial concentrations, express changes in terms of a single variable x representing the extent of reaction, and write equilibrium expressions. Substituting equilibrium values into the K expression yields an equation in x that you solve to find final concentrations. This method appears on virtually every general chemistry exam covering equilibria.",
-        "Equilibrium calculations appear in contexts ranging from acid–base buffer design to industrial Haber process optimization. In the laboratory, students use ICE tables to predict how dilution, temperature change, or addition of a reactant shifts a system according to Le Chatelier's principle. The Equilibrium Calculator on Online Science Tools constructs the ICE table automatically, evaluates Q relative to K, and solves for equilibrium concentrations numerically, letting you verify your handwritten algebra.",
-        "Understanding equilibrium is also essential for advanced topics such as solubility product constants (Ksp), formation constants of complex ions, and coupled equilibria in analytical chemistry. The same Q-versus-K logic applies: if Q is less than K, the forward reaction dominates until equilibrium is restored; if Q exceeds K, the reverse reaction proceeds. These principles govern everything from blood CO₂ buffering to the chemistry of ocean acidification.",
+        "A chemical equilibrium calculator solves the same problem you meet on homework: given a reversible reaction and K, what are the equilibrium amounts? Macroscopically, concentrations stop changing once the forward and reverse rates match. The constant K fixes the ratio of products to reactants at that point; it does not say the reaction “stopped.”",
+        "Write Kc with molarities and stoichiometric exponents. Write Kp the same way with partial pressures when the problem is in atm (or bar, if your course uses that). The reaction quotient Q uses the identical algebra with whatever amounts you have right now. If Q < K, net reaction runs forward; if Q > K, it runs reverse until Q catches K.",
+        "Most students organize the algebra with an ICE table—Initial, Change, Equilibrium. Pick one extent variable x, apply the stoichiometry (±νx), substitute into K, and solve. Easy cases stay quadratic. Haber-style problems (N₂ + 3H₂ ⇌ 2NH₃) get messy fast; that is when a numerical solver saves time and catches sign errors.",
+        "This tool builds the ICE table, compares Q to K, and returns equilibrium concentrations. Use it to check a hand solution, not as a substitute for setting up the table yourself on an exam. For solubility equilibria use the Ksp calculator; for acid–base numbers use the pH calculator.",
       ],
       bullets: [
-        "Kc uses molar concentrations; Kp uses partial pressures (atm)",
-        "Q < K means net forward reaction; Q > K means net reverse reaction",
-        "ICE tables track how each species changes by ±ν·x from initial values",
-        "Kp = Kc(RT)^Δn relates the two constants for ideal gases",
+        "Kc from concentrations (M); Kp from partial pressures",
+        "Q vs K decides forward, reverse, or already at equilibrium",
+        "ICE: every species changes by ±(coefficient)×x",
+        "Gases (ideal): Kp = Kc(RT)^Δn, with Δn = gas moles products − reactants",
       ],
     },
     formula: {
       intro:
-        "The equilibrium constant and reaction quotient share the same functional form. For the reaction aA + bB ⇌ cC + dD, concentrations are expressed in mol/L and partial pressures in atm.",
+        "For aA + bB ⇌ cC + dD. Keep units consistent—do not mix M and atm inside one K expression.",
       blocks: [
-        `Kc = [C]^c [D]^d / ([A]^a [B]^b)     (at equilibrium)
+        `Kc = [C]^c[D]^d / ([A]^a[B]^b)          at equilibrium
+Q  = same form with current amounts
 
-Q  = [C]^c [D]^d / ([A]^a [B]^b)     (at any instant)
+Q < K → net forward
+Q > K → net reverse
+Q = K → equilibrium
 
-Direction:
-  Q < K  →  net forward (→)
-  Q > K  →  net reverse (←)
-  Q = K  →  at equilibrium
+ICE (extent x ≥ 0 in the forward direction):
+  [A] = [A]₀ − a x
+  [B] = [B]₀ − b x
+  [C] = [C]₀ + c x
+  [D] = [D]₀ + d x
 
-ICE table (extent x):
-  A:  [A]₀ − a·x
-  B:  [B]₀ − b·x
-  C:  [C]₀ + c·x
-  D:  [D]₀ + d·x
-
-Kp and Kc relationship (ideal gases):
+Ideal gases:
   Kp = Kc (RT)^Δn
-  Δn = (c + d) − (a + b)   (change in gas moles)`,
+  Δn = (c + d) − (a + b)   (gas moles only)`,
       ],
       notes: [
-        "Pure solids and liquids are omitted from K expressions because their activities are approximately constant.",
-        "The extent x must keep all equilibrium concentrations non-negative: 0 ≤ x ≤ [reactant]₀/ν for each limiting reactant.",
-        "When K is very large or very small, the small-x or large-x approximation may simplify the algebra before numerical solution.",
+        "Leave pure solids and pure liquids out of K; their activities are taken as 1.",
+        "Reject any root that drives a concentration below zero.",
+        "If K ≪ 1, the 5% / small-x shortcut may work—always check x against the starting concentration.",
       ],
     },
     example: {
-      title: "ICE Table for the Haber Equilibrium",
+      title: "Simple ICE table, A ⇌ 2B",
       scenario:
-        "For N₂(g) + 3H₂(g) ⇌ 2NH₃(g), Kc = 0.50 at a certain temperature. If 1.00 M N₂ and 3.00 M H₂ are mixed with no initial NH₃, find the equilibrium concentrations.",
+        "Start with [A]₀ = 1.00 M, no B, and Kc = 0.36 for A ⇌ 2B. Find the equilibrium concentrations.",
       steps: [
-        "Set up the ICE table with initial values: [N₂]₀ = 1.00, [H₂]₀ = 3.00, [NH₃]₀ = 0 M.",
-        "Define changes: N₂ loses x, H₂ loses 3x, NH₃ gains 2x.",
-        "Write equilibrium expressions: [N₂] = 1.00 − x, [H₂] = 3.00 − 3x = 3(1 − x), [NH₃] = 2x.",
-        "Substitute into Kc: 0.50 = (2x)² / [(1 − x)(3(1 − x))³] = 4x² / [27(1 − x)⁴].",
-        "Rearrange: 4x² = 13.5(1 − x)⁴. Solve numerically on 0 ≤ x ≤ 1.",
-        "The physical root is x ≈ 0.486 M.",
-        "Equilibrium concentrations: [N₂] ≈ 0.514 M, [H₂] ≈ 1.54 M, [NH₃] ≈ 0.972 M.",
+        "ICE: [A] = 1.00 − x, [B] = 2x.",
+        "Kc = (2x)² / (1.00 − x) = 0.36 → 4x² = 0.36(1 − x).",
+        "4x² + 0.36x − 0.36 = 0. Positive root: x ≈ 0.258.",
+        "So [A]eq ≈ 0.742 M and [B]eq ≈ 0.517 M.",
+        "Check: (0.517)² / 0.742 ≈ 0.36. Good.",
       ],
       toolCheck:
-        "Enter N2 + 3H2 ⇌ 2NH3 with Kc = 0.50 and initials 1.00 M N₂, 3.00 M H₂, 0 M NH₃ in the Equilibrium Calculator. Initial Q = 0 (Q < K), so the net reaction is forward. Compare the solved equilibrium concentrations with about 0.514, 1.54, and 0.972 M.",
+        "In the Equilibrium Calculator, enter A = 2B with Kc = 0.36 and initials 1.00 / 0. You should land near 0.742 M and 0.517 M.",
     },
+    moreExamples: [
+      {
+        title: "Haber problem that needs a numerical root",
+        scenario:
+          "N₂(g) + 3H₂(g) ⇌ 2NH₃(g), Kc = 0.50. Mix 1.00 M N₂ and 3.00 M H₂ with no NH₃. Find equilibrium amounts.",
+        steps: [
+          "[N₂] = 1 − x, [H₂] = 3 − 3x, [NH₃] = 2x (and 0 ≤ x ≤ 1).",
+          "0.50 = (2x)² / [(1 − x)(3 − 3x)³] = 4x² / [27(1 − x)⁴].",
+          "Solve on a calculator or numerically: x ≈ 0.486.",
+          "[N₂] ≈ 0.514 M, [H₂] ≈ 1.54 M, [NH₃] ≈ 0.972 M.",
+          "Initial Q = 0 < K, so the net shift is forward—as expected with no product present.",
+        ],
+        toolCheck:
+          "Load N2 + 3H2 ⇌ 2NH3, Kc = 0.50, initials 1 / 3 / 0. Confirm the same equilibrium set and a forward direction from Q.",
+      },
+      {
+        title: "Convert Kc to Kp",
+        scenario:
+          "Same Haber stoichiometry, Δn = −2. At 500 K, Kc = 0.060. Estimate Kp with R = 0.0821 L·atm/(mol·K).",
+        steps: [
+          "Kp = Kc(RT)^Δn = 0.060 × (0.0821 × 500)^(−2).",
+          "RT = 41.05; (RT)² ≈ 1685.",
+          "Kp ≈ 0.060 / 1685 ≈ 3.6 × 10⁻⁵.",
+        ],
+        toolCheck:
+          "Use the calculator’s Kc ↔ Kp conversion with Δn = −2, T = 500 K, and the same R. Expect Kp on the order of 10⁻⁵.",
+      },
+    ],
     faq: [
       {
-        question: "What is the difference between Kc and Kp?",
+        question: "Is this a chemical equilibrium calculator for ICE tables?",
         answer:
-          "Kc is expressed in terms of molar concentrations (mol/L), while Kp uses partial pressures (typically in atm). They describe the same equilibrium but in different units. For gas-phase reactions involving ideal gases, Kp = Kc(RT)^Δn, where Δn is the change in the number of moles of gas from reactants to products. Use Kc when working with concentration data and Kp when working with pressure data, but never mix units within a single expression.",
+          "Yes. Enter the reaction, K (Kc or Kp), and starting amounts. The solver builds the ICE relations, compares Q with K, and reports equilibrium concentrations. It is meant for general chemistry / homework checks—not for activity-coefficient models or multiple simultaneous equilibria.",
       },
       {
-        question: "How do I know which direction the reaction will shift?",
+        question: "Kc or Kp—which one do I type in?",
         answer:
-          "Calculate the reaction quotient Q using the current concentrations and the same formula as K. If Q is less than K, the system has too many reactants relative to products and the net reaction proceeds forward. If Q exceeds K, there are too many products and the net reaction runs in reverse. At equilibrium, Q equals K exactly. Le Chatelier's principle provides a qualitative shortcut: adding reactant or removing product shifts the equilibrium toward products.",
+          "Match the data you were given. Concentration tables → Kc. Partial-pressure tables → Kp. For ideal gases you can convert with Kp = Kc(RT)^Δn, but only after Δn is counted from gas coefficients alone.",
       },
       {
-        question: "Why can equilibrium concentrations never be negative?",
+        question: "What if Q is huge because a reactant is missing?",
         answer:
-          "Concentrations are physical quantities representing moles of solute per liter of solution. A negative value has no chemical meaning. When solving the ICE table equation for x, you must reject any root that would make a reactant concentration negative. The valid range for x is bounded by the stoichiometric limit of the scarcest reactant. This constraint is why equilibrium problems sometimes have only one physically meaningful root among several mathematical solutions.",
+          "If a reactant concentration is zero while products are present, Q is formally infinite and the net reaction must run in reverse. The calculator treats that case: it shifts backward until K is satisfied (or reports that no physical root exists).",
       },
       {
-        question: "Does changing temperature change the equilibrium constant?",
+        question: "When is the small-x approximation safe?",
         answer:
-          "Yes. Unlike concentration or pressure changes, which alter Q and shift the equilibrium position without changing K, a temperature change modifies K itself. Exothermic reactions have K decrease with increasing temperature; endothermic reactions have K increase. This follows from the van't Hoff equation. In the classroom, you often compare K values at different temperatures rather than applying Le Chatelier's to temperature as if it were a concentration change.",
+          "When K is small enough that x ends up under roughly 5% of the smallest starting reactant concentration. Simplify (C − x) ≈ C, solve, then check the 5% rule. If you fail the check, keep the full polynomial—or use the numerical solver.",
       },
       {
-        question: "When should I use the small-x approximation?",
+        question: "Does pressure change K?",
         answer:
-          "Use the small-x approximation when K is very small (≪ 1), so little product forms and x is tiny compared with the initial reactant concentrations. Then you may replace terms like (1.00 − x) with 1.00 to simplify the algebra. Always check afterward that x is under about 5% of the initial concentration; if not, solve the full equation. Large K means the opposite situation — the reaction goes nearly to completion — so small-x is the wrong tool; use the Equilibrium Calculator for a numerical root instead.",
+          "Changing the total pressure (or volume) can shift gas-phase position by changing Q, but K itself stays put unless temperature changes. Temperature is what moves K; that is the van ’t Hoff idea behind endothermic vs exothermic equilibria.",
       },
+    ],
+    seeAlso: [
+      { href: "/tools/phcalculator", label: "pH Calculator" },
+      { href: "/tools/kspcalculator", label: "Ksp Calculator" },
+      { href: "/tools/buffercalculator", label: "Buffer Preparation Calculator" },
     ],
   },
   {
@@ -551,69 +580,115 @@ kg solvent = (mass solution − mass solute) / 1000`,
   },
   {
     slug: "phcalculator",
+    introHeading: "pH calculator for strong/weak acids, bases, and buffers",
     whatIs: {
       paragraphs: [
-        "pH measures the acidity of an aqueous solution on a logarithmic scale using the pH formula pH = −log₁₀[H⁺] (more precisely, activity of H₃O⁺, approximated by concentration in dilute solutions). Strong acids and bases dissociate essentially completely; weak acids and bases only partially, so Ka or Kb is required. Buffers contain a weak acid and its conjugate base and resist pH change; their pH is estimated with the Henderson–Hasselbalch equation pH = pKa + log₁₀([A⁻]/[HA]).",
-        "The pH Calculator covers five classroom cases at 25 °C (Kw = 1.0×10⁻¹⁴): strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer, with presets for acetate, phosphate-like, and ammonium buffers. Strong electrolytes include water’s autoionization so extremely dilute solutions do not report nonsense pH values far past 7. The tool compares the Henderson–Hasselbalch estimate to a charge-balance solver for buffers.",
-        "Always match the mode to the chemistry. Acetic acid is weak (use Ka); HCl is strong. A mixture of acetic acid and sodium acetate is a buffer, not a single weak-acid problem.",
+        "pH is defined as pH = −log₁₀ a(H⁺). In the dilute aqueous problems you see in general chemistry, we replace activity with molarity and write pH = −log₁₀[H⁺]. One pH unit is a tenfold change in [H⁺], so small mistakes in concentration show up loudly on the log scale.",
+        "Pick the right model before you punch numbers. Strong acids/bases: assume complete dissociation, then (for very dilute solutions) remember water still contributes H⁺ and OH⁻. Weak acids need Ka; weak bases need Kb. Ammonia is the classic weak-base example—course tables almost always list Kb(NH₃) ≈ 1.8×10⁻⁵ at 25 °C. A buffer is a weak acid plus its conjugate base; there you reach for Henderson–Hasselbalch, not the single-species weak-acid quadratic.",
+        "This calculator handles five classroom modes at 25 °C with Kw = 1.0×10⁻¹⁴: strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Presets include acetic acid, ammonia (Kb = 1.8×10⁻⁵), and common buffer sketches. For named buffer recipes in grams, switch to the Buffer Preparation Calculator; here the job is to get pH and pOH from concentrations and constants.",
       ],
       bullets: [
-        "Strong acid/base: start from complete dissociation; include water when C is tiny",
-        "Weak acid/base: solve Ka or Kb = x²/(C−x) with the quadratic",
-        "Buffer: pH = pKa + log₁₀([A⁻]/[HA])",
+        "Strong electrolyte: start from C, then correct with water if C is tiny (~10⁻⁶ M or less)",
+        "Weak acid/base: solve Ka or Kb = x²/(C − x); x is [H⁺] or [OH⁻]",
+        "Buffer: pH ≈ pKa + log₁₀([A⁻]/[HA])",
+        "Conjugate pair: Ka × Kb = Kw (same T)",
       ],
     },
     formula: {
-      intro: "Core relations used by the calculator (25 °C):",
+      intro: "Working relations at 25 °C (Kw = 1.0×10⁻¹⁴):",
       blocks: [
-        `pH = −log₁₀[H⁺]
+        `pH  = −log₁₀[H⁺]
 pOH = −log₁₀[OH⁻]
-[H⁺][OH⁻] = Kw = 1.0×10⁻¹⁴
+pH + pOH = 14
+[H⁺][OH⁻] = Kw
 
-Weak acid: Ka = x² / (C − x)
-Weak base: Kb = x² / (C − x)
-Buffer: pH = pKa + log₁₀([A⁻]/[HA])
-pKa = −log₁₀(Ka)`,
+Weak acid HA:
+  Ka = x² / (C − x),   x = [H⁺]
+
+Weak base B (e.g. NH₃):
+  Kb = x² / (C − x),   x = [OH⁻]
+  pH = 14 − pOH
+
+Buffer:
+  pH = pKa + log₁₀([A⁻]/[HA])
+  pKa = −log₁₀(Ka)`,
       ],
       notes: [
-        "Polyprotic acids and activity corrections are outside this tool’s scope.",
-        "If Ka or Kb ≥ 1, treat the species as strong instead.",
+        "If a problem hands you Ka for NH₄⁺, convert with Kb(NH₃) = Kw/Ka.",
+        "Textbook Kb(NH₃) = 1.8×10⁻⁵ is the usual 25 °C homework value—not a high-precision metrology constant.",
+        "Polyprotic stepwise equilibria and activity corrections are outside this tool.",
       ],
     },
     example: {
-      title: "pH of 0.10 M acetic acid (Ka = 1.8×10⁻⁵)",
+      title: "0.10 M ammonia, Kb = 1.8×10⁻⁵",
       scenario:
-        "Find the pH of 0.10 M CH₃COOH using the weak-acid quadratic.",
+        "Find the pH of 0.10 M NH₃(aq) at 25 °C using Kb = 1.8×10⁻⁵ (the value on most general-chemistry tables).",
       steps: [
-        "Ka = x²/(0.10 − x) = 1.8×10⁻⁵.",
-        "x = (−Ka + √(Ka² + 4 Ka C))/2 ≈ 1.33×10⁻³ M.",
-        "pH = −log₁₀(1.33×10⁻³) ≈ 2.88.",
-        "Check: x/C ≈ 1.3% < 5%, so the x ≪ C shortcut would also be roughly OK here.",
+        "Weak base: Kb = x²/(0.10 − x) = 1.8×10⁻⁵, with x = [OH⁻].",
+        "Quadratic: x = (−Kb + √(Kb² + 4 Kb C))/2 ≈ 1.33×10⁻³ M.",
+        "Shortcut √(Kb C) = √(1.8×10⁻⁶) ≈ 1.34×10⁻³ M—close, since x/C ≈ 1.3%.",
+        "pOH = −log₁₀(1.33×10⁻³) ≈ 2.88; pH = 14 − 2.88 ≈ 11.12.",
       ],
       toolCheck:
-        "Choose Weak acid, concentration 0.10, Ka 1.8e-5 in the pH Calculator. Expect pH near 2.88.",
+        "Open the pH Calculator, choose Weak base (or the ammonia preset), C = 0.10, Kb = 1.8e-5. Expect pH near 11.12.",
     },
+    moreExamples: [
+      {
+        title: "0.10 M acetic acid (same Ka magnitude)",
+        scenario:
+          "Ka(CH₃COOH) = 1.8×10⁻⁵. Find the pH of 0.10 M acetic acid.",
+        steps: [
+          "Ka = x²/(0.10 − x) = 1.8×10⁻⁵ → x = [H⁺] ≈ 1.33×10⁻³ M.",
+          "pH = −log₁₀(1.33×10⁻³) ≈ 2.88.",
+          "Notice the arithmetic mirrors the ammonia case: same C and same 1.8×10⁻⁵ constant, but acid → pH ≈ 2.88 while base → pH ≈ 11.12.",
+        ],
+        toolCheck:
+          "Weak acid mode, 0.10 M, Ka = 1.8e-5. You should see pH ≈ 2.88.",
+      },
+      {
+        title: "Why 1.0×10⁻⁸ M HCl is not pH 8",
+        scenario:
+          "Someone writes pH = −log(1.0×10⁻⁸) = 8 for extremely dilute HCl. Why is that wrong?",
+        steps: [
+          "Pure water already has [H⁺] ≈ 1.0×10⁻⁷ M from Kw.",
+          "Adding 1.0×10⁻⁸ M HCl cannot make the solution basic.",
+          "Charge balance (strong acid + water) gives pH slightly below 7, not 8.",
+        ],
+        toolCheck:
+          "Strong acid mode with concentration 1e-8. The calculator’s water-aware result sits just under 7.",
+      },
+    ],
     faq: [
       {
-        question: "What is the Henderson–Hasselbalch equation used for?",
+        question: "What Kb should I use for ammonia?",
         answer:
-          "It estimates buffer pH from pKa and the ratio of conjugate base to weak acid: pH = pKa + log₁₀([A⁻]/[HA]). Use it for classroom buffer problems and phosphate/acetate-style examples. The calculator also solves a fuller charge-balance model so you can see when the approximation is excellent.",
+          "General chemistry homework almost always uses Kb(NH₃) = 1.8×10⁻⁵ at 25 °C. Equivalently, Ka(NH₄⁺) ≈ 5.6×10⁻¹⁰ and Kb = Kw/Ka. Real tabulated values vary slightly with ionic strength and temperature; for exams, use the constant your instructor or table gives.",
       },
       {
-        question: "Why is the pH of 1.0×10⁻⁸ M HCl not 8?",
+        question: "How do I use the Henderson–Hasselbalch equation?",
         answer:
-          "Water contributes [H⁺] as well. A charge-balance treatment gives a pH slightly below 7, not an alkaline value. The strong-acid mode includes that correction.",
+          "For a conjugate pair: pH = pKa + log₁₀([A⁻]/[HA]). Equal concentrations → pH = pKa. The calculator also runs a charge-balance check so you can see when the approximation is excellent versus merely “close enough.”",
       },
       {
-        question: "When is Henderson–Hasselbalch valid?",
+        question: "Strong vs weak—how do I choose the mode?",
         answer:
-          "When both HA and A⁻ are present at concentrations much larger than [H⁺] and [OH⁻], typically in the 0.01–1 M range for common buffers. It is an approximation, not an exact charge-balance solution.",
+          "HCl, HNO₃, strong H₂SO₄ (first proton), NaOH, KOH → strong modes. Acetic acid, HF, NH₃ → weak modes with Ka or Kb. If both HA and A⁻ are present in comparable amounts, that is a buffer, not a pure weak-acid problem.",
       },
       {
-        question: "How do Ka and Kb relate for a conjugate pair?",
+        question: "When does Henderson–Hasselbalch break down?",
         answer:
-          "Ka × Kb = Kw at the same temperature. If you know Ka for acetic acid, Kb for acetate is Kw/Ka.",
+          "When [HA] or [A⁻] is tiny compared with [H⁺] or [OH⁻], or when you are far outside the pKa ± 1 window. Then solve the full charge-balance problem (or use the calculator’s exact buffer path) instead of trusting the log ratio alone.",
       },
+      {
+        question: "Ka and Kb for a conjugate pair?",
+        answer:
+          "At the same temperature, Ka × Kb = Kw. Acetic acid Ka = 1.8×10⁻⁵ implies acetate Kb = Kw/Ka ≈ 5.6×10⁻¹⁰. Ammonia Kb = 1.8×10⁻⁵ implies ammonium Ka ≈ 5.6×10⁻¹⁰.",
+      },
+    ],
+    seeAlso: [
+      { href: "/tools/buffercalculator", label: "Buffer Preparation Calculator" },
+      { href: "/tools/equilibriumcalculator", label: "Equilibrium Calculator" },
+      { href: "/tools/dilutioncalculator", label: "Dilution Calculator" },
     ],
   },
   {

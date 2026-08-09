@@ -68,9 +68,8 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       prompt:
         "A mixture has Q = 0.010 for a reaction with Kc = 0.060. In which direction does the net reaction proceed?",
       steps: [
-        "Compare Q with K: 0.010 < 0.060.",
-        "When Q < K, products are too low relative to equilibrium.",
-        "Net reaction proceeds forward (reactants → products) until Q = K.",
+        "0.010 < 0.060, so Q < K.",
+        "Too little product relative to K → net forward until Q = K.",
       ],
       answer: "Forward (toward products)",
     },
@@ -79,23 +78,31 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       prompt:
         "Start with [A]₀ = 1.00 M, [B]₀ = 0, and Kc = 0.36. Find equilibrium concentrations.",
       steps: [
-        "ICE: A: 1.00 − x; B: 0 + 2x.",
+        "ICE: [A] = 1.00 − x; [B] = 2x.",
         "Kc = (2x)² / (1 − x) = 0.36 ⇒ 4x² = 0.36(1 − x).",
-        "4x² + 0.36x − 0.36 = 0 ⇒ x = [−0.36 + √(0.1296 + 5.76)] / 8 ≈ 0.258.",
-        "[A]eq ≈ 0.742 M; [B]eq ≈ 0.517 M. Check: (0.517)² / 0.742 ≈ 0.36.",
+        "Positive root x ≈ 0.258 → [A] ≈ 0.742 M, [B] ≈ 0.517 M.",
       ],
       answer: "[A] ≈ 0.742 M, [B] ≈ 0.517 M",
     },
     {
-      title: "Kp vs Kc",
+      title: "Kp from Kc",
       prompt:
-        "For N₂ + 3H₂ ⇌ 2NH₃, Δn = −2. If Kc = 0.060 at 500 K, estimate Kp using R = 0.0821 L·atm/(mol·K).",
+        "For N₂ + 3H₂ ⇌ 2NH₃, Δn = −2. If Kc = 0.060 at 500 K, estimate Kp (R = 0.0821 L·atm/(mol·K)).",
       steps: [
-        "Kp = Kc(RT)^Δn.",
-        "RT = (0.0821)(500) = 41.05.",
-        "Kp = 0.060 / (41.05)² ≈ 0.060 / 1685 ≈ 3.56 × 10⁻⁵.",
+        "Kp = Kc(RT)^Δn = 0.060 / (0.0821 × 500)².",
+        "≈ 0.060 / 1685 ≈ 3.6 × 10⁻⁵.",
       ],
       answer: "Kp ≈ 3.6 × 10⁻⁵",
+    },
+    {
+      title: "Reverse shift when Q > K",
+      prompt:
+        "A system has Q = 10 and Kc = 0.060. Which way does the net reaction go?",
+      steps: [
+        "Q > K means excess products relative to equilibrium.",
+        "Net reaction runs in reverse (products → reactants).",
+      ],
+      answer: "Reverse (toward reactants)",
     },
   ],
 
@@ -675,6 +682,16 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
 
   phcalculator: [
     {
+      title: "Ammonia, Kb = 1.8×10⁻⁵",
+      prompt:
+        "Find the pH of 0.10 M NH₃ at 25 °C (Kb = 1.8×10⁻⁵).",
+      steps: [
+        "Kb = x²/(0.10 − x); x = [OH⁻] ≈ 1.33×10⁻³ M.",
+        "pOH ≈ 2.88; pH = 14 − 2.88 ≈ 11.12.",
+      ],
+      answer: "pH ≈ 11.12",
+    },
+    {
       title: "Strong acid pH",
       prompt: "What is the pH of 0.010 M HCl?",
       steps: [
@@ -688,8 +705,8 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       prompt:
         "Estimate the pH of 0.10 M acetic acid (Ka = 1.8×10⁻⁵).",
       steps: [
-        "x ≈ √(Ka C) = √(1.8×10⁻⁶) ≈ 1.34×10⁻³ (shortcut).",
-        "Quadratic gives x ≈ 1.33×10⁻³; pH ≈ 2.88.",
+        "x ≈ √(Ka C) ≈ 1.34×10⁻³; quadratic ≈ 1.33×10⁻³.",
+        "pH ≈ 2.88.",
       ],
       answer: "pH ≈ 2.88",
     },
@@ -699,27 +716,29 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
         "A buffer has [HA] = 0.10 M and [A⁻] = 0.10 M with Ka = 1.8×10⁻⁵. Find pH.",
       steps: [
         "pKa = 4.74.",
-        "pH = pKa + log([A⁻]/[HA]) = 4.74 + log(1) = 4.74.",
+        "Equal concentrations → pH = pKa = 4.74.",
       ],
       answer: "pH ≈ 4.74",
     },
     {
-      title: "Phosphate-like buffer",
+      title: "Kb from Ka of NH₄⁺",
       prompt:
-        "For a buffer with pKa = 7.20, [HA] = 0.050 M, [A⁻] = 0.050 M, estimate pH with Henderson–Hasselbalch.",
+        "If Ka(NH₄⁺) = 5.6×10⁻¹⁰ at 25 °C, what is Kb for NH₃?",
       steps: [
-        "pH = 7.20 + log(0.050/0.050) = 7.20.",
+        "Ka × Kb = Kw = 1.0×10⁻¹⁴.",
+        "Kb = 1.0×10⁻¹⁴ / 5.6×10⁻¹⁰ ≈ 1.8×10⁻⁵.",
       ],
-      answer: "pH ≈ 7.20",
+      answer: "Kb ≈ 1.8×10⁻⁵",
     },
     {
-      title: "pH formula check",
-      prompt: "If [H⁺] = 3.0×10⁻⁴ M, what are pH and pOH at 25 °C?",
+      title: "Dilute HCl trap",
+      prompt:
+        "Why is the pH of 1.0×10⁻⁸ M HCl not 8?",
       steps: [
-        "pH = −log(3.0×10⁻⁴) ≈ 3.52.",
-        "pOH = 14 − 3.52 ≈ 10.48.",
+        "Water’s [H⁺] ≈ 1×10⁻⁷ M is comparable to the added acid.",
+        "Charge balance keeps the solution slightly acidic (pH just below 7).",
       ],
-      answer: "pH ≈ 3.52; pOH ≈ 10.48",
+      answer: "Water contributes H⁺; pH is just below 7, not 8",
     },
   ],
 

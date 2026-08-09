@@ -132,7 +132,12 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
     {
       label: "LibreTexts — Acid–Base Equilibria",
       href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/16%3A_AcidBase_Equilibria",
-      note: "Strong/weak acids, Ka, and buffers.",
+      note: "Strong/weak acids, Ka, Kb, and buffers.",
+    },
+    {
+      label: "LibreTexts — Weak bases and Kb",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/16%3A_AcidBase_Equilibria/16.07%3A_Weak_Bases",
+      note: "Ammonia-style weak-base equilibria and Kb.",
     },
     {
       label: "IUPAC Gold Book — pH",
@@ -142,7 +147,7 @@ export const toolReferences: Record<string, AuthorityReference[]> = {
     {
       label: "NIST — pH metrology",
       href: "https://www.nist.gov/programs-projects/ph-metrology",
-      note: "NIST program on electrochemical pH measurement standards.",
+      note: "Measurement standards context for laboratory pH.",
     },
   ],
   buffercalculator: [
