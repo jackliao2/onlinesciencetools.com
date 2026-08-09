@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "audit:tools": "npx --yes tsx scripts/audit-tools.mts",
-    "indexnow": "npx --yes tsx scripts/submit-indexnow.mts"
+    "indexnow": "npx --yes tsx scripts/submit-indexnow.mts",
+    "images:content": "npx --yes tsx scripts/generate-content-images.mts"
   },
   "dependencies": {
     "lucide-react": "^1.28.0",
@@ -23,6 +24,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

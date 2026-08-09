@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { AuthorityReferences } from "@/components/content/AuthorityReferences";
+import { ContentHeroImage } from "@/components/content/ContentHeroImage";
 import { JsonLd } from "@/components/tools/JsonLd";
+import {
+  contentImages,
+  type ContentImage,
+  type ContentImageKey,
+} from "@/lib/content-images";
 import { getToolArticle } from "@/lib/tool-articles";
 import { toolReferences } from "@/lib/tool-articles/references";
 import type { ToolWorkedExample } from "@/lib/tool-articles/types";
@@ -21,11 +27,30 @@ function WorkedExample({ example }: { example: ToolWorkedExample }) {
   );
 }
 
+function resolveHeroImage(
+  slug: string,
+  override?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  },
+): ContentImage | null {
+  if (override) {
+    return { id: slug, ...override };
+  }
+  if (slug in contentImages) {
+    return contentImages[slug as ContentImageKey];
+  }
+  return null;
+}
+
 export function ToolSeoArticle({ slug }: { slug: string }) {
   const article = getToolArticle(slug);
   const tool = getToolBySlug(slug);
   if (!article || !tool) return null;
   const references = toolReferences[slug] ?? [];
+  const hero = resolveHeroImage(slug, article.heroImage);
 
   const faqLd = {
     "@context": "https://schema.org",
@@ -48,6 +73,7 @@ export function ToolSeoArticle({ slug }: { slug: string }) {
       <JsonLd data={faqLd} />
       <article className="prose-ost max-w-none rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10">
         <h2>{introHeading}</h2>
+        {hero ? <ContentHeroImage image={hero} priority /> : null}
         {article.whatIs.paragraphs.map((p) => (
           <p key={p.slice(0, 48)}>{p}</p>
         ))}

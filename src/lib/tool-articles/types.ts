@@ -29,4 +29,14 @@ export interface ToolArticleContent {
   faq: ToolFaqItem[];
   /** Optional in-article cross-links (href + label). */
   seeAlso?: Array<{ href: string; label: string }>;
+  /**
+   * Optional override for the article hero. When omitted, ToolSeoArticle
+   * falls back to contentImages[slug] if present.
+   */
+  heroImage?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 }

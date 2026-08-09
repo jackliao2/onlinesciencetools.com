@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { AuthorityReferences } from "@/components/content/AuthorityReferences";
+import { ContentHeroImage } from "@/components/content/ContentHeroImage";
 import { JsonLd } from "@/components/tools/JsonLd";
 import { ToolHero } from "@/components/tools/ToolHero";
+import {
+  contentImages,
+  type ContentImageKey,
+} from "@/lib/content-images";
 import { buildArticleJsonLd } from "@/lib/seo";
 import { guideReferences } from "@/lib/tool-articles/references";
 import { guides, type Guide } from "@/lib/tools";
@@ -16,10 +21,14 @@ export function GuideLayout({
 }) {
   const related = guides.filter((g) => g.slug !== guide.slug);
   const references = guideReferences[guide.slug] ?? [];
+  const hero =
+    guide.slug in contentImages
+      ? contentImages[guide.slug as ContentImageKey]
+      : null;
 
   return (
     <>
-      <JsonLd data={buildArticleJsonLd(guide)} />
+      <JsonLd data={buildArticleJsonLd(guide, hero?.src)} />
       <ToolHero
         eyebrow="Guides"
         title={guide.title}
@@ -27,6 +36,7 @@ export function GuideLayout({
       />
       <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <article className="prose-ost max-w-none border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8">
+          {hero ? <ContentHeroImage image={hero} priority /> : null}
           {children}
           <AuthorityReferences references={references} />
         </article>
