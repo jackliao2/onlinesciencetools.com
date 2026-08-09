@@ -34,8 +34,11 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   keywords: [
     "online science tools",
+    "chemistry calculator",
+    "chemical equilibrium calculator",
+    "pH calculator",
     "stoichiometry calculator",
-    "equilibrium calculator",
+    "equation balancer",
     "phase portrait",
     "physics gre",
     "graphing calculator",

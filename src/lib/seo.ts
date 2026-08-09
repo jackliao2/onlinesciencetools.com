@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
-import type { Guide, Tool } from "@/lib/tools";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { categoryLabels, type Guide, type Tool } from "@/lib/tools";
 
 function buildPageMetadata(input: {
   title: string;
@@ -56,26 +56,82 @@ export function buildStaticPageMetadata(input: {
   });
 }
 
-export function buildWebApplicationJsonLd(tool: Tool) {
+export function buildWebSiteJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": ["WebApplication", "SoftwareApplication"],
-    name: tool.title,
-    description: tool.description,
-    url: `${SITE_URL}${tool.href}`,
-    applicationCategory: "EducationalApplication",
-    operatingSystem: "Any",
-    browserRequirements: "Requires JavaScript",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    provider: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: SITE_DESCRIPTION,
+        inLanguage: "en",
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: SITE_DESCRIPTION,
+      },
+    ],
+  };
+}
+
+export function buildWebApplicationJsonLd(tool: Tool) {
+  const url = `${SITE_URL}${tool.href}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["WebApplication", "SoftwareApplication"],
+        "@id": `${url}#app`,
+        name: tool.title,
+        description: tool.description,
+        url,
+        applicationCategory: "EducationalApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires JavaScript",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        provider: {
+          "@id": `${SITE_URL}/#organization`,
+          "@type": "Organization",
+          name: SITE_NAME,
+          url: SITE_URL,
+        },
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: categoryLabels[tool.category],
+            item: `${SITE_URL}/#tools`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: tool.title,
+            item: url,
+          },
+        ],
+      },
+    ],
   };
 }
 

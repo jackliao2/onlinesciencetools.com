@@ -53,9 +53,11 @@ export function HomeToolMatrix() {
             <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
               Online Science Tools
             </h1>
-            <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-              Browse by subject and topic group. Click a tool to open the
-              calculator.
+            <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
+              Free chemistry and math calculators for coursework — chemical
+              equilibrium, pH, stoichiometry, equation balancing, buffers,
+              graphing, phase portraits, and short study guides. No account
+              required.
             </p>
           </div>
           <label className="relative block w-full sm:max-w-xs">
