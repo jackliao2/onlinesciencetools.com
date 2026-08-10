@@ -8,10 +8,10 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={buildWebSiteJsonLd()} />
-      <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6 sm:pt-8">
-        <ContentHeroImage image={contentImages.home} priority />
-      </div>
       <HomeToolMatrix />
+      <div className="mx-auto max-w-5xl px-4 pb-10 sm:px-6">
+        <ContentHeroImage image={contentImages.home} />
+      </div>
     </>
   );
 }
