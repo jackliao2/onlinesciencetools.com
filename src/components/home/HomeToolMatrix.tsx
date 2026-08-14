@@ -167,7 +167,7 @@ export function HomeToolMatrix() {
                                   className="group grid grid-cols-1 items-center gap-1 px-3 py-2.5 transition hover:bg-[var(--surface)] sm:grid-cols-[13.5rem_minmax(0,1fr)] sm:gap-6"
                                 >
                                   <span className="truncate text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--accent)]">
-                                    {tool.shortTitle}
+                                    {tool.title}
                                   </span>
                                   <span className="truncate text-sm text-[var(--muted)]">
                                     {tool.description}

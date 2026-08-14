@@ -33,8 +33,8 @@ function RelatedToolRow({ tool }: { tool: Tool }) {
         <span className="shrink-0 text-xs text-[var(--muted)] sm:w-40">
           {toolGroupLabels[tool.group]}
         </span>
-        <span className="shrink-0 font-medium group-hover:text-[var(--accent)] sm:w-48">
-          {tool.shortTitle}
+        <span className="font-medium group-hover:text-[var(--accent)] sm:w-56 sm:shrink-0">
+          {tool.title}
         </span>
         <span className="text-sm text-[var(--muted)] line-clamp-1">
           {tool.description}

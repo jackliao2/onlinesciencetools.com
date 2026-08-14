@@ -58,7 +58,7 @@ Mass percent of element i:
         "Verify mass percent: H contributes (2.016/98.072) × 100 = 2.06%, S contributes 32.68%, O contributes 65.26%.",
       ],
       toolCheck:
-        "Open the Stoichiometry Calculator on Online Science Tools, enter H2SO4 as the formula, and confirm the molar mass reads approximately 98.07 g/mol with the elemental breakdown matching your hand calculation. Then enter 49.0 g in the mass field to verify the tool reports about 0.500 mol. If you are continuing to a reaction problem, use the Chemistry Equation Balancer to obtain coefficients and the Reaction Stoichiometry Calculator for limiting reagent analysis.",
+        "Open the Stoichiometry Calculator on Online Science Tools, enter H2SO4 as the formula, and confirm the molar mass reads approximately 98.07 g/mol with the elemental breakdown matching your hand calculation. Then enter 49.0 g in the mass field to verify the tool reports about 0.500 mol. If you are continuing to a reaction problem, use the Chemical Equation Balancer to obtain coefficients and the Reaction Stoichiometry Calculator for limiting reagent analysis.",
     },
     faq: [
       {
@@ -144,7 +144,7 @@ Ideal gases:
         "Check: (0.517)² / 0.742 ≈ 0.36. Good.",
       ],
       toolCheck:
-        "In the Equilibrium Calculator, enter A = 2B with Kc = 0.36 and initials 1.00 / 0. You should land near 0.742 M and 0.517 M.",
+        "In the Chemical Equilibrium Calculator, enter A = 2B with Kc = 0.36 and initials 1.00 / 0. You should land near 0.742 M and 0.517 M.",
     },
     moreExamples: [
       {
@@ -181,6 +181,16 @@ Ideal gases:
           "Yes. Enter the reaction, K (Kc or Kp), and starting amounts. The solver builds the ICE relations, compares Q with K, and reports equilibrium concentrations. It is meant for general chemistry / homework checks—not for activity-coefficient models or multiple simultaneous equilibria.",
       },
       {
+        question: "Can I use this as a reaction quotient calculator?",
+        answer:
+          "Yes. Q uses the same expression as Kc or Kp with your current amounts. The calculator reports Q, compares it with K, and tells you whether the net reaction runs forward, reverse, or is already at equilibrium.",
+      },
+      {
+        question: "How do I find equilibrium concentrations from Kc?",
+        answer:
+          "Set up an ICE table: write initial concentrations, let the change be ±(coefficient)×x, substitute the equilibrium line into Kc, and solve for x. This chemical equilibrium calculator does that algebra (including cases that are not a simple quadratic) and returns each equilibrium concentration.",
+      },
+      {
         question: "Kc or Kp—which one do I type in?",
         answer:
           "Match the data you were given. Concentration tables → Kc. Partial-pressure tables → Kp. For ideal gases you can convert with Kp = Kc(RT)^Δn, but only after Δn is counted from gas coefficients alone.",
@@ -215,7 +225,7 @@ Ideal gases:
         "The limiting reagent is the reactant that is completely consumed first, thereby stopping the reaction and determining the maximum possible product yield. The excess reagent is whatever remains after the limiting reagent is used up. In a problem where you mix 10.0 g of each of two reactants, you must convert each mass to moles, divide by the stoichiometric coefficient, and identify which reactant produces the fewest moles of product—that substance limits the outcome.",
         "Theoretical yield is the maximum mass of product predicted by stoichiometry when the limiting reagent is fully converted. Actual yield, measured in the laboratory, is almost always lower due to side reactions, incomplete conversion, or product loss during isolation. The ratio of actual to theoretical yield, expressed as a percentage, is called the percent yield and serves as a measure of reaction efficiency.",
         "These calculations are central to general chemistry laboratory reports. A student who weighs out reactants, performs a synthesis, and collects a product must compare the collected mass to the theoretical yield to compute percent yield. Errors in identifying the limiting reagent propagate through the entire analysis, so systematic conversion from grams to moles to product moles to product grams is essential. The Reaction Stoichiometry Calculator on Online Science Tools accepts a balanced equation and starting masses or moles, then identifies the limiting reagent and computes theoretical yields automatically.",
-        "Beyond the introductory lab, reaction stoichiometry scales to industrial chemical production, where engineers optimize feed ratios to minimize waste and maximize output. Pharmaceutical synthesis, polymer manufacturing, and environmental remediation all rely on the same limiting reagent logic. Pair this tool with the Chemistry Equation Balancer when you need coefficients and with the Stoichiometry Calculator for individual molar mass lookups.",
+        "Beyond the introductory lab, reaction stoichiometry scales to industrial chemical production, where engineers optimize feed ratios to minimize waste and maximize output. Pharmaceutical synthesis, polymer manufacturing, and environmental remediation all rely on the same limiting reagent logic. Pair this tool with the Chemical Equation Balancer when you need coefficients and with the Stoichiometry Calculator for individual molar mass lookups.",
       ],
       bullets: [
         "Coefficients in a balanced equation are mole ratios, not mass ratios",
@@ -265,7 +275,7 @@ Percent yield:
         "O₂ remaining: 5.00 − 0.998(5) = 5.00 − 4.99 = 0.01 mol O₂ in excess (essentially fully consumed).",
       ],
       toolCheck:
-        "Enter the balanced equation C3H8 + 5O2 -> 3CO2 + 4H2O with 44.0 g C₃H₈ and 160.0 g O₂ into the Reaction Stoichiometry Calculator on Online Science Tools. The tool should identify C₃H₈ as the limiting reagent and report a theoretical CO₂ yield near 132 g. If your equation is not yet balanced, run it through the Chemistry Equation Balancer first, then return to verify molar masses with the Stoichiometry Calculator.",
+        "Enter the balanced equation C3H8 + 5O2 -> 3CO2 + 4H2O with 44.0 g C₃H₈ and 160.0 g O₂ into the Reaction Stoichiometry Calculator on Online Science Tools. The tool should identify C₃H₈ as the limiting reagent and report a theoretical CO₂ yield near 132 g. If your equation is not yet balanced, run it through the Chemical Equation Balancer first, then return to verify molar masses with the Stoichiometry Calculator.",
     },
     faq: [
       {
@@ -286,19 +296,20 @@ Percent yield:
       {
         question: "Do I need a balanced equation before using the Reaction Stoichiometry Calculator?",
         answer:
-          "Yes. The coefficients determine the mole ratios that drive every calculation. An unbalanced equation gives incorrect limiting reagent and yield results. Use the Chemistry Equation Balancer on Online Science Tools to obtain correct coefficients, then paste the balanced equation into the Reaction Stoichiometry Calculator along with your starting amounts.",
+          "Yes. The coefficients determine the mole ratios that drive every calculation. An unbalanced equation gives incorrect limiting reagent and yield results. Use the Chemical Equation Balancer on Online Science Tools to obtain correct coefficients, then paste the balanced equation into the Reaction Stoichiometry Calculator along with your starting amounts.",
       },
     ],
   },
   {
     slug: "balanceequation",
+    introHeading: "Chemical equation balancer with steps and atom check",
     whatIs: {
       paragraphs: [
         "A balanced chemical equation obeys the law of conservation of mass: every atom present among the reactants must appear among the products in equal numbers. Balancing is not merely a bookkeeping exercise—it produces the stoichiometric coefficients that govern all subsequent mole-ratio calculations in reaction stoichiometry, equilibrium problems, and thermochemical equations. An unbalanced equation implies atoms are created or destroyed, which violates fundamental physical law.",
         "The standard balancing method in general chemistry is inspection: adjust coefficients in front of compound formulas until each element has the same count on both sides. Start with elements that appear in only one reactant and one product, then move to more complex cases involving polyatomic ions that may transfer intact (such as sulfate or nitrate groups). For redox reactions, the half-reaction method or oxidation-number method provides a systematic approach when inspection becomes unwieldy.",
         "Balanced equations appear in virtually every chemistry context. Combustion analysis requires balancing the burning reaction to relate CO₂ and H₂O produced back to the original compound. Acid–base neutralization, precipitation, and gas-evolution reactions all begin with a correctly balanced equation. In thermochemistry, coefficients scale the enthalpy change: if ΔH for forming 1 mol of product is known, doubling the coefficient doubles the enthalpy.",
-        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemistry Equation Balancer on Online Science Tools is a free chemistry equation balancer that applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
-        "Correct balancing is the gateway to the Reaction Stoichiometry Calculator and the Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
+        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemistry equation balancer that applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
+        "Correct balancing is the gateway to the Reaction Stoichiometry Calculator and the Chemical Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
       ],
       bullets: [
         "Coefficients multiply entire formulas; subscripts within formulas are fixed",
@@ -345,9 +356,14 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
         "Verify: C: 2 = 2, H: 6 = 6, O: 1 + 6 = 7 and 4 + 3 = 7. All atoms conserved.",
       ],
       toolCheck:
-        "Enter C2H5OH + O2 -> CO2 + H2O into the Chemistry Equation Balancer on Online Science Tools. The tool should return coefficients 1, 3, 2, 3 for ethanol, oxygen, carbon dioxide, and water respectively, matching your hand-balanced result. Use these coefficients in the Reaction Stoichiometry Calculator if you need to compute yields, or check individual molar masses with the Stoichiometry Calculator.",
+        "Enter C2H5OH + O2 -> CO2 + H2O into the Chemical Equation Balancer on Online Science Tools. The tool should return coefficients 1, 3, 2, 3 for ethanol, oxygen, carbon dioxide, and water respectively, matching your hand-balanced result. Use these coefficients in the Reaction Stoichiometry Calculator if you need to compute yields, or check individual molar masses with the Stoichiometry Calculator.",
     },
     faq: [
+      {
+        question: "Is this a chemical equation calculator as well as a balancer?",
+        answer:
+          "Yes. Enter an unbalanced equation such as Fe + O2 = Fe2O3 and the tool returns the balanced chemical equation with the smallest whole-number coefficients. It is a chemical equation balancer first; use the Reaction Stoichiometry Calculator when you also need masses or limiting reagent.",
+      },
       {
         question: "Is this a balancing chemical equations calculator with steps?",
         answer:
@@ -361,7 +377,7 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
       {
         question: "What if the balancer gives fractional coefficients?",
         answer:
-          "The Chemistry Equation Balancer returns the smallest whole-number ratio by default. If you encounter fractions during manual balancing, multiply the entire equation by the least common denominator to clear them. For example, if you obtain C₂H₄ + 3.5O₂ → 2CO₂ + 3H₂O, multiply everything by 2 to get 2C₂H₄ + 7O₂ → 4CO₂ + 6H₂O.",
+          "The Chemical Equation Balancer returns the smallest whole-number ratio by default. If you encounter fractions during manual balancing, multiply the entire equation by the least common denominator to clear them. For example, if you obtain C₂H₄ + 3.5O₂ → 2CO₂ + 3H₂O, multiply everything by 2 to get 2C₂H₄ + 7O₂ → 4CO₂ + 6H₂O.",
       },
       {
         question: "How do I balance redox reactions in acidic solution?",
@@ -443,7 +459,7 @@ Acidic half-reaction pattern (example MnO₄⁻ → Mn²⁺):
           "Use basic when the reaction occurs in alkaline solution or the expected products include OH⁻ (for example permanganate to MnO₂ with sulfite in base). Switching medium changes how H⁺/OH⁻/H₂O appear in the final equation.",
       },
       {
-        question: "How is this different from the Chemistry Equation Balancer?",
+        question: "How is this different from the Chemical Equation Balancer?",
         answer:
           "The general balancer conserves atoms for molecular equations. The redox balancer also conserves charge and can introduce solvent-derived H₂O, H⁺, and OH⁻ that were not in your skeleton—essential for aqueous half-reaction problems.",
       },
@@ -660,6 +676,16 @@ Buffer:
     ],
     faq: [
       {
+        question: "What is the pH formula?",
+        answer:
+          "In dilute aqueous solution, pH = −log₁₀[H⁺] (more strictly −log₁₀ of H⁺ activity). Then pOH = −log₁₀[OH⁻] and pH + pOH = 14 at 25 °C. This pH calculator applies that formula after it has [H⁺] from the strong/weak/buffer model you choose.",
+      },
+      {
+        question: "How do I calculate pH from Ka?",
+        answer:
+          "For a monoprotic weak acid HA, Ka = x²/(C − x) with x = [H⁺]. Solve the quadratic (or the √(Ka C) shortcut if x ≪ C), then pH = −log₁₀(x). Choose Weak acid mode, enter concentration and Ka, and read pH. Polyprotic acids such as citric acid need stepwise Ka values; this tool is the monoprotic classroom model.",
+      },
+      {
         question: "What Kb should I use for ammonia?",
         answer:
           "General chemistry homework almost always uses Kb(NH₃) = 1.8×10⁻⁵ at 25 °C. Equivalently, Ka(NH₄⁺) ≈ 5.6×10⁻¹⁰ and Kb = Kw/Ka. Real tabulated values vary slightly with ionic strength and temperature; for exams, use the constant your instructor or table gives.",
@@ -687,7 +713,7 @@ Buffer:
     ],
     seeAlso: [
       { href: "/tools/buffercalculator", label: "Buffer Preparation Calculator" },
-      { href: "/tools/equilibriumcalculator", label: "Equilibrium Calculator" },
+      { href: "/tools/equilibriumcalculator", label: "Chemical Equilibrium Calculator" },
       { href: "/tools/dilutioncalculator", label: "Dilution Calculator" },
     ],
   },
@@ -812,10 +838,12 @@ Clear fractions to the smallest integers → empirical formula`,
   },
   {
     slug: "kspcalculator",
+    introHeading: "Ksp calculator for solubility and precipitation (Q vs Ksp)",
     whatIs: {
       paragraphs: [
         "The solubility product Ksp is the equilibrium constant for dissolving a sparingly soluble ionic solid. For a salt that dissolves as x cations and y anions per formula unit, Ksp = [cation]^x[anion]^y at saturation. Molar solubility s is the moles of formula unit that dissolve per liter of saturated solution in pure water.",
-        "Comparing the ion product Q (same form as Ksp but with actual concentrations) to Ksp predicts precipitation: Q > Ksp favors solid formation. The Ksp Calculator converts between s and Ksp for common salt stoichiometries and evaluates Q versus Ksp.",
+        "To calculate Ksp from solubility, write the dissolution equation, express each ion as a multiple of s, and multiply. Example: AgCl (type AB) with s = 1.34×10⁻⁵ M gives Ksp = s² ≈ 1.8×10⁻¹⁰. To find Ksp the other way, invert the same relation: s = √Ksp for AB, or s = (Ksp/4)^(1/3) for AB₂ / A₂B.",
+        "Comparing the ion product Q (same form as Ksp but with actual concentrations) to Ksp predicts precipitation: Q > Ksp favors solid formation, Q < Ksp means the solution is unsaturated. The Ksp Calculator converts between s and Ksp for common salt stoichiometries and evaluates Q versus Ksp as a precipitation reaction check.",
       ],
       bullets: [
         "AB salt: Ksp = s²",
@@ -846,15 +874,35 @@ Q = [M]^x [A]^y`,
     },
     faq: [
       {
+        question: "How do I calculate Ksp from molar solubility?",
+        answer:
+          "Write the ions produced per formula unit, replace each with a multiple of s, and multiply. AB salts: Ksp = s². AB₂ or A₂B: Ksp = 4s³. Enter s in the Ksp Calculator’s solubility → Ksp mode and pick the matching salt type.",
+      },
+      {
+        question: "How do I find Ksp or molar solubility the other way?",
+        answer:
+          "If you are given Ksp, invert the same relation: s = √Ksp for AB, s = (Ksp/4)^(1/3) for AB₂ / A₂B. Choose Ksp → solubility, enter the tabulated Ksp, and read s in mol/L.",
+      },
+      {
+        question: "Is this a precipitation reaction calculator?",
+        answer:
+          "For the Q vs Ksp test, yes. Enter the actual ion concentrations to get Q. Q > Ksp predicts a precipitate; Q < Ksp means no solid yet; Q = Ksp is saturated. It does not write a full net-ionic precipitation equation—use the Chemical Equation Balancer for that.",
+      },
+      {
         question: "Does this include the common-ion effect?",
         answer:
-          "The s ↔ Ksp modes assume pure water (no extra common ion). For common-ion problems, set up the ICE table with the extra ion and use the Equilibrium Calculator or solve algebraically; you can still check Q vs Ksp with measured ion concentrations.",
+          "The s ↔ Ksp modes assume pure water (no extra common ion). For common-ion problems, set up the ICE table with the extra ion and use the Chemical Equilibrium Calculator or solve algebraically; you can still check Q vs Ksp with measured ion concentrations.",
       },
       {
         question: "Are Ksp values temperature-dependent?",
         answer:
           "Yes. Tabulated Ksp values are for a stated temperature (often 25 °C). Using a Ksp at the wrong temperature gives the wrong solubility.",
       },
+    ],
+    seeAlso: [
+      { href: "/tools/equilibriumcalculator", label: "Chemical Equilibrium Calculator" },
+      { href: "/tools/balanceequation", label: "Chemical Equation Balancer" },
+      { href: "/tools/phcalculator", label: "pH Calculator" },
     ],
   },
   {
@@ -895,6 +943,11 @@ M = dRT / P   (d in g/L)`,
         question: "Why must temperature be in kelvin?",
         answer:
           "Gas laws are proportional to absolute temperature. Zero on the Celsius scale is not zero thermal energy; 0 °C is 273.15 K.",
+      },
+      {
+        question: "Can I use this as an ideal gas density calculator?",
+        answer:
+          "Yes. Rearrange PV = nRT with n = m/M and density d = m/V to get M = dRT/P (d in g/L). Enter P, T, and density to estimate molar mass, or use the same relation to check a homework density from known M.",
       },
       {
         question: "When does the ideal gas law fail?",

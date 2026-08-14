@@ -50,6 +50,12 @@ export function Header() {
               Guides
             </Link>
             <Link
+              href="/tools/phcalculator"
+              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+            >
+              pH
+            </Link>
+            <Link
               href="/tools/equilibriumcalculator"
               className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
             >
