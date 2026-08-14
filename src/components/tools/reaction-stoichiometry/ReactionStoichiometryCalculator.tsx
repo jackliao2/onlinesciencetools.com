@@ -257,7 +257,7 @@ export function ReactionStoichiometryCalculator() {
         <div className="flex items-center gap-2 text-[var(--accent)]">
           <Beaker className="h-5 w-5" />
           <span className="text-sm font-semibold uppercase tracking-[0.14em]">
-            Reaction stoichiometry
+            Limiting reagent
           </span>
         </div>
         <div className="flex gap-2">

@@ -25,7 +25,7 @@ export default function KineticsCalculatorPage() {
         <KineticsCalculator />
       </section>
       <ToolSeoArticle slug={tool.slug} />
-      <PracticeProblems slug={tool.slug} topicLabel="kinetics" />
+      <PracticeProblems slug={tool.slug} topicLabel="kinetics calculator" />
       <RelatedTools slug={tool.slug} />
     </>
   );

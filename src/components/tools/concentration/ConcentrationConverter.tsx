@@ -10,7 +10,9 @@ import {
 import { RotateCcw } from "lucide-react";
 
 const KINDS: Array<{ id: ConcentrationKind; label: string; unit: string }> = [
-  { id: "molarity", label: "Molarity", unit: "mol/L" },
+  { id: "molarity", label: "Molarity", unit: "mol/L (M)" },
+  { id: "millimolar", label: "Millimolar", unit: "mmol/L (mM)" },
+  { id: "micromolar", label: "Micromolar", unit: "μmol/L (μM)" },
   { id: "gramsPerLiter", label: "Mass concentration", unit: "g/L" },
   { id: "massPercent", label: "Mass percent", unit: "% (w/w)" },
   { id: "ppm", label: "ppm (mass)", unit: "mg/kg" },
@@ -33,6 +35,14 @@ export function ConcentrationConverter() {
   const [value, setValue] = useState("0.100");
 
   const EXAMPLES = [
+    {
+      id: "mmnacl",
+      label: "100 mM NaCl",
+      formula: "NaCl",
+      density: "1.00",
+      kind: "millimolar" as const,
+      value: "100",
+    },
     {
       id: "nacl",
       label: "0.9% NaCl (ρ≈1.00)",
@@ -101,7 +111,7 @@ export function ConcentrationConverter() {
         <div>
           <p className="text-sm font-medium">Concentration converter</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Molarity · g/L · mass % · ppm · molality
+            Molarity (M, mM, μM) · g/L · mass % · ppm · molality
           </p>
         </div>
         <button
@@ -207,6 +217,14 @@ export function ConcentrationConverter() {
             <div>
               <dt className="text-[var(--muted)]">Molarity</dt>
               <dd className="font-mono">{formatNum(result.value.molarity)} mol/L</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted)]">Millimolar</dt>
+              <dd className="font-mono">{formatNum(result.value.millimolar)} mM</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted)]">Micromolar</dt>
+              <dd className="font-mono">{formatNum(result.value.micromolar)} μM</dd>
             </div>
             <div>
               <dt className="text-[var(--muted)]">Mass concentration</dt>

@@ -58,7 +58,7 @@ Mass percent of element i:
         "Verify mass percent: H contributes (2.016/98.072) × 100 = 2.06%, S contributes 32.68%, O contributes 65.26%.",
       ],
       toolCheck:
-        "Open the Stoichiometry Calculator on Online Science Tools, enter H2SO4 as the formula, and confirm the molar mass reads approximately 98.07 g/mol with the elemental breakdown matching your hand calculation. Then enter 49.0 g in the mass field to verify the tool reports about 0.500 mol. If you are continuing to a reaction problem, use the Chemical Equation Balancer to obtain coefficients and the Reaction Stoichiometry Calculator for limiting reagent analysis.",
+        "Open the Stoichiometry Calculator on Online Science Tools, enter H2SO4 as the formula, and confirm the molar mass reads approximately 98.07 g/mol with the elemental breakdown matching your hand calculation. Then enter 49.0 g in the mass field to verify the tool reports about 0.500 mol. If you are continuing to a reaction problem, use the Chemical Equation Balancer to obtain coefficients and the Limiting Reagent Calculator for limiting reagent analysis.",
     },
     faq: [
       {
@@ -214,17 +214,18 @@ Ideal gases:
     seeAlso: [
       { href: "/tools/phcalculator", label: "pH Calculator" },
       { href: "/tools/kspcalculator", label: "Ksp Calculator" },
-      { href: "/tools/buffercalculator", label: "Buffer Preparation Calculator" },
+      { href: "/tools/buffercalculator", label: "Phosphate Buffer Calculator" },
     ],
   },
   {
     slug: "reactionstoichiometrycalculator",
+    introHeading: "Limiting reagent calculator (theoretical and percent yield)",
     whatIs: {
       paragraphs: [
         "Reaction stoichiometry extends the mole concept from single compounds to entire balanced chemical equations. Once an equation is balanced, the coefficients serve as mole ratios that connect the amount of any reactant to any product. If 2 mol of hydrogen gas reacts with 1 mol of oxygen to form 2 mol of water, then 5.0 mol of H₂ would require 2.5 mol of O₂ and produce 5.0 mol of H₂O. These proportional relationships are the basis for all yield and limiting reagent calculations.",
         "The limiting reagent is the reactant that is completely consumed first, thereby stopping the reaction and determining the maximum possible product yield. The excess reagent is whatever remains after the limiting reagent is used up. In a problem where you mix 10.0 g of each of two reactants, you must convert each mass to moles, divide by the stoichiometric coefficient, and identify which reactant produces the fewest moles of product—that substance limits the outcome.",
         "Theoretical yield is the maximum mass of product predicted by stoichiometry when the limiting reagent is fully converted. Actual yield, measured in the laboratory, is almost always lower due to side reactions, incomplete conversion, or product loss during isolation. The ratio of actual to theoretical yield, expressed as a percentage, is called the percent yield and serves as a measure of reaction efficiency.",
-        "These calculations are central to general chemistry laboratory reports. A student who weighs out reactants, performs a synthesis, and collects a product must compare the collected mass to the theoretical yield to compute percent yield. Errors in identifying the limiting reagent propagate through the entire analysis, so systematic conversion from grams to moles to product moles to product grams is essential. The Reaction Stoichiometry Calculator on Online Science Tools accepts a balanced equation and starting masses or moles, then identifies the limiting reagent and computes theoretical yields automatically.",
+        "These calculations are central to general chemistry laboratory reports. A student who weighs out reactants, performs a synthesis, and collects a product must compare the collected mass to the theoretical yield to compute percent yield. Errors in identifying the limiting reagent propagate through the entire analysis, so systematic conversion from grams to moles to product moles to product grams is essential. The Limiting Reagent Calculator on Online Science Tools accepts a balanced equation and starting masses or moles, then identifies the limiting reagent and computes theoretical yields automatically.",
         "Beyond the introductory lab, reaction stoichiometry scales to industrial chemical production, where engineers optimize feed ratios to minimize waste and maximize output. Pharmaceutical synthesis, polymer manufacturing, and environmental remediation all rely on the same limiting reagent logic. Pair this tool with the Chemical Equation Balancer when you need coefficients and with the Stoichiometry Calculator for individual molar mass lookups.",
       ],
       bullets: [
@@ -275,9 +276,14 @@ Percent yield:
         "O₂ remaining: 5.00 − 0.998(5) = 5.00 − 4.99 = 0.01 mol O₂ in excess (essentially fully consumed).",
       ],
       toolCheck:
-        "Enter the balanced equation C3H8 + 5O2 -> 3CO2 + 4H2O with 44.0 g C₃H₈ and 160.0 g O₂ into the Reaction Stoichiometry Calculator on Online Science Tools. The tool should identify C₃H₈ as the limiting reagent and report a theoretical CO₂ yield near 132 g. If your equation is not yet balanced, run it through the Chemical Equation Balancer first, then return to verify molar masses with the Stoichiometry Calculator.",
+        "Enter the balanced equation C3H8 + 5O2 -> 3CO2 + 4H2O with 44.0 g C₃H₈ and 160.0 g O₂ into the Limiting Reagent Calculator on Online Science Tools. The tool should identify C₃H₈ as the limiting reagent and report a theoretical CO₂ yield near 132 g. If your equation is not yet balanced, run it through the Chemical Equation Balancer first, then return to verify molar masses with the Stoichiometry Calculator.",
     },
     faq: [
+      {
+        question: "Is this a limiting reagent calculator?",
+        answer:
+          "Yes. Enter a balanced equation and starting masses or moles. The solver identifies the limiting reagent, leftover excess reactant, theoretical yield, and percent yield if you type an actual recovered amount.",
+      },
       {
         question: "How do I identify the limiting reagent quickly?",
         answer:
@@ -294,9 +300,9 @@ Percent yield:
           "Percent yield below 100% is normal in real experiments. Product may be lost during filtration, transfer, or purification. Side reactions consume reactants without forming the desired product. Some reactions do not go to completion. A yield of 60–90% is typical in undergraduate organic chemistry labs. Compare your result to class averages or literature values rather than expecting a perfect 100%.",
       },
       {
-        question: "Do I need a balanced equation before using the Reaction Stoichiometry Calculator?",
+        question: "Do I need a balanced equation before using the Limiting Reagent Calculator?",
         answer:
-          "Yes. The coefficients determine the mole ratios that drive every calculation. An unbalanced equation gives incorrect limiting reagent and yield results. Use the Chemical Equation Balancer on Online Science Tools to obtain correct coefficients, then paste the balanced equation into the Reaction Stoichiometry Calculator along with your starting amounts.",
+          "Yes. The coefficients determine the mole ratios that drive every calculation. An unbalanced equation gives incorrect limiting reagent and yield results. Use the Chemical Equation Balancer on Online Science Tools to obtain correct coefficients, then paste the balanced equation into the Limiting Reagent Calculator along with your starting amounts.",
       },
     ],
   },
@@ -309,7 +315,7 @@ Percent yield:
         "The standard balancing method in general chemistry is inspection: adjust coefficients in front of compound formulas until each element has the same count on both sides. Start with elements that appear in only one reactant and one product, then move to more complex cases involving polyatomic ions that may transfer intact (such as sulfate or nitrate groups). For redox reactions, the half-reaction method or oxidation-number method provides a systematic approach when inspection becomes unwieldy.",
         "Balanced equations appear in virtually every chemistry context. Combustion analysis requires balancing the burning reaction to relate CO₂ and H₂O produced back to the original compound. Acid–base neutralization, precipitation, and gas-evolution reactions all begin with a correctly balanced equation. In thermochemistry, coefficients scale the enthalpy change: if ΔH for forming 1 mol of product is known, doubling the coefficient doubles the enthalpy.",
         "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemistry equation balancer that applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
-        "Correct balancing is the gateway to the Reaction Stoichiometry Calculator and the Chemical Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
+        "Correct balancing is the gateway to the Limiting Reagent Calculator and the Chemical Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
       ],
       bullets: [
         "Coefficients multiply entire formulas; subscripts within formulas are fixed",
@@ -356,13 +362,13 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
         "Verify: C: 2 = 2, H: 6 = 6, O: 1 + 6 = 7 and 4 + 3 = 7. All atoms conserved.",
       ],
       toolCheck:
-        "Enter C2H5OH + O2 -> CO2 + H2O into the Chemical Equation Balancer on Online Science Tools. The tool should return coefficients 1, 3, 2, 3 for ethanol, oxygen, carbon dioxide, and water respectively, matching your hand-balanced result. Use these coefficients in the Reaction Stoichiometry Calculator if you need to compute yields, or check individual molar masses with the Stoichiometry Calculator.",
+        "Enter C2H5OH + O2 -> CO2 + H2O into the Chemical Equation Balancer on Online Science Tools. The tool should return coefficients 1, 3, 2, 3 for ethanol, oxygen, carbon dioxide, and water respectively, matching your hand-balanced result. Use these coefficients in the Limiting Reagent Calculator if you need to compute yields, or check individual molar masses with the Stoichiometry Calculator.",
     },
     faq: [
       {
         question: "Is this a chemical equation calculator as well as a balancer?",
         answer:
-          "Yes. Enter an unbalanced equation such as Fe + O2 = Fe2O3 and the tool returns the balanced chemical equation with the smallest whole-number coefficients. It is a chemical equation balancer first; use the Reaction Stoichiometry Calculator when you also need masses or limiting reagent.",
+          "Yes. Enter an unbalanced equation such as Fe + O2 = Fe2O3 and the tool returns the balanced chemical equation with the smallest whole-number coefficients. It is a chemical equation balancer first; use the Limiting Reagent Calculator when you also need masses or limiting reagent.",
       },
       {
         question: "Is this a balancing chemical equations calculator with steps?",
@@ -397,7 +403,7 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
       paragraphs: [
         "Redox reactions transfer electrons between species: oxidation loses electrons, reduction gains them. Many aqueous redox equations cannot be balanced by inspection alone because oxygen, hydrogen, and charge must be adjusted together with the principal atoms. The half-reaction method (ion–electron method) separates oxidation and reduction, balances atoms and charge in each half, then combines them so electrons cancel.",
         "In acidic medium, oxygen is balanced with H₂O and hydrogen with H⁺. In basic medium, the same acidic skeleton is converted by adding OH⁻ to neutralize H⁺, producing water on one side and leaving net OH⁻ where needed. Both atom counts and net charge must match on the reactant and product sides of the final equation.",
-        "The Redox Equation Balancer on Online Science Tools accepts ionic or molecular skeletons such as MnO4- + Fe2+ = Mn2+ + Fe3+, chooses acidic or basic medium, and returns the smallest whole-number equation with step notes and an atom/charge check. Use it to verify homework half-reaction work, then carry coefficients into the Reaction Stoichiometry Calculator when yields matter.",
+        "The Redox Equation Balancer on Online Science Tools accepts ionic or molecular skeletons such as MnO4- + Fe2+ = Mn2+ + Fe3+, chooses acidic or basic medium, and returns the smallest whole-number equation with step notes and an atom/charge check. Use it to verify homework half-reaction work, then carry coefficients into the Limiting Reagent Calculator when yields matter.",
       ],
       bullets: [
         "Split into oxidation and reduction half-reactions when needed",
@@ -467,6 +473,7 @@ Acidic half-reaction pattern (example MnO₄⁻ → Mn²⁺):
   },
   {
     slug: "dilutioncalculator",
+    introHeading: "Dilution calculator: C₁V₁ = C₂V₂ and serial dilutions",
     whatIs: {
       paragraphs: [
         "Dilution is the process of lowering a solution’s concentration by adding solvent. In teaching labs and homework, the working relation is almost always C₁V₁ = C₂V₂: the amount of solute is conserved when you dilute, so the product of concentration and volume stays constant if concentration units are consistent.",
@@ -511,6 +518,11 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
     },
     faq: [
       {
+        question: "Is this a C₁V₁ = C₂V₂ dilution calculator?",
+        answer:
+          "Yes. Leave one of C₁, V₁, C₂, or V₂ blank and the tool solves C₁V₁ = C₂V₂. Dilution factor is C₁/C₂ = V₂/V₁. Switch to serial mode for 1:10 or 1:100 series, or use the alcohol / bleach presets.",
+      },
+      {
         question: "Can I use mL and L in the same calculation?",
         answer:
           "Only if you convert so both volumes use the same unit. 250 mL is 0.250 L. Mixing units without converting gives a wrong V₁ by a factor of 1000.",
@@ -534,14 +546,15 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
   },
   {
     slug: "concentrationconverter",
+    introHeading: "Concentration converter: M, mM, μM, g/L, %, ppm, molality",
     whatIs: {
       paragraphs: [
         "Chemists express solution composition in several units. Molarity (mol/L of solution) is common in volumetric work. Molality (mol/kg of solvent) is preferred when temperature changes matter. Mass percent and ppm appear in analytical and environmental contexts. Converting among them requires the solute’s molar mass and, for most conversions, the solution density.",
-        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity, g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday g↔mL style conversions.",
+        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity in M, mM, and μM, plus g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday g↔mL style conversions.",
         "For dilute aqueous solutions, density ≈ 1.00 g/mL is a standard classroom approximation. Concentrated acids, bases, and syrups need a measured or tabulated density or the conversion will be off.",
       ],
       bullets: [
-        "Molarity M = moles solute / liters solution",
+        "Molarity M = moles solute / liters solution; 1 M = 1000 mM = 10⁶ μM",
         "Molality m = moles solute / kilograms solvent",
         "Mass % and ppm need density to relate mass of solute to volume of solution",
       ],
@@ -552,6 +565,7 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       blocks: [
         `Mass of solution ≈ 1000ρ grams
 Mass of solute (g) = (molarity) × M
+1 M = 1000 mM = 10⁶ μM
 Mass % = (mass solute / mass solution) × 100%
 ppm (mass) = (mass solute / mass solution) × 10⁶
 Molality = moles solute / kg solvent
@@ -578,6 +592,16 @@ kg solvent = (mass solution − mass solute) / 1000`,
     },
     faq: [
       {
+        question: "How do I convert millimolar to molar?",
+        answer:
+          "1 M = 1000 mM = 10⁶ μM, so divide mM by 1000 to get M (100 mM = 0.100 M). Choose Millimolar or Micromolar as the known unit and read molarity in the results table; the reverse is multiply.",
+      },
+      {
+        question: "How do I convert ppm to percent?",
+        answer:
+          "Mass percent = ppm / 10,000 because 1% = 10,000 ppm. The converter reports both from the same 1.00 L basis once you enter a formula (or molar mass) and density.",
+      },
+      {
         question: "When is molality better than molarity?",
         answer:
           "Molality does not change with temperature because it is based on solvent mass, not solution volume. Colligative-property problems usually use molality.",
@@ -601,7 +625,7 @@ kg solvent = (mass solution − mass solute) / 1000`,
       paragraphs: [
         "pH is defined as pH = −log₁₀ a(H⁺). In the dilute aqueous problems you see in general chemistry, we replace activity with molarity and write pH = −log₁₀[H⁺]. One pH unit is a tenfold change in [H⁺], so small mistakes in concentration show up loudly on the log scale.",
         "Pick the right model before you punch numbers. Strong acids/bases: assume complete dissociation, then (for very dilute solutions) remember water still contributes H⁺ and OH⁻. Weak acids need Ka; weak bases need Kb. Ammonia is the classic weak-base example—course tables almost always list Kb(NH₃) ≈ 1.8×10⁻⁵ at 25 °C. A buffer is a weak acid plus its conjugate base; there you reach for Henderson–Hasselbalch, not the single-species weak-acid quadratic.",
-        "This calculator handles five classroom modes at 25 °C with Kw = 1.0×10⁻¹⁴: strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Presets include acetic acid, ammonia (Kb = 1.8×10⁻⁵), and common buffer sketches. For named buffer recipes in grams, switch to the Buffer Preparation Calculator; here the job is to get pH and pOH from concentrations and constants.",
+        "This calculator handles five classroom modes at 25 °C with Kw = 1.0×10⁻¹⁴: strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Presets include acetic acid, ammonia (Kb = 1.8×10⁻⁵), and common buffer sketches. For named buffer recipes in grams, switch to the Phosphate Buffer Calculator; here the job is to get pH and pOH from concentrations and constants.",
       ],
       bullets: [
         "Strong electrolyte: start from C, then correct with water if C is tiny (~10⁻⁶ M or less)",
@@ -712,18 +736,19 @@ Buffer:
       },
     ],
     seeAlso: [
-      { href: "/tools/buffercalculator", label: "Buffer Preparation Calculator" },
+      { href: "/tools/buffercalculator", label: "Phosphate Buffer Calculator" },
       { href: "/tools/equilibriumcalculator", label: "Chemical Equilibrium Calculator" },
       { href: "/tools/dilutioncalculator", label: "Dilution Calculator" },
     ],
   },
   {
     slug: "buffercalculator",
+    introHeading: "Phosphate buffer calculator (acetate, Tris, citrate, and more)",
     whatIs: {
       paragraphs: [
         "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, acetate, Tris, citrate, ammonia, bicarbonate), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
         "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work.",
-        "The Buffer Preparation Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
+        "The Phosphate Buffer Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
       ],
       bullets: [
         "pH = pKa + log₁₀([A⁻]/[HA]) (Henderson–Hasselbalch)",
@@ -762,7 +787,7 @@ m = n · M (molar mass of the acid or base reagent)`,
         "Masses ≈ 4.64 g NaH₂PO₄ and 8.70 g Na₂HPO₄ (anhydrous formulas).",
       ],
       toolCheck:
-        "Select Phosphate, pH 7.40, 0.10 M, 1000 mL in the Buffer Preparation Calculator and compare the gram amounts.",
+        "Select Phosphate, pH 7.40, 0.10 M, 1000 mL in the Phosphate Buffer Calculator and compare the gram amounts.",
     },
     faq: [
       {
@@ -1005,6 +1030,7 @@ q_rxn = n × ΔH`,
   },
   {
     slug: "kineticscalculator",
+    introHeading: "Kinetics calculator for integrated rate laws and half-life",
     whatIs: {
       paragraphs: [
         "Chemical kinetics describes how fast concentrations change. For elementary decay of a single reactant, the integrated rate laws for orders 0, 1, and 2 relate [A], t, and k. Half-life t½ is the time for [A] to fall to half of its initial value; only first-order t½ is independent of [A]₀.",
@@ -1036,6 +1062,11 @@ q_rxn = n × ΔH`,
         "Order 1, Find [A]ₜ, k = 0.001, [A]₀ = 1, t = 600.",
     },
     faq: [
+      {
+        question: "Is this a half-life calculator?",
+        answer:
+          "Yes. Choose the reaction order, then solve for t½, remaining concentration, time, or k. First-order half-life is ln 2 / k and does not depend on [A]₀; zero- and second-order half-lives do.",
+      },
       {
         question: "How do I know the order?",
         answer:

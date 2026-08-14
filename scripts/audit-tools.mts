@@ -212,6 +212,16 @@ const conc = convertConcentration({
   density: 1.0,
 });
 approx(conc.massPercent, 0.5844, 0.01, "0.1 M NaCl mass%");
+{
+  const mm = convertConcentration({
+    value: 100,
+    kind: "millimolar",
+    molarMass: 58.44,
+    density: 1.0,
+  });
+  approx(mm.molarity, 0.1, 1e-9, "100 mM = 0.1 M");
+  approx(mm.micromolar, 1e5, 1e-6, "100 mM = 1e5 μM");
+}
 throws(
   () =>
     convertConcentration({

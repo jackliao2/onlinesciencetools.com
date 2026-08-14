@@ -63,7 +63,7 @@ export function KineticsCalculator() {
         <div>
           <p className="text-sm font-medium">Kinetics calculator</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Zero-, first-, and second-order integrated rate laws
+            Zero-, first-, and second-order rate laws and half-life
           </p>
         </div>
         <button

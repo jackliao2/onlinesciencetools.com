@@ -9,6 +9,8 @@ export class ConcentrationError extends Error {
 
 export type ConcentrationKind =
   | "molarity"
+  | "millimolar"
+  | "micromolar"
   | "gramsPerLiter"
   | "massPercent"
   | "ppm"
@@ -27,6 +29,8 @@ export interface ConcentrationResult {
   molarMass: number;
   density: number;
   molarity: number;
+  millimolar: number;
+  micromolar: number;
   gramsPerLiter: number;
   massPercent: number;
   ppm: number;
@@ -75,6 +79,12 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
   switch (kind) {
     case "molarity":
       molarity = value;
+      break;
+    case "millimolar":
+      molarity = value / 1000;
+      break;
+    case "micromolar":
+      molarity = value / 1e6;
       break;
     case "gramsPerLiter":
       molarity = value / molarMass;
@@ -136,6 +146,8 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
     molarMass,
     density,
     molarity,
+    millimolar: molarity * 1000,
+    micromolar: molarity * 1e6,
     gramsPerLiter,
     massPercent,
     ppm,

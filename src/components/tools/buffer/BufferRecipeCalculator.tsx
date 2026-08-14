@@ -50,7 +50,7 @@ export function BufferRecipeCalculator() {
     <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium">Buffer preparation calculator</p>
+          <p className="text-sm font-medium">Phosphate buffer calculator</p>
           <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
             pH = pKa + log([A⁻]/[HA])
           </p>

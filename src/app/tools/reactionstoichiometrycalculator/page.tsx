@@ -30,7 +30,7 @@ export default function ReactionStoichiometryCalculatorPage() {
       <ToolSeoArticle slug={tool.slug} />
       <PracticeProblems
         slug={tool.slug}
-        topicLabel="reaction stoichiometry calculator"
+        topicLabel="limiting reagent calculator"
       />
       <RelatedTools slug={tool.slug} />
     </>

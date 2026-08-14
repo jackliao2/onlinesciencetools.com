@@ -25,7 +25,7 @@ export default function BufferCalculatorPage() {
         <BufferRecipeCalculator />
       </section>
       <ToolSeoArticle slug={tool.slug} />
-      <PracticeProblems slug={tool.slug} topicLabel="buffer preparation" />
+      <PracticeProblems slug={tool.slug} topicLabel="phosphate buffer calculator" />
       <RelatedTools slug={tool.slug} />
     </>
   );
