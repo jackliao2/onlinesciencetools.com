@@ -98,7 +98,7 @@ Two's complement (n-bit):
         "The RGB model is additive: combining red, green, and blue at full intensity produces white (#FFFFFF), while zero intensity on all channels produces black (#000000). Secondary colors arise from pairs: yellow is red plus green (#FFFF00), cyan is green plus blue (#00FFFF), magenta is red plus blue (#FF00FF). Web developers, graphic designers, and UI engineers specify colors in CSS, SVG, and design tools using hex, RGB, or HSL notation interchangeably.",
         "HSL—hue, saturation, lightness—offers an alternative color space that aligns more closely with human perception. Hue is the color angle on a wheel (0–360 degrees), saturation controls vividness (0% gray to 100% pure), and lightness controls brightness (0% black to 100% white). Adjusting HSL is often more intuitive than tweaking RGB values when you want to lighten a color or shift its tone without changing its identity.",
         "Color conversion between HEX, RGB, and HSL involves straightforward arithmetic. Hex pairs decode to decimal channel values; RGB normalizes to 0–1 fractions for HSL computation; HSL converts back through intermediate RGB calculations. Understanding these conversions prevents mismatches between design mockups and implemented CSS, and helps debug accessibility issues related to contrast ratios.",
-        "The Hex Color Picker and Converter on Online Science Tools provides an interactive color wheel, live preview, and instant conversion among HEX, RGB, and HSL formats. Use it when writing CSS styles in the Online HTML / JS Executor, verifying brand color specifications, or learning how hex digits map to channel intensities. Cross-check hex values with the Binary Calculator and Converter to see the underlying bit patterns of each channel.",
+        "The Hex Color Picker and Converter on Online Science Tools provides an interactive color wheel, live preview, and instant conversion among HEX, RGB, and HSL formats. Use it when writing CSS styles in the HTML Executor, verifying brand color specifications, or learning how hex digits map to channel intensities. Cross-check hex values with the Binary Calculator and Converter to see the underlying bit patterns of each channel.",
       ],
       bullets: [
         "HEX format: #RRGGBB where each pair is an 8-bit channel value (00–FF)",
@@ -152,7 +152,7 @@ Example:
         "HSL result: hsl(11, 100%, 60%). Verify by converting back: should yield #FF5733.",
       ],
       toolCheck:
-        "Open the Hex Color Picker and Converter on Online Science Tools and enter #FF5733 in the hex field. The tool should instantly display rgb(255, 87, 51) and hsl(11, 100%, 60%), matching your hand calculation. Drag the color wheel to a new hue and observe how all three formats update simultaneously. Copy the hex value into a CSS rule in the Online HTML / JS Executor to preview the color on a live webpage.",
+        "Open the Hex Color Picker and Converter on Online Science Tools and enter #FF5733 in the hex field. The tool should instantly display rgb(255, 87, 51) and hsl(11, 100%, 60%), matching your hand calculation. Drag the color wheel to a new hue and observe how all three formats update simultaneously. Copy the hex value into a CSS rule in the HTML Executor to preview the color on a live webpage.",
     },
     faq: [
       {
@@ -173,19 +173,20 @@ Example:
       {
         question: "Can I use the color picker values directly in CSS?",
         answer:
-          "Yes. Copy the hex value (#FF5733), rgb() function, or hsl() function directly into any CSS color property such as background-color, color, or border-color. The Online HTML / JS Executor accepts CSS with any of these formats, so you can paste a color rule and immediately see the result in the browser preview.",
+          "Yes. Copy the hex value (#FF5733), rgb() function, or hsl() function directly into any CSS color property such as background-color, color, or border-color. The HTML Executor accepts CSS with any of these formats, so you can paste a color rule and immediately see the result in the browser preview.",
       },
     ],
   },
   {
     slug: "htmlexecutor",
+    introHeading: "HTML Executor: run HTML, CSS, and JavaScript in the browser",
     whatIs: {
       paragraphs: [
         "HTML (HyperText Markup Language) is the standard markup language for structuring content on the web. CSS (Cascading Style Sheets) controls visual presentation—layout, colors, typography—and JavaScript adds interactivity, responding to user events and manipulating the page dynamically. Together, these three technologies form the foundation of front-end web development, and learning them requires a rapid feedback loop between writing code and seeing the result.",
         "An HTML executor, also called a code playground or sandbox, runs HTML, CSS, and JavaScript in the browser without requiring a local development server or file system setup. You type markup and scripts into editor panels, and the tool renders the output in a live preview pane. This immediate visual feedback accelerates learning: a student experimenting with CSS flexbox can adjust properties and watch the layout change in real time, building muscle memory for syntax and behavior.",
         "Sandboxes are used throughout web development education, technical interviews, and rapid prototyping. When debugging a layout issue, isolating the problematic HTML and CSS in a sandbox removes distractions from the rest of a project. When learning JavaScript DOM manipulation, a sandbox lets you create elements, attach event listeners, and inspect results without refreshing a full application. The sandboxed iframe environment also provides a measure of security by limiting the code's access to the parent page.",
         "Modern web development workflows involve build tools, frameworks, and package managers, but the underlying concepts—semantic HTML, CSS selectors, JavaScript functions and events—remain unchanged. A playground strips away tooling complexity so you can focus on core language features. Whether you are writing your first hello-world page or testing a CSS animation before integrating it into a project, an executor provides the fastest path from code to visual result.",
-        "The Online HTML / JS Executor on Online Science Tools provides separate panels for HTML, CSS, and JavaScript with a live rendered preview. Use it to experiment with layouts, test color values from the Hex Color Picker and Converter, practice DOM scripting, and prototype interactive widgets. It complements the Binary Calculator and Converter when building educational pages that display numeric conversions, and serves as a hands-on companion to any web development or computing course.",
+        "The HTML Executor on Online Science Tools provides separate panels for HTML, CSS, and JavaScript with a live rendered preview. Use it to experiment with layouts, test color values from the Hex Color Picker and Converter, practice DOM scripting, and prototype interactive widgets. It complements the Binary Calculator and Converter when building educational pages that display numeric conversions, and serves as a hands-on companion to any web development or computing course.",
       ],
       bullets: [
         "HTML defines document structure using elements like div, p, h1, and semantic tags",
@@ -246,13 +247,18 @@ JavaScript DOM access:
         "Verify each color matches values from the Hex Color Picker and Converter.",
       ],
       toolCheck:
-        "Paste the HTML, CSS, and JavaScript from the steps above into the Online HTML / JS Executor on Online Science Tools. The preview pane should render the heading, colored box, and button. Click Change Color and confirm the box cycles through #3498DB, #FF5733, #2ECC71, and #9B59B6. Modify a CSS property such as border-radius and watch the preview update instantly. Use the Hex Color Picker and Converter to find new colors and add them to the JavaScript array.",
+        "Paste the HTML, CSS, and JavaScript from the steps above into the HTML Executor on Online Science Tools. The preview pane should render the heading, colored box, and button. Click Change Color and confirm the box cycles through #3498DB, #FF5733, #2ECC71, and #9B59B6. Modify a CSS property such as border-radius and watch the preview update instantly. Use the Hex Color Picker and Converter to find new colors and add them to the JavaScript array.",
     },
     faq: [
       {
+        question: "What is an HTML Executor?",
+        answer:
+          "An HTML Executor (sometimes searched as html executer) is a browser playground that runs HTML, CSS, and JavaScript and shows a live preview. This HTML Executor sandboxes the result in an iframe so you can test markup and scripts without a local server.",
+      },
+      {
         question: "Is the HTML executor safe to run arbitrary code?",
         answer:
-          "The Online HTML / JS Executor renders your code inside a sandboxed iframe, which isolates it from the rest of the page and limits access to parent document resources. This prevents accidental interference with the hosting site. However, you should still avoid pasting untrusted code from unknown sources, as browser sandboxing is not a complete security boundary against all attack vectors.",
+          "The HTML Executor renders your code inside a sandboxed iframe, which isolates it from the rest of the page and limits access to parent document resources. This prevents accidental interference with the hosting site. However, you should still avoid pasting untrusted code from unknown sources, as browser sandboxing is not a complete security boundary against all attack vectors.",
       },
       {
         question: "Can I use external libraries like React or jQuery?",
@@ -272,7 +278,7 @@ JavaScript DOM access:
       {
         question: "Can I save or share my executor projects?",
         answer:
-          "The Online HTML / JS Executor runs entirely in your browser session. Copy your HTML, CSS, and JavaScript to a text file or version control system to save your work. For sharing, paste the code into a gist, repository, or classroom submission. Because there is no server-side storage, refreshing the page clears the editor unless you have saved the content locally.",
+          "The HTML Executor runs entirely in your browser session. Copy your HTML, CSS, and JavaScript to a text file or version control system to save your work. For sharing, paste the code into a gist, repository, or classroom submission. Because there is no server-side storage, refreshing the page clears the editor unless you have saved the content locally.",
       },
     ],
   },

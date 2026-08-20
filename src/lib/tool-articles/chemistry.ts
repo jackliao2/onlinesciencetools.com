@@ -308,13 +308,13 @@ Percent yield:
   },
   {
     slug: "balanceequation",
-    introHeading: "Chemical equation balancer with steps and atom check",
+    introHeading: "Chemical equation balancer and calculator with steps and atom check",
     whatIs: {
       paragraphs: [
         "A balanced chemical equation obeys the law of conservation of mass: every atom present among the reactants must appear among the products in equal numbers. Balancing is not merely a bookkeeping exercise—it produces the stoichiometric coefficients that govern all subsequent mole-ratio calculations in reaction stoichiometry, equilibrium problems, and thermochemical equations. An unbalanced equation implies atoms are created or destroyed, which violates fundamental physical law.",
         "The standard balancing method in general chemistry is inspection: adjust coefficients in front of compound formulas until each element has the same count on both sides. Start with elements that appear in only one reactant and one product, then move to more complex cases involving polyatomic ions that may transfer intact (such as sulfate or nitrate groups). For redox reactions, the half-reaction method or oxidation-number method provides a systematic approach when inspection becomes unwieldy.",
         "Balanced equations appear in virtually every chemistry context. Combustion analysis requires balancing the burning reaction to relate CO₂ and H₂O produced back to the original compound. Acid–base neutralization, precipitation, and gas-evolution reactions all begin with a correctly balanced equation. In thermochemistry, coefficients scale the enthalpy change: if ΔH for forming 1 mol of product is known, doubling the coefficient doubles the enthalpy.",
-        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemistry equation balancer that applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
+        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemical equation calculator and balancer: it applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
         "Correct balancing is the gateway to the Limiting Reagent Calculator and the Chemical Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
       ],
       bullets: [
@@ -478,7 +478,7 @@ Acidic half-reaction pattern (example MnO₄⁻ → Mn²⁺):
       paragraphs: [
         "Dilution is the process of lowering a solution’s concentration by adding solvent. In teaching labs and homework, the working relation is almost always C₁V₁ = C₂V₂: the amount of solute is conserved when you dilute, so the product of concentration and volume stays constant if concentration units are consistent.",
         "Typical tasks include preparing a working solution from a concentrated stock, finding how much stock to pipette into a volumetric flask, or checking what concentration results after combining a known aliquot with solvent up to a final volume. The Dilution Calculator solves for whichever one of C₁, V₁, C₂, or V₂ you leave blank.",
-        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Use the serial dilution mode for 1:10 / 1:100 series, or lab presets such as alcohol, bleach, and hydrogen peroxide dilutions.",
+        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Use the serial dilution mode for 1:10 / 1:20 / 1:200 or 10× steps, or lab presets such as concentrated HCl, H₂SO₄, alcohol, bleach, and hydrogen peroxide.",
       ],
       bullets: [
         "Solute amount is conserved: moles before = moles after (for non-reactive dilution)",
@@ -520,7 +520,7 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       {
         question: "Is this a C₁V₁ = C₂V₂ dilution calculator?",
         answer:
-          "Yes. Leave one of C₁, V₁, C₂, or V₂ blank and the tool solves C₁V₁ = C₂V₂. Dilution factor is C₁/C₂ = V₂/V₁. Switch to serial mode for 1:10 or 1:100 series, or use the alcohol / bleach presets.",
+          "Yes. Leave one of C₁, V₁, C₂, or V₂ blank and the tool solves C₁V₁ = C₂V₂. Dilution factor is C₁/C₂ = V₂/V₁. Switch to serial mode for 1:10, 1:20, 1:200, or 10× series, or use the HCl, H₂SO₄, alcohol, and bleach presets.",
       },
       {
         question: "Can I use mL and L in the same calculation?",
@@ -540,17 +540,27 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       {
         question: "How do I do a 1:10 dilution calculator workflow?",
         answer:
-          "A 1:10 step means the diluted concentration is one-tenth of the stock for that step (dilution factor 10). In simple mode, leave V₁ blank with C₁ known, set C₂ = C₁/10, and enter V₂. In serial mode, choose the 1:10 chip so transfer/final volumes match the factor.",
+          "A 1:10 step means the diluted concentration is one-tenth of the stock for that step (dilution factor 10). In simple mode, leave V₁ blank with C₁ known, set C₂ = C₁/10, and enter V₂. In serial mode, choose the 1:10 or 10× chip so transfer/final volumes match the factor.",
+      },
+      {
+        question: "How do I dilute concentrated HCl or H₂SO₄ stock?",
+        answer:
+          "Use the HCl 12 M → 1 M or H₂SO₄ 18 M → 1 M lab chips, which solve C₁V₁ = C₂V₂ for the stock volume V₁. Concentrated-acid molarities are approximate (≈12 M HCl, ≈18 M H₂SO₄). Always add acid to water, never the reverse, and use a published density table if you need a more exact stock concentration.",
+      },
+      {
+        question: "What is a 1:20 or 1:200 dilution?",
+        answer:
+          "Those ratios mean dilution factors of 20 and 200 (C₂ = C₁/20 or C₁/200). Choose the 1:20 or 1:200 chip: in simple mode the tool sets C₂ from your stock C₁ and solves for V₁; in serial mode it sets the step factor and matching transfer/final volumes.",
       },
     ],
   },
   {
     slug: "concentrationconverter",
-    introHeading: "Concentration converter: M, mM, μM, g/L, %, ppm, molality",
+    introHeading: "Molarity & concentration converter: M, mM, mg/mL, %, ppm",
     whatIs: {
       paragraphs: [
         "Chemists express solution composition in several units. Molarity (mol/L of solution) is common in volumetric work. Molality (mol/kg of solvent) is preferred when temperature changes matter. Mass percent and ppm appear in analytical and environmental contexts. Converting among them requires the solute’s molar mass and, for most conversions, the solution density.",
-        "The Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity in M, mM, and μM, plus g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday g↔mL style conversions.",
+        "The Molarity & Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity in M, mM, and μM, plus g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday mg/mL and g↔mL conversions.",
         "For dilute aqueous solutions, density ≈ 1.00 g/mL is a standard classroom approximation. Concentrated acids, bases, and syrups need a measured or tabulated density or the conversion will be off.",
       ],
       bullets: [
@@ -588,9 +598,19 @@ kg solvent = (mass solution − mass solute) / 1000`,
         "kg solvent ≈ 0.994 kg; molality ≈ 0.100 / 0.994 ≈ 0.101 mol/kg.",
       ],
       toolCheck:
-        "Enter NaCl, density 1.00, molarity 0.100 in the Concentration Converter and compare the table of results.",
+        "Enter NaCl, density 1.00, molarity 0.100 in the Molarity & Concentration Converter and compare the table of results.",
     },
     faq: [
+      {
+        question: "How do I convert concentration to molarity?",
+        answer:
+          "Choose the unit you already know (mM, μM, g/L, mg/mL, mass %, ppm, or molality), enter the value plus a formula or molar mass and density, and read molarity in mol/L. The converter always reports M, mM, and μM together (1 M = 1000 mM = 10⁶ μM).",
+      },
+      {
+        question: "How do I convert mg/mL to molarity?",
+        answer:
+          "mg/mL is numerically the same as g/L (1 mg/mL = 1 g/L). Choose the mg/mL unit, enter the value and the solute formula (or molar mass), then read molarity: M = (mg/mL) / molar mass. Example: 5.844 mg/mL NaCl (58.44 g/mol) is 0.100 M.",
+      },
       {
         question: "How do I convert millimolar to molar?",
         answer:
@@ -743,11 +763,11 @@ Buffer:
   },
   {
     slug: "buffercalculator",
-    introHeading: "Phosphate buffer calculator (acetate, Tris, citrate, and more)",
+    introHeading: "Phosphate buffer calculator (HEPES, MES, borate, Tris, acetate)",
     whatIs: {
       paragraphs: [
-        "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, acetate, Tris, citrate, ammonia, bicarbonate), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
-        "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work.",
+        "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, HEPES, MES, borate, acetate, Tris, citrate, ammonia, bicarbonate), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
+        "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work. Citrate–phosphate (McIlvaine) is two systems mixed, not a new pKa: use the published table, or calculate citrate and phosphate separately.",
         "The Phosphate Buffer Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
       ],
       bullets: [
@@ -793,7 +813,7 @@ m = n · M (molar mass of the acid or base reagent)`,
       {
         question: "Is this a phosphate buffer calculator?",
         answer:
-          "Yes. Choose the Phosphate system for the H₂PO₄⁻ / HPO₄²⁻ pair (sodium salts), set target pH, total molarity, and volume, and read off the grams of each salt. Acetate, citrate, Tris, ammonia, and bicarbonate systems are also available.",
+          "Yes. Choose the Phosphate system for the H₂PO₄⁻ / HPO₄²⁻ pair (sodium salts), set target pH, total molarity, and volume, and read off the grams of each salt. HEPES, MES, borate, acetate, citrate, Tris, ammonia, and bicarbonate systems are also available.",
       },
       {
         question: "Why warn when pH is far from pKa?",
@@ -803,7 +823,17 @@ m = n · M (molar mass of the acid or base reagent)`,
       {
         question: "Can I use this for biological Tris or PBS recipes?",
         answer:
-          "It gives a useful first estimate from Henderson–Hasselbalch. For published protocols (exact hydrates, ionic strength, temperature), follow the lab SOP and verify pH with a calibrated meter.",
+          "It gives a useful first estimate from Henderson–Hasselbalch. PBS is phosphate-buffered saline: choose Phosphate for the H₂PO₄⁻/HPO₄²⁻ salts, then add NaCl (and KCl if required) from your protocol—this tool does not add the saline. For published SOPs (hydrates, ionic strength, temperature), follow the lab recipe and verify pH with a calibrated meter.",
+      },
+      {
+        question: "Does this include HEPES, MES, or borate buffer?",
+        answer:
+          "Yes. HEPES (pKa ≈ 7.48) and MES (pKa ≈ 6.15) are Good’s buffers; borate uses boric acid / borate (pKa ≈ 9.24). Select the chip, enter target pH, total C, and volume, and read acid/base grams. These are single-pKa teaching recipes—confirm temperature and hydrates against your SOP.",
+      },
+      {
+        question: "Is citrate–phosphate (McIlvaine) a separate buffer system?",
+        answer:
+          "No. Citrate–phosphate mixes citric acid with phosphate; it is not a new pKa. Use a published McIlvaine table, or calculate citrate and phosphate separately. This calculator treats citrate and phosphate as distinct named systems.",
       },
       {
         question: "How does this relate to the pH Calculator?",
@@ -1030,11 +1060,11 @@ q_rxn = n × ΔH`,
   },
   {
     slug: "kineticscalculator",
-    introHeading: "Kinetics calculator for integrated rate laws and half-life",
+    introHeading: "Kinetics calculator for rate constant k, half-life, and integrated rate laws",
     whatIs: {
       paragraphs: [
         "Chemical kinetics describes how fast concentrations change. For elementary decay of a single reactant, the integrated rate laws for orders 0, 1, and 2 relate [A], t, and k. Half-life t½ is the time for [A] to fall to half of its initial value; only first-order t½ is independent of [A]₀.",
-        "The Kinetics Calculator solves for remaining concentration, time, rate constant, or half-life once you choose the order and provide the known quantities.",
+        "The Kinetics Calculator is also a rate constant calculator: solve for remaining concentration, time, k, or half-life once you choose the order and provide the known quantities.",
       ],
       bullets: [
         "Zero order: [A] = [A]₀ − kt",
@@ -1066,6 +1096,11 @@ q_rxn = n × ΔH`,
         question: "Is this a half-life calculator?",
         answer:
           "Yes. Choose the reaction order, then solve for t½, remaining concentration, time, or k. First-order half-life is ln 2 / k and does not depend on [A]₀; zero- and second-order half-lives do.",
+      },
+      {
+        question: "Can I use this as a rate constant calculator?",
+        answer:
+          "Yes. Choose the order and solve for k from two concentrations and a time (or from t½). Units of k depend on order: M/time (0), 1/time (1), 1/(M·time) (2).",
       },
       {
         question: "How do I know the order?",

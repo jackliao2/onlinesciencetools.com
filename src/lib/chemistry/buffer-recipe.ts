@@ -44,7 +44,32 @@ export const BUFFER_SYSTEMS: BufferSystem[] = [
     baseFormula: "Na2HPO4",
     pHMin: 6.2,
     pHMax: 8.2,
-    notes: "Monobasic/dibasic sodium phosphates. pKa₂ ≈ 7.20.",
+    notes:
+      "Monobasic/dibasic sodium phosphates. pKa₂ ≈ 7.20. PBS is this same pair plus NaCl (and often KCl)—this calculator gives the phosphate recipe, not the saline.",
+  },
+  {
+    id: "hepes",
+    name: "HEPES (HEPES / HEPES⁻)",
+    label: "HEPES",
+    pKa: 7.48,
+    acidFormula: "C8H18N2O4S",
+    baseFormula: "NaC8H17N2O4S",
+    pHMin: 6.8,
+    pHMax: 8.2,
+    notes:
+      "Good’s buffer, pKa ≈ 7.48 at 25 °C. Recipe uses HEPES free acid + HEPES sodium salt. pKa is temperature-sensitive; verify with a meter.",
+  },
+  {
+    id: "mes",
+    name: "MES (MES / MES⁻)",
+    label: "MES",
+    pKa: 6.15,
+    acidFormula: "C6H13NO4S",
+    baseFormula: "NaC6H12NO4S",
+    pHMin: 5.5,
+    pHMax: 6.7,
+    notes:
+      "Good’s buffer, pKa ≈ 6.15 at 25 °C. Useful near pH 6. Recipe uses MES free acid + MES sodium salt.",
   },
   {
     id: "citrate",
@@ -67,6 +92,18 @@ export const BUFFER_SYSTEMS: BufferSystem[] = [
     pHMin: 7.0,
     pHMax: 9.0,
     notes: "Approximate Tris buffer using pKa ≈ 8.07. Prefer lab protocols for critical work.",
+  },
+  {
+    id: "borate",
+    name: "Borate (H₃BO₃ / B(OH)₄⁻)",
+    label: "Borate",
+    pKa: 9.24,
+    acidFormula: "H3BO3",
+    baseFormula: "NaBO2",
+    pHMin: 8.2,
+    pHMax: 10.2,
+    notes:
+      "Boric acid / borate, pKa ≈ 9.24. Approximate single-pKa recipe (H₃BO₃ / NaBO₂). Lab protocols often use boric acid + NaOH or borax.",
   },
   {
     id: "ammonium",

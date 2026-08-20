@@ -144,6 +144,34 @@ eq(
   approx(buf.hhCheckPh, 7.4, 1e-9, "buffer HH check");
 }
 {
+  const hepes = calculateBufferRecipe({
+    systemId: "hepes",
+    targetPh: 7.48,
+    totalMolarity: 0.1,
+    volumeL: 1,
+  });
+  approx(hepes.ratioBaseOverAcid, 1, 1e-6, "HEPES at pKa");
+  approx(hepes.acidMolarMass, 238.3, 0.1, "HEPES acid MM");
+}
+{
+  const mes = calculateBufferRecipe({
+    systemId: "mes",
+    targetPh: 6.15,
+    totalMolarity: 0.1,
+    volumeL: 1,
+  });
+  approx(mes.ratioBaseOverAcid, 1, 1e-6, "MES at pKa");
+}
+{
+  const borate = calculateBufferRecipe({
+    systemId: "borate",
+    targetPh: 9.24,
+    totalMolarity: 0.05,
+    volumeL: 1,
+  });
+  approx(borate.ratioBaseOverAcid, 1, 1e-6, "borate at pKa");
+}
+{
   const buf = calculateBufferRecipe({
     systemId: "acetate",
     targetPh: 4.76,
@@ -186,6 +214,11 @@ approx(
 // --- Dilution ---
 const dil = solveDilution({ c1: 2, v1: null, c2: 0.5, v2: 0.25 });
 approx(dil.v1, 0.0625, 1e-9, "dilution v1");
+{
+  const hcl = solveDilution({ c1: 12, v1: null, c2: 1, v2: 1000 });
+  approx(hcl.v1, 1000 / 12, 1e-9, "HCl 12 M → 1 M V1");
+  approx(hcl.dilutionFactor, 12, 1e-9, "HCl dilution factor");
+}
 const serial = solveSerialDilution({
   stockC: 1,
   factor: 10,
@@ -221,6 +254,16 @@ approx(conc.massPercent, 0.5844, 0.01, "0.1 M NaCl mass%");
   });
   approx(mm.molarity, 0.1, 1e-9, "100 mM = 0.1 M");
   approx(mm.micromolar, 1e5, 1e-6, "100 mM = 1e5 μM");
+}
+{
+  const mgml = convertConcentration({
+    value: 5.844,
+    kind: "milligramsPerMl",
+    molarMass: 58.44,
+    density: 1.0,
+  });
+  approx(mgml.molarity, 0.1, 1e-6, "5.844 mg/mL NaCl = 0.1 M");
+  approx(mgml.gramsPerLiter, 5.844, 1e-9, "mg/mL equals g/L");
 }
 throws(
   () =>

@@ -12,6 +12,7 @@ export type ConcentrationKind =
   | "millimolar"
   | "micromolar"
   | "gramsPerLiter"
+  | "milligramsPerMl"
   | "massPercent"
   | "ppm"
   | "molality";
@@ -87,6 +88,8 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
       molarity = value / 1e6;
       break;
     case "gramsPerLiter":
+    case "milligramsPerMl":
+      // 1 mg/mL = 1 g/L
       molarity = value / molarMass;
       break;
     case "massPercent": {

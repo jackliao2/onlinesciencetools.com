@@ -14,6 +14,7 @@ const KINDS: Array<{ id: ConcentrationKind; label: string; unit: string }> = [
   { id: "millimolar", label: "Millimolar", unit: "mmol/L (mM)" },
   { id: "micromolar", label: "Micromolar", unit: "μmol/L (μM)" },
   { id: "gramsPerLiter", label: "Mass concentration", unit: "g/L" },
+  { id: "milligramsPerMl", label: "mg/mL", unit: "mg/mL" },
   { id: "massPercent", label: "Mass percent", unit: "% (w/w)" },
   { id: "ppm", label: "ppm (mass)", unit: "mg/kg" },
   { id: "molality", label: "Molality", unit: "mol/kg" },
@@ -42,6 +43,14 @@ export function ConcentrationConverter() {
       density: "1.00",
       kind: "millimolar" as const,
       value: "100",
+    },
+    {
+      id: "mgmlnacl",
+      label: "5.844 mg/mL NaCl",
+      formula: "NaCl",
+      density: "1.00",
+      kind: "milligramsPerMl" as const,
+      value: "5.844",
     },
     {
       id: "nacl",
@@ -109,9 +118,9 @@ export function ConcentrationConverter() {
     <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium">Concentration converter</p>
+          <p className="text-sm font-medium">Molarity & concentration converter</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Molarity (M, mM, μM) · g/L · mass % · ppm · molality
+            Molarity (M, mM, μM) · g/L · mg/mL · mass % · ppm · molality
           </p>
         </div>
         <button

@@ -180,10 +180,29 @@ export const DILUTION_RATIO_PRESETS = [
   { id: "1:2", label: "1:2", factor: 2 },
   { id: "1:5", label: "1:5", factor: 5 },
   { id: "1:10", label: "1:10", factor: 10 },
+  { id: "10x", label: "10×", factor: 10 },
+  { id: "1:20", label: "1:20", factor: 20 },
   { id: "1:100", label: "1:100", factor: 100 },
+  { id: "1:200", label: "1:200", factor: 200 },
 ] as const;
 
 export const DILUTION_LAB_PRESETS = [
+  {
+    id: "hcl-1m",
+    label: "HCl 12 M → 1 M",
+    c1: "12",
+    c2: "1",
+    v2: "1000",
+    concUnit: "M",
+  },
+  {
+    id: "h2so4-1m",
+    label: "H₂SO₄ 18 M → 1 M",
+    c1: "18",
+    c2: "1",
+    v2: "1000",
+    concUnit: "M",
+  },
   {
     id: "alcohol-70",
     label: "Alcohol 95% → 70%",
