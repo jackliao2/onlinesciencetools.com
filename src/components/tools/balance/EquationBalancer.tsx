@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BalanceError,
   balanceEquation,
 } from "@/lib/chemistry/balance-equation";
+import { BalancePractice } from "@/components/tools/balance/BalancePractice";
+import { FormulaDisplay } from "@/components/tools/balance/FormulaDisplay";
 import { Scale, RotateCcw } from "lucide-react";
 
 const EXAMPLES = [
@@ -17,6 +19,7 @@ const EXAMPLES = [
 ];
 
 export function EquationBalancer() {
+  const [mode, setMode] = useState<"balance" | "practice">("balance");
   const [input, setInput] = useState("Fe + O2 = Fe2O3");
 
   const result = useMemo(() => {
@@ -33,6 +36,15 @@ export function EquationBalancer() {
     }
   }, [input]);
 
+  useEffect(() => {
+    const syncHash = () => {
+      if (window.location.hash === "#practice") setMode("practice");
+    };
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
+
   return (
     <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.45)] sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -42,16 +54,50 @@ export function EquationBalancer() {
             Chemistry equation balancer
           </span>
         </div>
-        <button
-          type="button"
-          onClick={() => setInput("Fe + O2 = Fe2O3")}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-        >
-          <RotateCcw className="h-3.5 w-3.5" />
-          Reset
-        </button>
+        {mode === "balance" ? (
+          <button
+            type="button"
+            onClick={() => setInput("Fe + O2 = Fe2O3")}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Reset
+          </button>
+        ) : null}
       </div>
 
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {(
+          [
+            ["balance", "Balance"],
+            ["practice", "Practice"],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => {
+              setMode(id);
+              const url = new URL(window.location.href);
+              if (id === "practice") url.hash = "practice";
+              else url.hash = "";
+              window.history.replaceState(null, "", url);
+            }}
+            className={`border px-2.5 py-1.5 text-xs ${
+              mode === id
+                ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
+                : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {mode === "practice" ? <BalancePractice /> : null}
+
+      {mode === "balance" ? (
+        <>
       <label className="mt-6 block">
         <span className="mb-2 block text-sm font-medium">Chemical equation</span>
         <input
@@ -142,6 +188,8 @@ export function EquationBalancer() {
           </div>
         )}
       </div>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -162,7 +210,7 @@ function SideCard({
         {items.map((item) => (
           <li key={`${title}-${item.formula}`}>
             <span className="text-[var(--accent)]">{item.coefficient}</span>{" "}
-            {item.formula}
+            <FormulaDisplay formula={item.formula} />
           </li>
         ))}
       </ul>

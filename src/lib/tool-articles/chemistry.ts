@@ -308,13 +308,13 @@ Percent yield:
   },
   {
     slug: "balanceequation",
-    introHeading: "Chemical equation balancer and calculator with steps and atom check",
+    introHeading: "Chemical equation balancer, calculator, and practice",
     whatIs: {
       paragraphs: [
         "A balanced chemical equation obeys the law of conservation of mass: every atom present among the reactants must appear among the products in equal numbers. Balancing is not merely a bookkeeping exercise—it produces the stoichiometric coefficients that govern all subsequent mole-ratio calculations in reaction stoichiometry, equilibrium problems, and thermochemical equations. An unbalanced equation implies atoms are created or destroyed, which violates fundamental physical law.",
         "The standard balancing method in general chemistry is inspection: adjust coefficients in front of compound formulas until each element has the same count on both sides. Start with elements that appear in only one reactant and one product, then move to more complex cases involving polyatomic ions that may transfer intact (such as sulfate or nitrate groups). For redox reactions, the half-reaction method or oxidation-number method provides a systematic approach when inspection becomes unwieldy.",
         "Balanced equations appear in virtually every chemistry context. Combustion analysis requires balancing the burning reaction to relate CO₂ and H₂O produced back to the original compound. Acid–base neutralization, precipitation, and gas-evolution reactions all begin with a correctly balanced equation. In thermochemistry, coefficients scale the enthalpy change: if ΔH for forming 1 mol of product is known, doubling the coefficient doubles the enthalpy.",
-        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemical equation calculator and balancer: it applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table for practice and homework verification.",
+        "Students frequently struggle with balancing because they attempt to change subscripts within formulas rather than adjusting coefficients. The subscripts in H₂O, for instance, define water's identity and must never be altered—only the coefficient in front may change. The Chemical Equation Balancer on Online Science Tools is a free chemical equation calculator and balancer: it applies algorithmic balancing to valid chemical formulas, returns the smallest whole-number coefficients, and shows balancing steps with an atom-check table. Switch to Practice for a 40-equation inspection set (intro, combustion, polyatomic, challenge) with locked formulas, a live atom inventory, hints, and a quiz mode that hides the table until you check.",
         "Correct balancing is the gateway to the Limiting Reagent Calculator and the Chemical Equilibrium Calculator. Without accurate coefficients, limiting reagent predictions and ICE table stoichiometry are wrong from the start. Treat balancing as the first step in any multi-part quantitative chemistry problem, and use our balancer to confirm your handwritten work during homework and exam preparation.",
       ],
       bullets: [
@@ -322,6 +322,7 @@ Percent yield:
         "Polyatomic ions unchanged on both sides can be balanced as units",
         "Redox equations may require the half-reaction method in acidic or basic medium",
         "The smallest whole-number coefficient set is the convention for balanced equations",
+        "Practice mode locks formulas and only lets you edit coefficients, with a live atom-check table",
       ],
     },
     formula: {
@@ -365,6 +366,11 @@ Balanced:  CH₄ + 2O₂ → CO₂ + 2H₂O`,
         "Enter C2H5OH + O2 -> CO2 + H2O into the Chemical Equation Balancer on Online Science Tools. The tool should return coefficients 1, 3, 2, 3 for ethanol, oxygen, carbon dioxide, and water respectively, matching your hand-balanced result. Use these coefficients in the Limiting Reagent Calculator if you need to compute yields, or check individual molar masses with the Stoichiometry Calculator.",
     },
     faq: [
+      {
+        question: "Is there a balancing chemical equations practice mode?",
+        answer:
+          "Yes. Switch to Practice on this page, or open /tools/balanceequation#practice. Formulas stay locked so you only edit coefficients. The set has 40 textbook equations in intro, combustion, polyatomic, and challenge groups. A live atom-check table shows which elements are still off as you type; Quiz hides the table until you check. If your coefficients are a multiple of the smallest whole-number set, the tool says so and lets you reduce.",
+      },
       {
         question: "Is this a chemical equation calculator as well as a balancer?",
         answer:

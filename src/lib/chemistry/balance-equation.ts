@@ -62,6 +62,63 @@ function stripLeadingCoefficient(token: string): string {
   return token.replace(/^\d+/, "").trim() || token;
 }
 
+/** Split an equation and strip any typed leading coefficients from each species. */
+export function parseEquationSides(raw: string): {
+  left: string[];
+  right: string[];
+} {
+  const { left, right } = splitEquation(raw);
+  return {
+    left: left.map(stripLeadingCoefficient),
+    right: right.map(stripLeadingCoefficient),
+  };
+}
+
+export function atomCheckForCoefficients(
+  left: string[],
+  right: string[],
+  coeffs: number[],
+): AtomCheckRow[] {
+  if (coeffs.length !== left.length + right.length) {
+    throw new BalanceError(
+      "Coefficient count does not match the number of species.",
+    );
+  }
+
+  const formulas = [...left, ...right];
+  const compositions = formulas.map((formula) => {
+    try {
+      return parseFormula(formula);
+    } catch (error) {
+      if (error instanceof FormulaParseError) {
+        throw new BalanceError(`${formula}: ${error.message}`);
+      }
+      throw error;
+    }
+  });
+
+  const elements = [
+    ...new Set(compositions.flatMap((c) => c.composition.map((e) => e.element))),
+  ].sort();
+
+  return elements.map((el) => {
+    let reactantAtoms = 0;
+    let productAtoms = 0;
+    for (let j = 0; j < left.length; j += 1) {
+      const count =
+        compositions[j].composition.find((c) => c.element === el)?.count ?? 0;
+      reactantAtoms += coeffs[j] * count;
+    }
+    for (let j = 0; j < right.length; j += 1) {
+      const idx = left.length + j;
+      const count =
+        compositions[idx].composition.find((c) => c.element === el)?.count ?? 0;
+      productAtoms += coeffs[idx] * count;
+    }
+    return { element: el, reactantAtoms, productAtoms };
+  });
+}
+
 function gcd(a: number, b: number): number {
   let x = Math.abs(a);
   let y = Math.abs(b);
@@ -135,11 +192,8 @@ function toIntegerCoefficients(values: number[]): number[] {
  * Reactants contribute +coeff·atoms, products contribute −coeff·atoms → sum 0.
  */
 export function balanceEquation(raw: string): BalanceResult {
-  const { left, right } = splitEquation(raw);
-  const formulas = [
-    ...left.map(stripLeadingCoefficient),
-    ...right.map(stripLeadingCoefficient),
-  ];
+  const { left, right } = parseEquationSides(raw);
+  const formulas = [...left, ...right];
 
   const compositions = formulas.map((formula) => {
     try {
@@ -316,12 +370,12 @@ export function balanceEquation(raw: string): BalanceResult {
   }
 
   const reactants = left.map((formula, i) => ({
-    formula: stripLeadingCoefficient(formula),
+    formula,
     coefficient: coeffs[i],
     side: "reactant" as const,
   }));
   const products = right.map((formula, i) => ({
-    formula: stripLeadingCoefficient(formula),
+    formula,
     coefficient: coeffs[left.length + i],
     side: "product" as const,
   }));
@@ -331,25 +385,10 @@ export function balanceEquation(raw: string): BalanceResult {
       .map((s) => (s.coefficient === 1 ? s.formula : `${s.coefficient}${s.formula}`))
       .join(" + ");
 
-  const atomCheck: AtomCheckRow[] = elements.map((el) => {
-    let reactantAtoms = 0;
-    let productAtoms = 0;
-    for (let j = 0; j < left.length; j += 1) {
-      const count =
-        compositions[j].composition.find((c) => c.element === el)?.count ?? 0;
-      reactantAtoms += coeffs[j] * count;
-    }
-    for (let j = 0; j < right.length; j += 1) {
-      const idx = left.length + j;
-      const count =
-        compositions[idx].composition.find((c) => c.element === el)?.count ?? 0;
-      productAtoms += coeffs[idx] * count;
-    }
-    return { element: el, reactantAtoms, productAtoms };
-  });
+  const atomCheck = atomCheckForCoefficients(left, right, coeffs);
 
   const steps = [
-    `Parse species: ${[...left, ...right].map(stripLeadingCoefficient).join(", ")}.`,
+    `Parse species: ${[...left, ...right].join(", ")}.`,
     `Identify elements to conserve: ${elements.join(", ")}.`,
     `Solve for the smallest positive integer coefficients that balance every element.`,
     `Balanced equation: ${fmt(reactants)} → ${fmt(products)}.`,

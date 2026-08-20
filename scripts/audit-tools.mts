@@ -2,6 +2,10 @@
  * Cross-tool correctness audit — exits non-zero on failure.
  */
 import { balanceEquation } from "../src/lib/chemistry/balance-equation.ts";
+import {
+  BALANCE_PRACTICE_PROBLEMS,
+  gradeAttempt,
+} from "../src/lib/chemistry/balance-practice.ts";
 import { parseFormula, molesFromMass } from "../src/lib/chemistry/molar-mass.ts";
 import {
   empiricalFromElements,
@@ -97,6 +101,44 @@ eq(
   balanceEquation("AgNO3 + CaCl2 = AgCl + Ca(NO3)2").equation,
   "2AgNO3 + CaCl2 → 2AgCl + Ca(NO3)2",
   "balance AgNO3",
+);
+
+{
+  const ids = new Set(BALANCE_PRACTICE_PROBLEMS.map((p) => p.id));
+  eq(ids.size, BALANCE_PRACTICE_PROBLEMS.length, "practice ids unique");
+  eq(BALANCE_PRACTICE_PROBLEMS.length, 40, "practice bank size");
+}
+for (const problem of BALANCE_PRACTICE_PROBLEMS) {
+  const result = balanceEquation(problem.equation);
+  eq(
+    result.atomCheck.every((row) => row.reactantAtoms === row.productAtoms),
+    true,
+    `practice ${problem.id} balances`,
+  );
+  const expected = [...result.reactants, ...result.products].map((s) =>
+    String(s.coefficient),
+  );
+  eq(
+    gradeAttempt(problem.equation, expected).status,
+    "correct",
+    `practice ${problem.id} grades correct`,
+  );
+}
+eq(
+  gradeAttempt("H2 + O2 = H2O", ["4", "2", "4"]).status,
+  "reducible",
+  "water 2× is reducible",
+);
+eq(gradeAttempt("H2 + O2 = H2O", ["4", "2", "4"]).factor, 2, "water factor 2");
+eq(
+  gradeAttempt("H2 + O2 = H2O", ["1", "1", "1"]).status,
+  "unbalanced",
+  "water all-1 unbalanced",
+);
+eq(
+  gradeAttempt("H2 + O2 = H2O", ["2", "1", ""]).status,
+  "incomplete",
+  "blank incomplete",
 );
 
 // --- Redox ---

@@ -4,9 +4,11 @@ import { getPracticeProblems } from "@/lib/practice-problems";
 export function PracticeProblems({
   slug,
   topicLabel,
+  heading,
 }: {
   slug: string;
   topicLabel?: string;
+  heading?: string;
 }) {
   const problems = getPracticeProblems(slug);
   if (problems.length === 0) return null;
@@ -14,7 +16,7 @@ export function PracticeProblems({
   return (
     <section className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
       <article className="prose-ost max-w-none rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10">
-        <h2>Practice problems & worked examples</h2>
+        <h2>{heading ?? "Practice problems & worked examples"}</h2>
         <p>
           Practice alongside the {topicLabel ?? "tool"} above. Each problem
           includes a full worked solution so you can check your reasoning step by

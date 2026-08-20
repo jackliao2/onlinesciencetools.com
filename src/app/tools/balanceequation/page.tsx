@@ -5,6 +5,7 @@ import { PracticeProblems } from "@/components/tools/PracticeProblems";
 import { ToolSeoArticle } from "@/components/tools/ToolSeoArticle";
 import { JsonLd } from "@/components/tools/JsonLd";
 import { EquationBalancer } from "@/components/tools/balance/EquationBalancer";
+import { BalancePracticeCatalog } from "@/components/tools/balance/BalancePracticeCatalog";
 import { buildToolMetadata, buildWebApplicationJsonLd } from "@/lib/seo";
 import { categoryLabels, getToolBySlug } from "@/lib/tools";
 
@@ -27,10 +28,13 @@ export default function BalanceEquationPage() {
         <EquationBalancer />
       </section>
 
+      <BalancePracticeCatalog />
+
       <ToolSeoArticle slug={tool.slug} />
       <PracticeProblems
         slug={tool.slug}
         topicLabel="equation balancer"
+        heading="Worked examples"
       />
       <RelatedTools slug={tool.slug} />
     </>

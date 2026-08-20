@@ -67,7 +67,7 @@ export const tools: Tool[] = [
     title: "Chemical Equation Balancer",
     shortTitle: "Equation Balancer",
     description:
-      "Chemical equation calculator and balancer—smallest whole-number coefficients, steps, and an atom-check table.",
+      "Balance chemical equations or practice inspection balancing—smallest coefficients, steps, and a live atom-check table.",
     category: "chemistry",
     group: "reactions",
     status: "live",
@@ -82,6 +82,8 @@ export const tools: Tool[] = [
       "equation balancer",
       "stoichiometric coefficients",
       "balancing chemical equations practice",
+      "balancing equations practice",
+      "practice balancing chemical equations",
     ],
     accent: "lime",
   },
