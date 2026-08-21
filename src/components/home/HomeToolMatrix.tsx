@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useDeferredValue, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useDeferredValue, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { filterSearchItems, getSearchIndex } from "@/lib/search";
 import {
@@ -23,7 +24,20 @@ const filterTabs: Array<{ id: SectionFilter; label: string }> = [
   { id: "guides", label: "Guides" },
 ];
 
+function sectionFromHash(hash: string): SectionFilter | null {
+  if (hash === "#guides") return "guides";
+  if (hash === "#tools") return "all";
+  return null;
+}
+
+function hashForSection(id: SectionFilter): string {
+  if (id === "guides") return "#guides";
+  if (id === "all") return "#tools";
+  return "";
+}
+
 export function HomeToolMatrix() {
+  const pathname = usePathname();
   const [query, setQuery] = useState("");
   const [section, setSection] = useState<SectionFilter>("all");
   const deferred = useDeferredValue(query);
@@ -44,6 +58,33 @@ export function HomeToolMatrix() {
 
   const showTools = section !== "guides";
   const showGuides = section === "all" || section === "guides";
+
+  useLayoutEffect(() => {
+    const next = sectionFromHash(window.location.hash);
+    if (next) setSection(next);
+  }, [pathname]);
+
+  useEffect(() => {
+    const apply = () => {
+      const next = sectionFromHash(window.location.hash);
+      if (next) setSection(next);
+    };
+    window.addEventListener("hashchange", apply);
+    return () => window.removeEventListener("hashchange", apply);
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash !== "#guides" && hash !== "#tools") return;
+    document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
+  }, [section]);
+
+  const selectSection = (id: SectionFilter) => {
+    setSection(id);
+    const hash = hashForSection(id);
+    const url = hash ? `/${hash}` : "/";
+    window.history.replaceState(null, "", url);
+  };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
@@ -77,9 +118,10 @@ export function HomeToolMatrix() {
       </header>
 
       <div
+        id="guides"
         role="tablist"
         aria-label="Browse by subject"
-        className="mt-5 flex flex-wrap gap-1 border-b border-[var(--border)] pb-px"
+        className="mt-5 flex scroll-mt-28 flex-wrap gap-1 border-b border-[var(--border)] pb-px lg:scroll-mt-20"
       >
         {filterTabs.map((tab) => {
           const active = section === tab.id;
@@ -89,7 +131,7 @@ export function HomeToolMatrix() {
               type="button"
               role="tab"
               aria-selected={active}
-              onClick={() => setSection(tab.id)}
+              onClick={() => selectSection(tab.id)}
               className={`rounded-t-md px-3 py-2 text-sm transition ${
                 active
                   ? "-mb-px border border-b-[var(--background)] border-[var(--border)] bg-[var(--background)] font-medium text-[var(--foreground)]"
@@ -108,7 +150,7 @@ export function HomeToolMatrix() {
         </p>
       ) : null}
 
-      <div id="tools" className="mt-6 min-w-0 space-y-12">
+      <div id="tools" className="mt-6 min-w-0 scroll-mt-28 space-y-12 lg:scroll-mt-20">
         {showTools && toolResults.length === 0 && searching ? (
           <p className="text-sm text-[var(--muted)]">
             No tools match “{query}”.
@@ -186,9 +228,12 @@ export function HomeToolMatrix() {
           : null}
 
         {showGuides ? (
-          <section id="guides">
+          <section aria-labelledby="home-guides-heading">
             <div className="mb-0 flex items-center gap-3 border-l-[3px] border-[var(--accent)] bg-[var(--surface-2)] px-3 py-2.5">
-              <h2 className="text-[13px] font-semibold uppercase tracking-[0.08em]">
+              <h2
+                id="home-guides-heading"
+                className="text-[13px] font-semibold uppercase tracking-[0.08em]"
+              >
                 Guides
               </h2>
               <span className="text-xs tabular-nums text-[var(--muted)]">

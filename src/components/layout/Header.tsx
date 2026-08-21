@@ -19,12 +19,14 @@ export function Header() {
           <nav className="flex items-center gap-1 text-sm lg:hidden">
             <Link
               href="/#tools"
+              scroll={false}
               className="rounded-lg px-2 py-2 text-[var(--muted)] hover:text-[var(--foreground)]"
             >
               Tools
             </Link>
             <Link
               href="/#guides"
+              scroll={false}
               className="rounded-lg px-2 py-2 text-[var(--muted)] hover:text-[var(--foreground)]"
             >
               Guides
@@ -39,12 +41,14 @@ export function Header() {
           <nav className="hidden items-center gap-1 text-sm lg:flex">
             <Link
               href="/#tools"
+              scroll={false}
               className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
             >
               Tools
             </Link>
             <Link
               href="/#guides"
+              scroll={false}
               className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
             >
               Guides
