@@ -10,11 +10,12 @@ export type PhMode =
   | "strong-base"
   | "weak-acid"
   | "weak-base"
-  | "buffer";
+  | "buffer"
+  | "neutralization";
 
 export interface PhInput {
   mode: PhMode;
-  /** Analytical concentration of acid/base (M), or HA for buffer */
+  /** Analytical concentration of acid/base (M), HA for buffer, or strong acid for neutralization */
   concentration: number;
   /** Ka for weak acid / buffer; Kb for weak base */
   constant?: number;
@@ -22,6 +23,12 @@ export interface PhInput {
   conjugate?: number;
   /** Temperature Kw approximation at 25 °C */
   kw?: number;
+  /** Neutralization: strong-acid volume (L) */
+  acidVolumeL?: number;
+  /** Neutralization: strong-base molarity (M) */
+  baseConcentration?: number;
+  /** Neutralization: strong-base volume (L) */
+  baseVolumeL?: number;
 }
 
 export interface PhResult {
@@ -218,6 +225,71 @@ function buffer(
   };
 }
 
+/**
+ * Strong monoprotic acid + strong monohydroxide base after mixing.
+ * Volumes are assumed additive. Equivalence is water-limited (pH from Kw).
+ */
+function neutralization(
+  acidM: number,
+  acidVL: number,
+  baseM: number,
+  baseVL: number,
+  kw: number,
+): Omit<PhResult, "mode" | "expression"> {
+  validatePositive(acidM, "Acid concentration");
+  validatePositive(baseM, "Base concentration");
+  if (!(acidVL > 0) || !Number.isFinite(acidVL)) {
+    throw new PhError("Acid volume must be a positive number.");
+  }
+  if (!(baseVL > 0) || !Number.isFinite(baseVL)) {
+    throw new PhError("Base volume must be a positive number.");
+  }
+
+  const nH = acidM * acidVL;
+  const nOH = baseM * baseVL;
+  const vTot = acidVL + baseVL;
+  const leftoverM = (nH - nOH) / vTot;
+  const notes = [
+    "Strong monoprotic acid + strong monohydroxide base; volumes assumed additive.",
+    "Polyprotic acids (H₂SO₄) and weak acid–base titrations are outside this mode.",
+  ];
+
+  if (Math.abs(leftoverM) < 1e-12) {
+    const h = Math.sqrt(kw);
+    const oh = kw / h;
+    notes.push("At equivalence the leftover strong acid/base is zero, so pH is set by Kw.");
+    return {
+      pH: -Math.log10(h),
+      pOH: -Math.log10(oh),
+      hPlus: h,
+      ohMinus: oh,
+      notes,
+    };
+  }
+
+  if (leftoverM > 0) {
+    const core = strongAcid(leftoverM, kw);
+    return {
+      ...core,
+      notes: [
+        ...notes,
+        "Excess strong acid remains after neutralization.",
+        ...core.notes,
+      ],
+    };
+  }
+
+  const core = strongBase(-leftoverM, kw);
+  return {
+    ...core,
+    notes: [
+      ...notes,
+      "Excess strong base remains after neutralization.",
+      ...core.notes,
+    ],
+  };
+}
+
 export function calculatePh(input: PhInput): PhResult {
   const kw = input.kw ?? KW_25C;
   validatePositive(kw, "Kw");
@@ -271,6 +343,29 @@ export function calculatePh(input: PhInput): PhResult {
       return {
         mode: input.mode,
         expression: "Ka = [H⁺][A⁻]/[HA] with mass and charge balance",
+        ...core,
+      };
+    }
+    case "neutralization": {
+      if (input.acidVolumeL === undefined) {
+        throw new PhError("Enter the strong-acid volume.");
+      }
+      if (input.baseConcentration === undefined) {
+        throw new PhError("Enter the strong-base concentration.");
+      }
+      if (input.baseVolumeL === undefined) {
+        throw new PhError("Enter the strong-base volume.");
+      }
+      const core = neutralization(
+        input.concentration,
+        input.acidVolumeL,
+        input.baseConcentration,
+        input.baseVolumeL,
+        kw,
+      );
+      return {
+        mode: input.mode,
+        expression: "After mixing: leftover = |n(H⁺) − n(OH⁻)| / (V_acid + V_base)",
         ...core,
       };
     }
@@ -329,5 +424,23 @@ export const PH_PRESETS = [
     concentration: 0.1,
     conjugate: 0.1,
     constant: 5.6e-10,
+  },
+  {
+    id: "hcl-naoh-eq",
+    name: "25 mL 0.10 M HCl + 25 mL 0.10 M NaOH",
+    mode: "neutralization" as const,
+    concentration: 0.1,
+    acidVolumeL: 0.025,
+    baseConcentration: 0.1,
+    baseVolumeL: 0.025,
+  },
+  {
+    id: "hcl-naoh-excess-acid",
+    name: "50 mL 0.10 M HCl + 20 mL 0.10 M NaOH",
+    mode: "neutralization" as const,
+    concentration: 0.1,
+    acidVolumeL: 0.05,
+    baseConcentration: 0.1,
+    baseVolumeL: 0.02,
   },
 ];

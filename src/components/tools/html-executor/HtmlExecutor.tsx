@@ -78,7 +78,7 @@ export function HtmlExecutor() {
         <div className="flex items-center gap-2 text-[var(--accent)]">
           <Code2 className="h-5 w-5" />
           <span className="text-sm font-semibold uppercase tracking-[0.14em]">
-            HTML / CSS / JS playground
+            HTML file executor
           </span>
         </div>
         <div className="flex gap-2">
@@ -119,7 +119,9 @@ export function HtmlExecutor() {
           />
         </div>
         <p className="mt-2 text-xs text-[var(--muted)]">
-          Preview runs in a sandboxed iframe (scripts allowed; no same-origin access).
+          Paste an .html file into the HTML panel (put CSS/JS in their panels, or
+          inline). Preview runs in a sandboxed iframe (scripts allowed; no
+          same-origin access).
         </p>
       </div>
     </div>

@@ -484,7 +484,7 @@ Acidic half-reaction pattern (example MnO₄⁻ → Mn²⁺):
       paragraphs: [
         "Dilution is the process of lowering a solution’s concentration by adding solvent. In teaching labs and homework, the working relation is almost always C₁V₁ = C₂V₂: the amount of solute is conserved when you dilute, so the product of concentration and volume stays constant if concentration units are consistent.",
         "Typical tasks include preparing a working solution from a concentrated stock, finding how much stock to pipette into a volumetric flask, or checking what concentration results after combining a known aliquot with solvent up to a final volume. The Dilution Calculator solves for whichever one of C₁, V₁, C₂, or V₂ you leave blank.",
-        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, or another shared unit—the algebra is the same. Use the serial dilution mode for 1:10 / 1:20 / 1:200 or 10× steps, or lab presets such as concentrated HCl, H₂SO₄, alcohol, bleach, and hydrogen peroxide.",
+        "Keep units consistent. If volumes are in milliliters, both V₁ and V₂ should be in milliliters (or both in liters). Concentrations may be molarity, percent, mg/mL, or another shared unit—the algebra is the same. Use the serial dilution mode for 1:10 / 1:20 / 1:200 / 1:1000 or 10× / 100× steps, or lab presets such as concentrated HCl, H₂SO₄, alcohol, bleach, antibody 1:1000, DNA 10×, and primer 100 μM → 10 μM.",
       ],
       bullets: [
         "Solute amount is conserved: moles before = moles after (for non-reactive dilution)",
@@ -526,7 +526,7 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       {
         question: "Is this a C₁V₁ = C₂V₂ dilution calculator?",
         answer:
-          "Yes. Leave one of C₁, V₁, C₂, or V₂ blank and the tool solves C₁V₁ = C₂V₂. Dilution factor is C₁/C₂ = V₂/V₁. Switch to serial mode for 1:10, 1:20, 1:200, or 10× series, or use the HCl, H₂SO₄, alcohol, and bleach presets.",
+          "Yes. Leave one of C₁, V₁, C₂, or V₂ blank and the tool solves C₁V₁ = C₂V₂. Dilution factor is C₁/C₂ = V₂/V₁. Switch to serial mode for 1:10, 1:20, 1:200, 1:1000, or 10× / 100× series, or use the HCl, H₂SO₄, alcohol, bleach, antibody, DNA, and primer presets.",
       },
       {
         question: "Can I use mL and L in the same calculation?",
@@ -546,7 +546,7 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
       {
         question: "How do I do a 1:10 dilution calculator workflow?",
         answer:
-          "A 1:10 step means the diluted concentration is one-tenth of the stock for that step (dilution factor 10). In simple mode, leave V₁ blank with C₁ known, set C₂ = C₁/10, and enter V₂. In serial mode, choose the 1:10 or 10× chip so transfer/final volumes match the factor.",
+          "A 1:10 step means the diluted concentration is one-tenth of the stock for that step (dilution factor 10). In simple mode, leave V₁ blank with C₁ known, set C₂ = C₁/10, and enter V₂. In serial mode, choose the 1:10 or 10× chip so transfer/final volumes match the factor. The same pattern applies to 1:50, 1:400, 1:1000, and 100× → 1×.",
       },
       {
         question: "How do I dilute concentrated HCl or H₂SO₄ stock?",
@@ -554,19 +554,24 @@ Dilution factor = C₁ / C₂ = V₂ / V₁`,
           "Use the HCl 12 M → 1 M or H₂SO₄ 18 M → 1 M lab chips, which solve C₁V₁ = C₂V₂ for the stock volume V₁. Concentrated-acid molarities are approximate (≈12 M HCl, ≈18 M H₂SO₄). Always add acid to water, never the reverse, and use a published density table if you need a more exact stock concentration.",
       },
       {
+        question: "Can I use this as an antibody, DNA, or primer dilution calculator?",
+        answer:
+          "Yes. C₁V₁ = C₂V₂ does not care whether the unit is M, mg/mL, μM, or a relative titer. Use the Antibody 1:1000, DNA 10× → 1×, or Primer 100 μM → 10 μM chips, or type mg/mL (or μM) as the concentration unit and leave V₁ blank. Serial mode covers 1:10 / 1:100 / 1:1000 series.",
+      },
+      {
         question: "What is a 1:20 or 1:200 dilution?",
         answer:
-          "Those ratios mean dilution factors of 20 and 200 (C₂ = C₁/20 or C₁/200). Choose the 1:20 or 1:200 chip: in simple mode the tool sets C₂ from your stock C₁ and solves for V₁; in serial mode it sets the step factor and matching transfer/final volumes.",
+          "Those ratios mean dilution factors of 20 and 200 (C₂ = C₁/20 or C₁/200). Choose the 1:20 or 1:200 chip: in simple mode the tool sets C₂ from your stock C₁ and solves for V₁; in serial mode it sets the step factor and matching transfer/final volumes. The same chips exist for 1:50, 1:400, and 1:1000.",
       },
     ],
   },
   {
     slug: "concentrationconverter",
-    introHeading: "Molarity & concentration converter: M, mM, mg/mL, %, ppm",
+    introHeading: "Molarity & concentration converter: M, mM, μM, nM, mg/mL, ng/mL, % w/v",
     whatIs: {
       paragraphs: [
         "Chemists express solution composition in several units. Molarity (mol/L of solution) is common in volumetric work. Molality (mol/kg of solvent) is preferred when temperature changes matter. Mass percent and ppm appear in analytical and environmental contexts. Converting among them requires the solute’s molar mass and, for most conversions, the solution density.",
-        "The Molarity & Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity in M, mM, and μM, plus g/L, g/mL, mg/mL, mass percent, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol) help connect classroom molarity problems to everyday mg/mL and g↔mL conversions.",
+        "The Molarity & Concentration Converter takes one known concentration plus molar mass (from a formula or a typed value) and density, then reports molarity in M, mM, μM, and nM, plus g/L, mg/mL, ng/mL, mass percent, % w/v, ppm, and molality on a 1.00 L solution basis. Density-aware examples (saline, glucose, ethanol, 0.02% w/v, ng/mL → μM) help connect classroom molarity problems to lab unit conversions.",
         "For dilute aqueous solutions, density ≈ 1.00 g/mL is a standard classroom approximation. Concentrated acids, bases, and syrups need a measured or tabulated density or the conversion will be off.",
       ],
       bullets: [
@@ -610,12 +615,22 @@ kg solvent = (mass solution − mass solute) / 1000`,
       {
         question: "How do I convert concentration to molarity?",
         answer:
-          "Choose the unit you already know (mM, μM, g/L, mg/mL, mass %, ppm, or molality), enter the value plus a formula or molar mass and density, and read molarity in mol/L. The converter always reports M, mM, and μM together (1 M = 1000 mM = 10⁶ μM).",
+          "Choose the unit you already know (mM, μM, nM, g/L, mg/mL, ng/mL, mass %, % w/v, ppm, or molality), enter the value plus a formula or molar mass and density, and read molarity in mol/L. The converter always reports M, mM, μM, and nM together (1 M = 1000 mM = 10⁶ μM = 10⁹ nM).",
       },
       {
         question: "How do I convert mg/mL to molarity?",
         answer:
           "mg/mL is numerically the same as g/L (1 mg/mL = 1 g/L). Choose the mg/mL unit, enter the value and the solute formula (or molar mass), then read molarity: M = (mg/mL) / molar mass. Example: 5.844 mg/mL NaCl (58.44 g/mol) is 0.100 M.",
+      },
+      {
+        question: "How do I convert ng/mL to micromolar?",
+        answer:
+          "Choose ng/mL, enter the value and the solute molar mass (or formula). Molarity M = (ng/mL × 10⁻⁶) / (g/mol), then μM = M × 10⁶. Example: 200 ng/mL of a 66,430 g/mol protein is about 0.0030 μM (3.0 nM). The reverse is mg/mL → M = (mg/mL) / molar mass.",
+      },
+      {
+        question: "How do I convert % w/v to mg/mL?",
+        answer:
+          "1% w/v is 1 g per 100 mL, which is 10 mg/mL (or 10 g/L). So 0.02% w/v is 0.20 mg/mL. Choose w/v percent as the known unit and read mg/mL in the results table. Mass percent (w/w) is different: it needs density.",
       },
       {
         question: "How do I convert millimolar to molar?",
@@ -646,12 +661,12 @@ kg solvent = (mass solution − mass solute) / 1000`,
   },
   {
     slug: "phcalculator",
-    introHeading: "pH calculator for strong/weak acids, bases, and buffers",
+    introHeading: "pH calculator for acids, bases, buffers, and neutralization",
     whatIs: {
       paragraphs: [
         "pH is defined as pH = −log₁₀ a(H⁺). In the dilute aqueous problems you see in general chemistry, we replace activity with molarity and write pH = −log₁₀[H⁺]. One pH unit is a tenfold change in [H⁺], so small mistakes in concentration show up loudly on the log scale.",
         "Pick the right model before you punch numbers. Strong acids/bases: assume complete dissociation, then (for very dilute solutions) remember water still contributes H⁺ and OH⁻. Weak acids need Ka; weak bases need Kb. Ammonia is the classic weak-base example—course tables almost always list Kb(NH₃) ≈ 1.8×10⁻⁵ at 25 °C. A buffer is a weak acid plus its conjugate base; there you reach for Henderson–Hasselbalch, not the single-species weak-acid quadratic.",
-        "This calculator handles five classroom modes at 25 °C with Kw = 1.0×10⁻¹⁴: strong acid, strong base, weak acid, weak base, and a simple HA/A⁻ buffer. Presets include acetic acid, ammonia (Kb = 1.8×10⁻⁵), and common buffer sketches. For named buffer recipes in grams, switch to the Phosphate Buffer Calculator; here the job is to get pH and pOH from concentrations and constants.",
+        "This calculator handles six classroom modes at 25 °C with Kw = 1.0×10⁻¹⁴: strong acid, strong base, weak acid, weak base, a simple HA/A⁻ buffer, and strong acid–base neutralization (mix HCl + NaOH volumes). Presets include acetic acid, ammonia (Kb = 1.8×10⁻⁵), HCl, NaOH, and equivalence vs excess-acid mixes. For named buffer recipes in grams, switch to the Phosphate Buffer Calculator; here the job is to get pH and pOH from concentrations and constants.",
       ],
       bullets: [
         "Strong electrolyte: start from C, then correct with water if C is tiny (~10⁻⁶ M or less)",
@@ -723,6 +738,18 @@ Buffer:
         toolCheck:
           "Strong acid mode with concentration 1e-8. The calculator’s water-aware result sits just under 7.",
       },
+      {
+        title: "Neutralization: 50 mL 0.10 M HCl + 20 mL 0.10 M NaOH",
+        scenario:
+          "Mix 50.0 mL of 0.10 M HCl with 20.0 mL of 0.10 M NaOH. What is the pH after mixing (25 °C, additive volumes)?",
+        steps: [
+          "n(H⁺) = 0.10 × 0.050 = 0.0050 mol; n(OH⁻) = 0.10 × 0.020 = 0.0020 mol.",
+          "Leftover H⁺ = 0.0030 mol in 0.070 L → 0.0429 M.",
+          "pH = −log₁₀(0.0429) ≈ 1.37 (strong-acid leftover; water correction is negligible).",
+        ],
+        toolCheck:
+          "Choose Neutralization, acid 0.10 M / 50 mL, base 0.10 M / 20 mL. Expect pH near 1.37. The equal-volume 25 mL + 25 mL preset is the equivalence case (pH 7).",
+      },
     ],
     faq: [
       {
@@ -756,6 +783,16 @@ Buffer:
           "When [HA] or [A⁻] is tiny compared with [H⁺] or [OH⁻], or when you are far outside the pKa ± 1 window. Then solve the full charge-balance problem (or use the calculator’s exact buffer path) instead of trusting the log ratio alone.",
       },
       {
+        question: "Is this a neutralization calculator for mixing HCl and NaOH?",
+        answer:
+          "Yes, for strong monoprotic acid + strong monohydroxide base. Choose Neutralization, enter both concentrations and volumes (mL), and the tool computes leftover n(H⁺) or n(OH⁻) after mixing, then pH with water’s Kw at equivalence. Example: 50 mL of 0.10 M HCl + 20 mL of 0.10 M NaOH leaves excess acid. Polyprotic acids and weak acid–base titrations are not this mode.",
+      },
+      {
+        question: "How do I convert pH to [H⁺]?",
+        answer:
+          "[H⁺] = 10^(−pH). The pH calculator also reports [H⁺] and [OH⁻] for every mode, including HCl and NaOH presets. pOH = 14 − pH at 25 °C.",
+      },
+      {
         question: "Ka and Kb for a conjugate pair?",
         answer:
           "At the same temperature, Ka × Kb = Kw. Acetic acid Ka = 1.8×10⁻⁵ implies acetate Kb = Kw/Ka ≈ 5.6×10⁻¹⁰. Ammonia Kb = 1.8×10⁻⁵ implies ammonium Ka ≈ 5.6×10⁻¹⁰.",
@@ -769,12 +806,13 @@ Buffer:
   },
   {
     slug: "buffercalculator",
-    introHeading: "Phosphate buffer calculator (HEPES, MES, borate, Tris, acetate)",
+    introHeading:
+      "Phosphate buffer calculator (HEPES, MES, McIlvaine citrate–phosphate)",
     whatIs: {
       paragraphs: [
-        "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, HEPES, MES, borate, acetate, Tris, citrate, ammonia, bicarbonate), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
-        "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work. Citrate–phosphate (McIlvaine) is two systems mixed, not a new pKa: use the published table, or calculate citrate and phosphate separately.",
-        "The Phosphate Buffer Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
+        "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, potassium phosphate, HEPES, MES, borate, acetate, Tris, citrate, ammonia, bicarbonate, carbonate, histidine, imidazole), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
+        "Useful buffering is typically within about ±1 pH unit of the system pKa. Outside that window the ratio becomes extreme and capacity collapses. Real polyprotic systems (citrate, carbonate) have multiple pKa values; this calculator uses a single effective pKa per named recipe as a teaching and planning aid—not a substitute for validated lab SOPs for critical biology or clinical work. Citrate–phosphate (McIlvaine) is two stocks mixed from a published table, not a new pKa: choose the McIlvaine chip for 0.2 M Na₂HPO₄ + 0.1 M citric acid.",
+        "The Phosphate Buffer Calculator on Online Science Tools returns acid and base molarities, moles, and grams for common named buffers, plus McIlvaine mixing volumes. Cross-check the target pH with the pH Calculator’s buffer mode, and dilute stock solutions with the Dilution Calculator when needed.",
       ],
       bullets: [
         "pH = pKa + log₁₀([A⁻]/[HA]) (Henderson–Hasselbalch)",
@@ -819,7 +857,7 @@ m = n · M (molar mass of the acid or base reagent)`,
       {
         question: "Is this a phosphate buffer calculator?",
         answer:
-          "Yes. Choose the Phosphate system for the H₂PO₄⁻ / HPO₄²⁻ pair (sodium salts), set target pH, total molarity, and volume, and read off the grams of each salt. HEPES, MES, borate, acetate, citrate, Tris, ammonia, and bicarbonate systems are also available.",
+          "Yes. Choose the Phosphate system for the H₂PO₄⁻ / HPO₄²⁻ pair (sodium salts), or K-phosphate for KH₂PO₄ / K₂HPO₄. Set target pH, total molarity, and volume, and read off the grams of each salt. HEPES, MES, borate, acetate, citrate, Tris, ammonia, bicarbonate, carbonate, histidine, and imidazole systems are also available.",
       },
       {
         question: "Why warn when pH is far from pKa?",
@@ -839,7 +877,12 @@ m = n · M (molar mass of the acid or base reagent)`,
       {
         question: "Is citrate–phosphate (McIlvaine) a separate buffer system?",
         answer:
-          "No. Citrate–phosphate mixes citric acid with phosphate; it is not a new pKa. Use a published McIlvaine table, or calculate citrate and phosphate separately. This calculator treats citrate and phosphate as distinct named systems.",
+          "It is two stocks mixed, not a new pKa. Choose the McIlvaine (citrate–phosphate) chip: the calculator interpolates the classic 0.2 M Na₂HPO₄ + 0.1 M citric acid table for pH 2.2–8.0 and scales the mix to your final volume. Verify with a meter. For a single-pKa recipe, calculate citrate or phosphate separately instead.",
+      },
+      {
+        question: "Does this include histidine or imidazole buffer?",
+        answer:
+          "Yes. Histidine uses the imidazole side-chain pKa ≈ 6.04 (His·HCl / His). Imidazole uses pKa ≈ 7.00 (imidazole·HCl / free base). Both are single-pKa teaching recipes—confirm temperature and hydrates against your SOP.",
       },
       {
         question: "How does this relate to the pH Calculator?",
@@ -903,13 +946,14 @@ Clear fractions to the smallest integers → empirical formula`,
     whatIs: {
       paragraphs: [
         "The solubility product Ksp is the equilibrium constant for dissolving a sparingly soluble ionic solid. For a salt that dissolves as x cations and y anions per formula unit, Ksp = [cation]^x[anion]^y at saturation. Molar solubility s is the moles of formula unit that dissolve per liter of saturated solution in pure water.",
-        "To calculate Ksp from solubility, write the dissolution equation, express each ion as a multiple of s, and multiply. Example: AgCl (type AB) with s = 1.34×10⁻⁵ M gives Ksp = s² ≈ 1.8×10⁻¹⁰. To find Ksp the other way, invert the same relation: s = √Ksp for AB, or s = (Ksp/4)^(1/3) for AB₂ / A₂B.",
+        "To calculate Ksp from solubility, write the dissolution equation, express each ion as a multiple of s, and multiply. Example: AgCl (type AB) with s = 1.34×10⁻⁵ M gives Ksp = s² ≈ 1.8×10⁻¹⁰. BaCrO₄ is the same AB pattern: s = 1.08×10⁻⁵ M → Ksp = s² = 1.17×10⁻¹⁰. For A₃B₂ (e.g. a homework salt or Ca₃(PO₄)₂), Ksp = 108 s⁵. To find Ksp the other way, invert the same relation: s = √Ksp for AB, or s = (Ksp/4)^(1/3) for AB₂ / A₂B.",
         "Comparing the ion product Q (same form as Ksp but with actual concentrations) to Ksp predicts precipitation: Q > Ksp favors solid formation, Q < Ksp means the solution is unsaturated. The Ksp Calculator converts between s and Ksp for common salt stoichiometries and evaluates Q versus Ksp as a precipitation reaction check.",
       ],
       bullets: [
         "AB salt: Ksp = s²",
         "AB₂ salt: Ksp = 4s³",
         "A₂B salt: Ksp = 4s³",
+        "A₃B₂ salt: Ksp = 108 s⁵",
         "Q > Ksp → precipitate expected",
       ],
     },
@@ -933,11 +977,36 @@ Q = [M]^x [A]^y`,
       toolCheck:
         "Choose Ksp → solubility, salt type AB, Ksp = 1.8e-10.",
     },
+    moreExamples: [
+      {
+        title: "Ksp of BaCrO₄ from molar solubility",
+        scenario:
+          "The molar solubility of BaCrO₄ in pure water is 1.08×10⁻⁵ M. Calculate Ksp.",
+        steps: [
+          "BaCrO₄ is type AB: BaCrO₄(s) ⇌ Ba²⁺ + CrO₄²⁻.",
+          "Ksp = s² = (1.08×10⁻⁵)² = 1.166×10⁻¹⁰.",
+        ],
+        toolCheck:
+          "Choose Solubility → Ksp, type AB, s = 1.08e-5, or use the BaCrO₄ chip.",
+      },
+      {
+        title: "Hypothetical A₃B₂ salt",
+        scenario:
+          "The solubility of A₃B₂ is 6.1×10⁻⁹ mol/L. A₃B₂(s) ⇌ 3A²⁺ + 2B³⁻. What is Ksp?",
+        steps: [
+          "[A] = 3s, [B] = 2s.",
+          "Ksp = (3s)³(2s)² = 108 s⁵.",
+          "s = 6.1×10⁻⁹ → Ksp ≈ 9.12×10⁻⁴⁰.",
+        ],
+        toolCheck:
+          "Choose Solubility → Ksp, salt type A₃B₂, s = 6.1e-9, or use the A₃B₂ chip.",
+      },
+    ],
     faq: [
       {
         question: "How do I calculate Ksp from molar solubility?",
         answer:
-          "Write the ions produced per formula unit, replace each with a multiple of s, and multiply. AB salts: Ksp = s². AB₂ or A₂B: Ksp = 4s³. Enter s in the Ksp Calculator’s solubility → Ksp mode and pick the matching salt type.",
+          "Write the ions produced per formula unit, replace each with a multiple of s, and multiply. AB salts: Ksp = s². AB₂ or A₂B: Ksp = 4s³. A₃B₂: Ksp = 108 s⁵. Enter s in the Ksp Calculator’s solubility → Ksp mode and pick the matching salt type.",
       },
       {
         question: "How do I find Ksp or molar solubility the other way?",
@@ -948,6 +1017,16 @@ Q = [M]^x [A]^y`,
         question: "Is this a precipitation reaction calculator?",
         answer:
           "For the Q vs Ksp test, yes. Enter the actual ion concentrations to get Q. Q > Ksp predicts a precipitate; Q < Ksp means no solid yet; Q = Ksp is saturated. It does not write a full net-ionic precipitation equation—use the Chemical Equation Balancer for that.",
+      },
+      {
+        question: "What are the units of Ksp?",
+        answer:
+          "As a true thermodynamic equilibrium constant Ksp is unitless (activities). In classroom problems that use molarity, people quote (mol/L)^{x+y}: s² for AB, 4s³ for AB₂, 108 s⁵ for A₃B₂. Homework usually wants the number only. This calculator reports Ksp from concentrations in mol/L.",
+      },
+      {
+        question: "Can I find Ksp from pH?",
+        answer:
+          "Only if you already know how [H⁺] maps onto the dissolving ions (hydroxides, carbonates). That is a hydrolysis / ICE problem, not a one-step Ksp conversion. Use solubility → Ksp or Q vs Ksp here, and the Chemical Equilibrium Calculator for the ICE table.",
       },
       {
         question: "Does this include the common-ion effect?",

@@ -182,8 +182,12 @@ export const DILUTION_RATIO_PRESETS = [
   { id: "1:10", label: "1:10", factor: 10 },
   { id: "10x", label: "10×", factor: 10 },
   { id: "1:20", label: "1:20", factor: 20 },
+  { id: "1:50", label: "1:50", factor: 50 },
   { id: "1:100", label: "1:100", factor: 100 },
+  { id: "100x", label: "100×", factor: 100 },
   { id: "1:200", label: "1:200", factor: 200 },
+  { id: "1:400", label: "1:400", factor: 400 },
+  { id: "1:1000", label: "1:1000", factor: 1000 },
 ] as const;
 
 export const DILUTION_LAB_PRESETS = [
@@ -226,5 +230,37 @@ export const DILUTION_LAB_PRESETS = [
     c2: "3",
     v2: "100",
     concUnit: "%",
+  },
+  {
+    id: "100x-1x",
+    label: "100× → 1×",
+    c1: "100",
+    c2: "1",
+    v2: "100",
+    concUnit: "×",
+  },
+  {
+    id: "antibody-1k",
+    label: "Antibody 1:1000",
+    c1: "1",
+    c2: "0.001",
+    v2: "1000",
+    concUnit: "rel.",
+  },
+  {
+    id: "dna-10x",
+    label: "DNA 10× → 1×",
+    c1: "10",
+    c2: "1",
+    v2: "50",
+    concUnit: "×",
+  },
+  {
+    id: "primer-10um",
+    label: "Primer 100 μM → 10 μM",
+    c1: "100",
+    c2: "10",
+    v2: "100",
+    concUnit: "μM",
   },
 ] as const;

@@ -13,9 +13,12 @@ const KINDS: Array<{ id: ConcentrationKind; label: string; unit: string }> = [
   { id: "molarity", label: "Molarity", unit: "mol/L (M)" },
   { id: "millimolar", label: "Millimolar", unit: "mmol/L (mM)" },
   { id: "micromolar", label: "Micromolar", unit: "μmol/L (μM)" },
+  { id: "nanomolar", label: "Nanomolar", unit: "nmol/L (nM)" },
   { id: "gramsPerLiter", label: "Mass concentration", unit: "g/L" },
   { id: "milligramsPerMl", label: "mg/mL", unit: "mg/mL" },
+  { id: "nanogramsPerMl", label: "ng/mL", unit: "ng/mL" },
   { id: "massPercent", label: "Mass percent", unit: "% (w/w)" },
+  { id: "massVolumePercent", label: "w/v percent", unit: "% (w/v)" },
   { id: "ppm", label: "ppm (mass)", unit: "mg/kg" },
   { id: "molality", label: "Molality", unit: "mol/kg" },
 ];
@@ -76,6 +79,23 @@ export function ConcentrationConverter() {
       kind: "massPercent" as const,
       value: "40",
     },
+    {
+      id: "ngml",
+      label: "200 ng/mL BSA → μM",
+      formula: "",
+      density: "1.00",
+      kind: "nanogramsPerMl" as const,
+      value: "200",
+      manualMM: "66430",
+    },
+    {
+      id: "wv",
+      label: "0.02% w/v → mg/mL",
+      formula: "NaCl",
+      density: "1.00",
+      kind: "massVolumePercent" as const,
+      value: "0.02",
+    },
   ];
 
   const result = useMemo(() => {
@@ -120,7 +140,7 @@ export function ConcentrationConverter() {
         <div>
           <p className="text-sm font-medium">Molarity & concentration converter</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Molarity (M, mM, μM) · g/L · mg/mL · mass % · ppm · molality
+            Molarity (M, mM, μM, nM) · g/L · mg/mL · ng/mL · % w/w · % w/v · ppm
           </p>
         </div>
         <button
@@ -140,7 +160,7 @@ export function ConcentrationConverter() {
             type="button"
             onClick={() => {
               setFormula(ex.formula);
-              setManualMM("");
+              setManualMM("manualMM" in ex && ex.manualMM ? ex.manualMM : "");
               setDensity(ex.density);
               setKind(ex.kind);
               setValue(ex.value);
@@ -236,6 +256,10 @@ export function ConcentrationConverter() {
               <dd className="font-mono">{formatNum(result.value.micromolar)} μM</dd>
             </div>
             <div>
+              <dt className="text-[var(--muted)]">Nanomolar</dt>
+              <dd className="font-mono">{formatNum(result.value.nanomolar)} nM</dd>
+            </div>
+            <div>
               <dt className="text-[var(--muted)]">Mass concentration</dt>
               <dd className="font-mono">
                 {formatNum(result.value.gramsPerLiter)} g/L
@@ -254,9 +278,21 @@ export function ConcentrationConverter() {
               </dd>
             </div>
             <div>
+              <dt className="text-[var(--muted)]">ng/mL</dt>
+              <dd className="font-mono">
+                {formatNum(result.value.nanogramsPerMl)} ng/mL
+              </dd>
+            </div>
+            <div>
               <dt className="text-[var(--muted)]">Mass percent</dt>
               <dd className="font-mono">
                 {formatNum(result.value.massPercent)} % (w/w)
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted)]">w/v percent</dt>
+              <dd className="font-mono">
+                {formatNum(result.value.massVolumePercent)} % (w/v)
               </dd>
             </div>
             <div>

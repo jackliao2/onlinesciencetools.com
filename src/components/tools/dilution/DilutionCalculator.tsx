@@ -165,7 +165,7 @@ export function DilutionCalculator() {
         <div>
           <p className="text-sm font-medium">Dilution calculator</p>
           <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
-            C₁V₁ = C₂V₂ · serial dilution · HCl / H₂SO₄
+            C₁V₁ = C₂V₂ · serial · 1:1000 · HCl / antibody / DNA
           </p>
         </div>
         <button

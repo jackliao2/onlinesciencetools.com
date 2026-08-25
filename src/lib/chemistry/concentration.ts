@@ -11,9 +11,12 @@ export type ConcentrationKind =
   | "molarity"
   | "millimolar"
   | "micromolar"
+  | "nanomolar"
   | "gramsPerLiter"
   | "milligramsPerMl"
+  | "nanogramsPerMl"
   | "massPercent"
+  | "massVolumePercent"
   | "ppm"
   | "molality";
 
@@ -32,8 +35,11 @@ export interface ConcentrationResult {
   molarity: number;
   millimolar: number;
   micromolar: number;
+  nanomolar: number;
   gramsPerLiter: number;
+  nanogramsPerMl: number;
   massPercent: number;
+  massVolumePercent: number;
   ppm: number;
   molality: number;
   molesPerLiterSolution: number;
@@ -87,10 +93,21 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
     case "micromolar":
       molarity = value / 1e6;
       break;
+    case "nanomolar":
+      molarity = value / 1e9;
+      break;
     case "gramsPerLiter":
     case "milligramsPerMl":
       // 1 mg/mL = 1 g/L
       molarity = value / molarMass;
+      break;
+    case "nanogramsPerMl":
+      // 1 ng/mL = 1e-6 g/L
+      molarity = (value * 1e-6) / molarMass;
+      break;
+    case "massVolumePercent":
+      // 1% w/v = 1 g / 100 mL = 10 g/L
+      molarity = (value * 10) / molarMass;
       break;
     case "massPercent": {
       if (value >= 100) {
@@ -151,8 +168,11 @@ export function convertConcentration(input: ConcentrationInput): ConcentrationRe
     molarity,
     millimolar: molarity * 1000,
     micromolar: molarity * 1e6,
+    nanomolar: molarity * 1e9,
     gramsPerLiter,
+    nanogramsPerMl: gramsPerLiter * 1e6,
     massPercent,
+    massVolumePercent: gramsPerLiter / 10,
     ppm,
     molality,
     molesPerLiterSolution: molarity,

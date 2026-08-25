@@ -253,7 +253,12 @@ JavaScript DOM access:
       {
         question: "What is an HTML Executor?",
         answer:
-          "An HTML Executor (sometimes searched as html executer) is a browser playground that runs HTML, CSS, and JavaScript and shows a live preview. This HTML Executor sandboxes the result in an iframe so you can test markup and scripts without a local server.",
+          "An HTML Executor (sometimes searched as html executer or html file executor) is a browser playground that runs HTML, CSS, and JavaScript and shows a live preview. Paste an .html file into the HTML panel, or type markup in the three editors. This HTML Executor sandboxes the result in an iframe so you can test without a local server.",
+      },
+      {
+        question: "Can I execute an HTML file in the browser?",
+        answer:
+          "Yes. Open the .html file in a text editor, copy the markup into the HTML panel, and put any style or script contents into the CSS and JavaScript panels (or leave them inline in the HTML). Click Run to preview. The tool does not upload files to a server; everything stays in this browser tab.",
       },
       {
         question: "Is the HTML executor safe to run arbitrary code?",

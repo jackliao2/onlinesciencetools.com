@@ -5,6 +5,7 @@ import {
   BUFFER_SYSTEMS,
   BufferRecipeError,
   calculateBufferRecipe,
+  calculateMcIlvaine,
 } from "@/lib/chemistry/buffer-recipe";
 import { RotateCcw } from "lucide-react";
 
@@ -21,13 +22,22 @@ export function BufferRecipeCalculator() {
   const [targetPh, setTargetPh] = useState("7.40");
   const [totalM, setTotalM] = useState("0.10");
   const [volumeMl, setVolumeMl] = useState("1000");
+  const [mcilvaine, setMcilvaine] = useState(false);
 
   const system = BUFFER_SYSTEMS.find((s) => s.id === systemId) ?? BUFFER_SYSTEMS[0];
 
   const result = useMemo(() => {
     try {
+      if (mcilvaine) {
+        return {
+          ok: true as const,
+          kind: "mcilvaine" as const,
+          value: calculateMcIlvaine(Number(targetPh), Number(volumeMl)),
+        };
+      }
       return {
         ok: true as const,
+        kind: "hh" as const,
         value: calculateBufferRecipe({
           systemId,
           targetPh: Number(targetPh),
@@ -44,20 +54,23 @@ export function BufferRecipeCalculator() {
             : "Unable to compute this buffer recipe.",
       };
     }
-  }, [systemId, targetPh, totalM, volumeMl]);
+  }, [mcilvaine, systemId, targetPh, totalM, volumeMl]);
 
   return (
     <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium">Phosphate buffer calculator (HEPES, MES, borate…)</p>
+          <p className="text-sm font-medium">
+            Phosphate buffer calculator (HEPES, MES, McIlvaine…)
+          </p>
           <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
-            pH = pKa + log([A⁻]/[HA])
+            pH = pKa + log([A⁻]/[HA]) · citrate–phosphate mixing table
           </p>
         </div>
         <button
           type="button"
           onClick={() => {
+            setMcilvaine(false);
             setSystemId("phosphate");
             setTargetPh("7.40");
             setTotalM("0.10");
@@ -76,11 +89,12 @@ export function BufferRecipeCalculator() {
             key={s.id}
             type="button"
             onClick={() => {
+              setMcilvaine(false);
               setSystemId(s.id);
               setTargetPh(((s.pHMin + s.pHMax) / 2).toFixed(2));
             }}
             className={`border px-2.5 py-1.5 text-xs ${
-              systemId === s.id
+              !mcilvaine && systemId === s.id
                 ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
                 : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"
             }`}
@@ -88,10 +102,27 @@ export function BufferRecipeCalculator() {
             {s.label}
           </button>
         ))}
+        <button
+          type="button"
+          onClick={() => {
+            setMcilvaine(true);
+            setTargetPh("7.00");
+            if (!volumeMl.trim()) setVolumeMl("100");
+          }}
+          className={`border px-2.5 py-1.5 text-xs ${
+            mcilvaine
+              ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
+              : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"
+          }`}
+        >
+          McIlvaine (citrate–phosphate)
+        </button>
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
-        {system.notes} Useful pH ≈ {system.pHMin}–{system.pHMax}.
+        {mcilvaine
+          ? "Mix 0.2 M Na₂HPO₄ with 0.1 M citric acid using the published McIlvaine table (pH 2.2–8.0). This is two systems mixed, not a new pKa. Verify with a pH meter."
+          : `${system.notes} Useful pH ≈ ${system.pHMin}–${system.pHMax}.`}
       </p>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -104,15 +135,17 @@ export function BufferRecipeCalculator() {
             className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
           />
         </label>
-        <label className="block text-sm">
-          <span className="mb-1 block font-medium">Total C (M)</span>
-          <input
-            value={totalM}
-            onChange={(e) => setTotalM(e.target.value)}
-            inputMode="decimal"
-            className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
-          />
-        </label>
+        {mcilvaine ? null : (
+          <label className="block text-sm">
+            <span className="mb-1 block font-medium">Total C (M)</span>
+            <input
+              value={totalM}
+              onChange={(e) => setTotalM(e.target.value)}
+              inputMode="decimal"
+              className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
+            />
+          </label>
+        )}
         <label className="block text-sm">
           <span className="mb-1 block font-medium">Final volume (mL)</span>
           <input
@@ -127,6 +160,27 @@ export function BufferRecipeCalculator() {
       <div className="mt-5 border border-[var(--border)] bg-[var(--surface-2)] p-4 text-sm">
         {!result.ok ? (
           <p className="text-[var(--muted)]">{result.error}</p>
+        ) : result.kind === "mcilvaine" ? (
+          <div className="space-y-3">
+            <p className="font-mono text-xs text-[var(--muted)]">
+              {result.value.expression}
+            </p>
+            <dl className="grid gap-2 sm:grid-cols-2">
+              <div>
+                <dt className="text-[var(--muted)]">0.2 M Na₂HPO₄</dt>
+                <dd className="font-mono">{formatNum(result.value.phosphateMl)} mL</dd>
+              </div>
+              <div>
+                <dt className="text-[var(--muted)]">0.1 M citric acid</dt>
+                <dd className="font-mono">{formatNum(result.value.citrateMl)} mL</dd>
+              </div>
+            </dl>
+            {result.value.notes.map((n) => (
+              <p key={n} className="text-xs text-[var(--muted)]">
+                {n}
+              </p>
+            ))}
+          </div>
         ) : (
           <div className="space-y-3">
             <p className="font-mono text-xs text-[var(--muted)]">

@@ -2,6 +2,30 @@ export type ToolCategory = "chemistry" | "math" | "computing";
 
 export type ToolStatus = "live" | "coming-soon";
 
+/**
+ * GSC page 1–2 winning H1s (export of 25 Aug 2026). Do not rename `title`
+ * or change `href`/`slug`. New search intent belongs as a mode or FAQ on
+ * the same URL — never a sibling page that would cannibalize these queries.
+ */
+export const SEARCH_LOCKED_PAGES = {
+  equilibriumcalculator: {
+    title: "Chemical Equilibrium Calculator",
+    href: "/tools/equilibriumcalculator",
+  },
+  kspcalculator: {
+    title: "Ksp Calculator",
+    href: "/tools/kspcalculator",
+  },
+  phaseportrait: {
+    title: "Phase Portrait Generator",
+    href: "/tools/phaseportrait",
+  },
+  htmlexecutor: {
+    title: "HTML Executor",
+    href: "/tools/htmlexecutor",
+  },
+} as const;
+
 /** Sub-grouping for clearer browsing (especially chemistry). */
 export type ToolGroup =
   | "reactions"
@@ -64,16 +88,17 @@ export const tools: Tool[] = [
   {
     slug: "balanceequation",
     href: "/tools/balanceequation",
-    title: "Chemical Equation Balancer",
+    title: "Chemical Equation Balancer & Calculator",
     shortTitle: "Equation Balancer",
     description:
-      "Balance chemical equations or practice inspection balancing—smallest coefficients, steps, and a live atom-check table.",
+      "Balance chemical equations or practice inspection balancing—a chemical equation calculator with smallest coefficients, steps, and a live atom-check table.",
     category: "chemistry",
     group: "reactions",
     status: "live",
     keywords: [
       "chemical equation balancer",
       "chemical equation calculator",
+      "chemical reaction calculator",
       "balanced chemical equation calculator",
       "chemistry equation balancer",
       "balancing chemical equations calculator",
@@ -189,12 +214,19 @@ export const tools: Tool[] = [
       "serial dilution",
       "1:10 dilution calculator",
       "1:20 dilution calculator",
+      "1:200 dilution calculator",
+      "1:400 dilution calculator",
+      "1:1000 dilution calculator",
       "10x dilution calculator",
+      "100x dilution calculator",
       "stock solution dilution",
       "HCl dilution calculator",
       "H2SO4 dilution calculator",
       "alcohol dilution calculator",
       "bleach dilution calculator",
+      "antibody dilution calculator",
+      "dna dilution calculator",
+      "primer dilution calculator",
     ],
     accent: "cyan",
   },
@@ -204,7 +236,7 @@ export const tools: Tool[] = [
     title: "Molarity & Concentration Converter",
     shortTitle: "Molarity / Concentration",
     description:
-      "Convert concentration to molarity (M, mM, μM), mg/mL, g/L, mass percent, ppm, and molality using molar mass and density.",
+      "Convert concentration to molarity (M, mM, μM, nM), mg/mL, ng/mL, g/L, mass percent, % w/v, ppm, and molality using molar mass and density.",
     category: "chemistry",
     group: "solutions",
     status: "live",
@@ -223,14 +255,18 @@ export const tools: Tool[] = [
       "g/mL",
       "mg/mL",
       "convert mg ml to molarity",
+      "ng/ml to micromolar",
+      "nanomolar to molar",
+      "w/v to mg/ml",
+      "0.02 w/v to mg/ml",
     ],
     accent: "sky",
   },
   // Chemistry — acids / equilibrium
   {
     slug: "equilibriumcalculator",
-    href: "/tools/equilibriumcalculator",
-    title: "Chemical Equilibrium Calculator",
+    href: SEARCH_LOCKED_PAGES.equilibriumcalculator.href,
+    title: SEARCH_LOCKED_PAGES.equilibriumcalculator.title,
     shortTitle: "Equilibrium",
     description:
       "Chemical equilibrium calculator for Kc/Kp, reaction quotient Q, ICE tables, and equilibrium concentrations.",
@@ -257,7 +293,7 @@ export const tools: Tool[] = [
     title: "pH Calculator",
     shortTitle: "pH Calculator",
     description:
-      "pH and pOH calculator from concentration and Ka/Kb—strong/weak acids and bases (including ammonia, Kb = 1.8×10⁻⁵) and simple buffers via Henderson–Hasselbalch.",
+      "pH calculator from concentration and Ka/Kb—strong/weak acids and bases (including ammonia, Kb = 1.8×10⁻⁵), simple buffers via Henderson–Hasselbalch, and strong acid–base neutralization.",
     category: "chemistry",
     group: "acids",
     status: "live",
@@ -275,6 +311,11 @@ export const tools: Tool[] = [
       "henderson hasselbalch equation calculator",
       "weak acid pH",
       "buffer pH",
+      "neutralization calculator",
+      "ph neutralization calculator",
+      "hcl ph calculator",
+      "naoh ph calculator",
+      "ph to h+ calculator",
     ],
     accent: "teal",
   },
@@ -284,7 +325,7 @@ export const tools: Tool[] = [
     title: "Phosphate Buffer Calculator",
     shortTitle: "Phosphate Buffer",
     description:
-      "Phosphate buffer calculator (plus HEPES, MES, borate, acetate, Tris, and more)—grams from target pH, total concentration, and volume via Henderson–Hasselbalch.",
+      "Phosphate buffer calculator (plus HEPES, MES, borate, acetate, Tris, histidine, imidazole, and McIlvaine citrate–phosphate)—grams from target pH, total concentration, and volume via Henderson–Hasselbalch.",
     category: "chemistry",
     group: "acids",
     status: "live",
@@ -298,17 +339,23 @@ export const tools: Tool[] = [
       "MES buffer calculator",
       "borate buffer calculator",
       "PBS buffer calculator",
+      "citrate phosphate buffer calculator",
+      "McIlvaine buffer",
+      "histidine buffer calculator",
+      "imidazole buffer calculator",
+      "potassium phosphate buffer calculator",
+      "carbonate bicarbonate buffer calculator",
       "henderson hasselbalch buffer",
     ],
     accent: "teal",
   },
   {
     slug: "kspcalculator",
-    href: "/tools/kspcalculator",
-    title: "Ksp Calculator",
+    href: SEARCH_LOCKED_PAGES.kspcalculator.href,
+    title: SEARCH_LOCKED_PAGES.kspcalculator.title,
     shortTitle: "Ksp / Solubility",
     description:
-      "Calculate Ksp from molar solubility, find solubility from Ksp, and compare Q with Ksp to predict precipitation.",
+      "Calculate Ksp from molar solubility (including A₃B₂ salts), find solubility from Ksp, and compare Q with Ksp to predict precipitation.",
     category: "chemistry",
     group: "acids",
     status: "live",
@@ -321,6 +368,9 @@ export const tools: Tool[] = [
       "molar solubility",
       "precipitation reaction calculator",
       "precipitation Q Ksp",
+      "units of ksp",
+      "ksp agi",
+      "pbso4 ksp",
     ],
     accent: "emerald",
   },
@@ -405,8 +455,8 @@ export const tools: Tool[] = [
   // Math
   {
     slug: "phaseportrait",
-    href: "/tools/phaseportrait",
-    title: "Phase Portrait Generator",
+    href: SEARCH_LOCKED_PAGES.phaseportrait.href,
+    title: SEARCH_LOCKED_PAGES.phaseportrait.title,
     shortTitle: "Phase Portrait",
     description:
       "Phase portrait calculator and generator for 2D autonomous systems—vector field, trajectories, and equilibria (center, spiral, saddle).",
@@ -508,11 +558,11 @@ export const tools: Tool[] = [
   },
   {
     slug: "htmlexecutor",
-    href: "/tools/htmlexecutor",
-    title: "HTML Executor",
+    href: SEARCH_LOCKED_PAGES.htmlexecutor.href,
+    title: SEARCH_LOCKED_PAGES.htmlexecutor.title,
     shortTitle: "HTML Executor",
     description:
-      "HTML Executor for HTML, CSS, and JavaScript—write and run code in a sandboxed browser playground.",
+      "HTML Executor for HTML, CSS, and JavaScript—paste an HTML file or write code and run it in a sandboxed browser playground.",
     category: "computing",
     group: "web",
     status: "live",
@@ -521,6 +571,7 @@ export const tools: Tool[] = [
       "html executer",
       "online html executor",
       "html js executor",
+      "html file executor",
       "javascript sandbox",
       "js sandbox",
       "online code runner",

@@ -557,6 +557,25 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "Yes (Q > Ksp)",
     },
+    {
+      title: "BaCrO₄ Ksp from s",
+      prompt:
+        "Molar solubility of BaCrO₄ is 1.08×10⁻⁵ M. Calculate Ksp (AB).",
+      steps: [
+        "Ksp = s² = (1.08×10⁻⁵)² = 1.1664×10⁻¹⁰.",
+      ],
+      answer: "Ksp = 1.17×10⁻¹⁰ (3 sig figs)",
+    },
+    {
+      title: "A₃B₂ Ksp from s",
+      prompt:
+        "A₃B₂ has s = 6.1×10⁻⁹ mol/L. Find Ksp.",
+      steps: [
+        "Ksp = (3s)³(2s)² = 108 s⁵.",
+        "Ksp ≈ 9.12×10⁻⁴⁰.",
+      ],
+      answer: "Ksp ≈ 9.12×10⁻⁴⁰",
+    },
   ],
 
   gaslawcalculator: [
@@ -740,6 +759,16 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "Water contributes H⁺; pH is just below 7, not 8",
     },
+    {
+      title: "Strong acid–base neutralization",
+      prompt:
+        "Mix 50.0 mL of 0.10 M HCl with 20.0 mL of 0.10 M NaOH. What is the pH?",
+      steps: [
+        "n(H⁺) = 0.0050 mol; n(OH⁻) = 0.0020 mol; leftover H⁺ = 0.0030 mol.",
+        "V = 0.070 L → [H⁺] = 0.0429 M → pH ≈ 1.37.",
+      ],
+      answer: "pH ≈ 1.37",
+    },
   ],
 
   buffercalculator: [
@@ -788,6 +817,16 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
         "7.4 is far from 4.8; prefer phosphate (pKa₂ ≈ 7.2) or Tris (~8.1).",
       ],
       answer: "No — choose a system with pKa near 7.4 (e.g. phosphate)",
+    },
+    {
+      title: "McIlvaine mix at a table pH",
+      prompt:
+        "You need 20 mL of McIlvaine buffer at pH 7.0. How much 0.2 M Na₂HPO₄ and 0.1 M citric acid?",
+      steps: [
+        "The published 20 mL table at pH 7.0 is 16.47 mL Na₂HPO₄ + 3.53 mL citric acid.",
+        "Scale linearly if the final volume is not 20 mL.",
+      ],
+      answer: "16.47 mL 0.2 M Na₂HPO₄ + 3.53 mL 0.1 M citric acid",
     },
   ],
 

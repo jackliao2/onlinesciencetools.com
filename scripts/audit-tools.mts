@@ -20,7 +20,10 @@ import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
 import { solveKinetics } from "../src/lib/chemistry/kinetics.ts";
 import { calculateNernst } from "../src/lib/chemistry/nernst.ts";
 import { balanceRedox } from "../src/lib/chemistry/redox.ts";
-import { calculateBufferRecipe } from "../src/lib/chemistry/buffer-recipe.ts";
+import {
+  calculateBufferRecipe,
+  calculateMcIlvaine,
+} from "../src/lib/chemistry/buffer-recipe.ts";
 import {
   solveEquilibrium,
   computeKFromEquilibrium,
@@ -38,6 +41,7 @@ import {
   rk4Step,
   findEquilibria,
 } from "../src/lib/math/phase-portrait.ts";
+import { SEARCH_LOCKED_PAGES, getToolBySlug } from "../src/lib/tools.ts";
 
 let failed = 0;
 
@@ -224,6 +228,23 @@ eq(
   approx(buf.acidMolarity, 0.1, 1e-9, "buffer acetate [HA]");
   approx(buf.baseMolarity, 0.1, 1e-9, "buffer acetate [A-]");
 }
+{
+  const his = calculateBufferRecipe({
+    systemId: "histidine",
+    targetPh: 6.04,
+    totalMolarity: 0.05,
+    volumeL: 1,
+  });
+  approx(his.ratioBaseOverAcid, 1, 1e-6, "histidine at pKa");
+}
+{
+  const mix = calculateMcIlvaine(7.0, 20);
+  approx(mix.phosphateMl, 16.47, 1e-9, "McIlvaine pH 7 20 mL phosphate");
+  approx(mix.citrateMl, 3.53, 1e-9, "McIlvaine pH 7 20 mL citrate");
+  const scaled = calculateMcIlvaine(7.0, 100);
+  approx(scaled.phosphateMl, 82.35, 1e-9, "McIlvaine pH 7 100 mL phosphate");
+}
+throws(() => calculateMcIlvaine(1.5, 20), "McIlvaine pH too low");
 
 // --- Molar mass / composition ---
 approx(parseFormula("H2O").molarMass, 18.01528, 1e-4, "molar H2O");
@@ -307,6 +328,26 @@ approx(conc.massPercent, 0.5844, 0.01, "0.1 M NaCl mass%");
   approx(mgml.molarity, 0.1, 1e-6, "5.844 mg/mL NaCl = 0.1 M");
   approx(mgml.gramsPerLiter, 5.844, 1e-9, "mg/mL equals g/L");
 }
+{
+  const ng = convertConcentration({
+    value: 200,
+    kind: "nanogramsPerMl",
+    molarMass: 66430,
+    density: 1.0,
+  });
+  approx(ng.nanomolar, 3.0107, 0.01, "200 ng/mL BSA ≈ 3.01 nM");
+  approx(ng.micromolar, 0.0030107, 1e-6, "200 ng/mL BSA ≈ 0.00301 μM");
+}
+{
+  const wv = convertConcentration({
+    value: 0.02,
+    kind: "massVolumePercent",
+    molarMass: 58.44,
+    density: 1.0,
+  });
+  approx(wv.gramsPerLiter, 0.2, 1e-9, "0.02% w/v = 0.2 mg/mL");
+  approx(wv.massVolumePercent, 0.02, 1e-9, "w/v percent round-trip");
+}
 throws(
   () =>
     convertConcentration({
@@ -371,10 +412,32 @@ approx(
     failed += 1;
   } else console.log(`OK   dilute strong acid pH: ${d.pH}`);
 }
+{
+  const eqv = calculatePh({
+    mode: "neutralization",
+    concentration: 0.1,
+    acidVolumeL: 0.025,
+    baseConcentration: 0.1,
+    baseVolumeL: 0.025,
+  });
+  approx(eqv.pH, 7, 1e-6, "HCl+NaOH equivalence pH 7");
+}
+{
+  const excess = calculatePh({
+    mode: "neutralization",
+    concentration: 0.1,
+    acidVolumeL: 0.05,
+    baseConcentration: 0.1,
+    baseVolumeL: 0.02,
+  });
+  approx(excess.pH, 1.368, 0.01, "excess HCl after neutralization");
+}
 
 // --- Ksp ---
 approx(solubilityFromKsp("AB2", 4e-6), 0.01, 1e-6, "AB2 s from Ksp");
 approx(kspFromSolubility("AB2", 0.01), 4e-6, 1e-12, "AB2 Ksp from s");
+approx(kspFromSolubility("AB", 1.08e-5), 1.1664e-10, 1e-16, "BaCrO4 Ksp from s");
+approx(kspFromSolubility("A3B2", 6.1e-9), 108 * 6.1e-9 ** 5, 1e-46, "A3B2 Ksp from s");
 
 // --- Gas law ---
 {
@@ -654,6 +717,14 @@ approx(8 * 1 - (9.8 / 2) * 1 * 1, 3.1, 1e-12, "projectile uses g/2");
     console.error("FAIL center classification", origin);
     failed += 1;
   } else console.log("OK   center classification:", origin.classification);
+}
+
+// --- Search-locked titles (GSC page 1–2; do not rename) ---
+for (const [slug, locked] of Object.entries(SEARCH_LOCKED_PAGES)) {
+  const tool = getToolBySlug(slug);
+  eq(tool?.title ?? "", locked.title, `locked title ${slug}`);
+  eq(tool?.href ?? "", locked.href, `locked href ${slug}`);
+  eq(tool?.slug ?? "", slug, `locked slug ${slug}`);
 }
 
 console.log(failed === 0 ? "\nALL PASSED" : `\n${failed} FAILURES`);

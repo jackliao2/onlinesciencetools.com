@@ -15,6 +15,7 @@ const MODES: Array<{ id: PhMode; label: string }> = [
   { id: "weak-acid", label: "Weak acid" },
   { id: "weak-base", label: "Weak base" },
   { id: "buffer", label: "Buffer" },
+  { id: "neutralization", label: "Neutralization (HCl + NaOH)" },
 ];
 
 function formatNum(value: number, digits = 4): string {
@@ -30,9 +31,13 @@ export function PhCalculator() {
   const [concentration, setConcentration] = useState("0.10");
   const [constant, setConstant] = useState("1.8e-5");
   const [conjugate, setConjugate] = useState("0.10");
+  const [acidVolumeMl, setAcidVolumeMl] = useState("25");
+  const [baseConcentration, setBaseConcentration] = useState("0.10");
+  const [baseVolumeMl, setBaseVolumeMl] = useState("25");
 
   const needsConstant = mode === "weak-acid" || mode === "weak-base" || mode === "buffer";
   const needsConjugate = mode === "buffer";
+  const isNeutralization = mode === "neutralization";
 
   const result = useMemo(() => {
     try {
@@ -43,6 +48,9 @@ export function PhCalculator() {
           concentration: Number(concentration),
           constant: needsConstant ? Number(constant) : undefined,
           conjugate: needsConjugate ? Number(conjugate) : undefined,
+          acidVolumeL: isNeutralization ? Number(acidVolumeMl) / 1000 : undefined,
+          baseConcentration: isNeutralization ? Number(baseConcentration) : undefined,
+          baseVolumeL: isNeutralization ? Number(baseVolumeMl) / 1000 : undefined,
         }),
       };
     } catch (error) {
@@ -52,7 +60,18 @@ export function PhCalculator() {
           error instanceof PhError ? error.message : "Unable to calculate pH.",
       };
     }
-  }, [mode, concentration, constant, conjugate, needsConstant, needsConjugate]);
+  }, [
+    mode,
+    concentration,
+    constant,
+    conjugate,
+    needsConstant,
+    needsConjugate,
+    isNeutralization,
+    acidVolumeMl,
+    baseConcentration,
+    baseVolumeMl,
+  ]);
 
   const hhEstimate = useMemo(() => {
     if (mode !== "buffer") return null;
@@ -76,6 +95,15 @@ export function PhCalculator() {
     if ("conjugate" in preset && preset.conjugate !== undefined) {
       setConjugate(String(preset.conjugate));
     }
+    if ("acidVolumeL" in preset && preset.acidVolumeL !== undefined) {
+      setAcidVolumeMl(String(preset.acidVolumeL * 1000));
+    }
+    if ("baseConcentration" in preset && preset.baseConcentration !== undefined) {
+      setBaseConcentration(String(preset.baseConcentration));
+    }
+    if ("baseVolumeL" in preset && preset.baseVolumeL !== undefined) {
+      setBaseVolumeMl(String(preset.baseVolumeL * 1000));
+    }
   };
 
   const reset = () => {
@@ -83,15 +111,18 @@ export function PhCalculator() {
     setConcentration("0.10");
     setConstant("1.8e-5");
     setConjugate("0.10");
+    setAcidVolumeMl("25");
+    setBaseConcentration("0.10");
+    setBaseVolumeMl("25");
   };
 
   return (
     <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium">pH / acid–base calculator</p>
+          <p className="text-sm font-medium">pH / acid–base / neutralization calculator</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Monoprotic strong/weak acid–base · buffer (25 °C, Kw = 1.0×10⁻¹⁴)
+            Strong/weak acid–base · buffer · HCl + NaOH mix (25 °C, Kw = 1.0×10⁻¹⁴)
           </p>
         </div>
         <button
@@ -147,7 +178,11 @@ export function PhCalculator() {
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <label className="block text-sm">
           <span className="mb-1 block font-medium">
-            {mode === "buffer" ? "[HA] (M)" : "Concentration (M)"}
+            {mode === "buffer"
+              ? "[HA] (M)"
+              : isNeutralization
+                ? "Acid concentration (M)"
+                : "Concentration (M)"}
           </span>
           <input
             value={concentration}
@@ -156,6 +191,38 @@ export function PhCalculator() {
             className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
           />
         </label>
+
+        {isNeutralization ? (
+          <>
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium">Acid volume (mL)</span>
+              <input
+                value={acidVolumeMl}
+                onChange={(e) => setAcidVolumeMl(e.target.value)}
+                inputMode="decimal"
+                className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium">Base concentration (M)</span>
+              <input
+                value={baseConcentration}
+                onChange={(e) => setBaseConcentration(e.target.value)}
+                inputMode="decimal"
+                className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium">Base volume (mL)</span>
+              <input
+                value={baseVolumeMl}
+                onChange={(e) => setBaseVolumeMl(e.target.value)}
+                inputMode="decimal"
+                className="w-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 font-mono outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              />
+            </label>
+          </>
+        ) : null}
 
         {needsConjugate ? (
           <label className="block text-sm">

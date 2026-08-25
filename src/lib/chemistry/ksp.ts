@@ -9,7 +9,7 @@ export class KspError extends Error {
  * Salt stoichiometry for MxAy(s) ⇌ x M^{n+} + y A^{m-}
  * solubility s in mol/L of formula unit dissolved.
  */
-export type SaltType = "AB" | "AB2" | "A2B" | "AB3" | "A3B" | "A2B3";
+export type SaltType = "AB" | "AB2" | "A2B" | "AB3" | "A3B" | "A2B3" | "A3B2";
 
 export const SALT_TYPES: Array<{
   id: SaltType;
@@ -25,6 +25,7 @@ export const SALT_TYPES: Array<{
   { id: "AB3", label: "AB₃ (1:3)", cationCoeff: 1, anionCoeff: 3, example: "Fe(OH)₃" },
   { id: "A3B", label: "A₃B (3:1)", cationCoeff: 3, anionCoeff: 1, example: "Ag₃PO₄" },
   { id: "A2B3", label: "A₂B₃ (2:3)", cationCoeff: 2, anionCoeff: 3, example: "Bi₂S₃" },
+  { id: "A3B2", label: "A₃B₂ (3:2)", cationCoeff: 3, anionCoeff: 2, example: "Ca₃(PO₄)₂" },
 ];
 
 function saltParams(type: SaltType) {
@@ -109,17 +110,50 @@ export const KSP_PRESETS = [
     name: "AgCl (AB), Ksp = 1.8×10⁻¹⁰",
     type: "AB" as const,
     ksp: 1.8e-10,
+    mode: "ksp-to-s" as const,
+  },
+  {
+    id: "agi",
+    name: "AgI (AB), Ksp = 8.3×10⁻¹⁷",
+    type: "AB" as const,
+    ksp: 8.3e-17,
+    mode: "ksp-to-s" as const,
+  },
+  {
+    id: "pbso4",
+    name: "PbSO₄ (AB), Ksp = 1.6×10⁻⁸",
+    type: "AB" as const,
+    ksp: 1.6e-8,
+    mode: "ksp-to-s" as const,
   },
   {
     id: "pbcl2",
     name: "PbCl₂ (AB₂), Ksp = 1.7×10⁻⁵",
     type: "AB2" as const,
     ksp: 1.7e-5,
+    mode: "ksp-to-s" as const,
   },
   {
     id: "ag2cro4",
     name: "Ag₂CrO₄ (A₂B), Ksp = 1.2×10⁻¹²",
     type: "A2B" as const,
     ksp: 1.2e-12,
+    mode: "ksp-to-s" as const,
+  },
+  {
+    id: "bacro4",
+    name: "BaCrO₄ s = 1.08×10⁻⁵ → Ksp",
+    type: "AB" as const,
+    ksp: 1.08e-5 * 1.08e-5,
+    solubility: 1.08e-5,
+    mode: "s-to-ksp" as const,
+  },
+  {
+    id: "a3b2",
+    name: "A₃B₂ s = 6.1×10⁻⁹ → Ksp",
+    type: "A3B2" as const,
+    ksp: 108 * 6.1e-9 ** 5,
+    solubility: 6.1e-9,
+    mode: "s-to-ksp" as const,
   },
 ];

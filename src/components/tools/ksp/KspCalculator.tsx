@@ -62,7 +62,10 @@ export function KspCalculator() {
     if (!p) return;
     setType(p.type);
     setKsp(String(p.ksp));
-    setMode("ksp-to-s");
+    if ("solubility" in p && p.solubility !== undefined) {
+      setSolubility(String(p.solubility));
+    }
+    setMode(p.mode ?? "ksp-to-s");
   };
 
   const reset = () => {
@@ -80,7 +83,7 @@ export function KspCalculator() {
         <div>
           <p className="text-sm font-medium">Ksp / solubility calculator</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Solubility ↔ Ksp · ion product Q vs Ksp
+            Solubility ↔ Ksp · AB through A₃B₂ · ion product Q vs Ksp
           </p>
         </div>
         <button
