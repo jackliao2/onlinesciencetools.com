@@ -1,8 +1,10 @@
 import Link from "next/link";
 import {
   SITE_NAME,
+  categoryHubs,
   categoryLabels,
   guides,
+  guidesHub,
   tools,
 } from "@/lib/tools";
 import { legalPages } from "@/lib/site";
@@ -10,29 +12,44 @@ import { legalPages } from "@/lib/site";
 export function Footer() {
   const columns: Array<{
     title: string;
+    href?: string;
     links: Array<{ href: string; label: string }>;
   }> = [
     {
       title: categoryLabels.chemistry,
-      links: tools
-        .filter((t) => t.category === "chemistry")
-        .map((t) => ({ href: t.href, label: t.shortTitle })),
+      href: categoryHubs.chemistry.href,
+      links: [
+        { href: categoryHubs.chemistry.href, label: "All chemistry tools" },
+        ...tools
+          .filter((t) => t.category === "chemistry")
+          .map((t) => ({ href: t.href, label: t.shortTitle })),
+      ],
     },
     {
       title: "Mathematics",
-      links: tools
-        .filter((t) => t.category === "math")
-        .map((t) => ({ href: t.href, label: t.shortTitle })),
+      href: categoryHubs.math.href,
+      links: [
+        { href: categoryHubs.math.href, label: "All math tools" },
+        ...tools
+          .filter((t) => t.category === "math")
+          .map((t) => ({ href: t.href, label: t.shortTitle })),
+      ],
     },
     {
       title: "Computing",
-      links: tools
-        .filter((t) => t.category === "computing")
-        .map((t) => ({ href: t.href, label: t.shortTitle })),
+      href: categoryHubs.computing.href,
+      links: [
+        { href: categoryHubs.computing.href, label: "All computing tools" },
+        ...tools
+          .filter((t) => t.category === "computing")
+          .map((t) => ({ href: t.href, label: t.shortTitle })),
+      ],
     },
     {
       title: "Guides",
+      href: guidesHub.href,
       links: [
+        { href: guidesHub.href, label: "All guides" },
         ...guides.map((g) => ({ href: g.href, label: g.shortTitle })),
         ...legalPages.map((p) => ({ href: p.href, label: p.shortTitle })),
       ],
@@ -71,7 +88,15 @@ export function Footer() {
             {columns.map((column) => (
               <div key={column.title}>
                 <p className="text-xs font-semibold text-[var(--foreground)]">
-                  {column.title === "Guides" ? "Guides & legal" : column.title}
+                  {column.href ? (
+                    <Link href={column.href} className="hover:text-[var(--accent)]">
+                      {column.title === "Guides" ? "Guides & legal" : column.title}
+                    </Link>
+                  ) : column.title === "Guides" ? (
+                    "Guides & legal"
+                  ) : (
+                    column.title
+                  )}
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {column.links.map((link) => (

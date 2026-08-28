@@ -1,19 +1,23 @@
 import {
+  collectionPages,
   guides,
   toolGroupLabels,
   tools,
+  type CollectionPage,
   type Guide,
   type Tool,
 } from "@/lib/tools";
 
 export type SearchItem =
   | (Tool & { kind: "tool" })
-  | (Guide & { kind: "guide"; category?: never; group?: never });
+  | (Guide & { kind: "guide"; category?: never; group?: never })
+  | (CollectionPage & { kind: "hub"; category?: never; group?: never });
 
 export function getSearchIndex(): SearchItem[] {
   return [
     ...tools.map((tool) => ({ ...tool, kind: "tool" as const })),
     ...guides.map((guide) => ({ ...guide, kind: "guide" as const })),
+    ...collectionPages.map((page) => ({ ...page, kind: "hub" as const })),
   ];
 }
 
@@ -33,7 +37,7 @@ export function filterSearchItems(
       item.description,
       item.href,
       ...item.keywords,
-      item.kind === "tool" ? item.category : "guide",
+      item.kind === "tool" ? item.category : item.kind,
       item.kind === "tool" ? toolGroupLabels[item.group] : "",
     ]
       .join(" ")

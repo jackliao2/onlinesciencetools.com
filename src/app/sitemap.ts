@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, legalPages } from "@/lib/site";
-import { guides, tools } from "@/lib/tools";
+import { collectionPages, guides, tools } from "@/lib/tools";
 
 /** Refresh daily so Google sees updated lastmod after deploys. */
 export const revalidate = 86400;
@@ -16,6 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.9,
     }));
+
+  const collectionEntries = collectionPages.map((page) => ({
+    url: `${SITE_URL}${page.href}`,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.95,
+  }));
 
   const guideEntries = guides.map((guide) => ({
     url: `${SITE_URL}${guide.href}`,
@@ -38,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    ...collectionEntries,
     ...toolEntries,
     ...guideEntries,
     ...legalEntries,

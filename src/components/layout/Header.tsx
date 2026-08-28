@@ -2,6 +2,13 @@ import Link from "next/link";
 import { FlaskConical } from "lucide-react";
 import { SiteSearch } from "@/components/search/SiteSearch";
 
+const nav = [
+  { href: "/chemistry", label: "Chemistry" },
+  { href: "/math", label: "Math" },
+  { href: "/computing", label: "Computing" },
+  { href: "/guides", label: "Guides" },
+] as const;
+
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[color-mix(in_oklab,var(--surface)_88%,transparent)] backdrop-blur-md">
@@ -17,20 +24,15 @@ export function Header() {
           </Link>
 
           <nav className="flex items-center gap-1 text-sm lg:hidden">
-            <Link
-              href="/#tools"
-              scroll={false}
-              className="rounded-lg px-2 py-2 text-[var(--muted)] hover:text-[var(--foreground)]"
-            >
-              Tools
-            </Link>
-            <Link
-              href="/#guides"
-              scroll={false}
-              className="rounded-lg px-2 py-2 text-[var(--muted)] hover:text-[var(--foreground)]"
-            >
-              Guides
-            </Link>
+            {nav.slice(0, 3).map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-2 py-2 text-[var(--muted)] hover:text-[var(--foreground)]"
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
         </div>
 
@@ -39,43 +41,20 @@ export function Header() {
             <SiteSearch variant="header" />
           </div>
           <nav className="hidden items-center gap-1 text-sm lg:flex">
-            <Link
-              href="/#tools"
-              scroll={false}
-              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-            >
-              Tools
-            </Link>
-            <Link
-              href="/#guides"
-              scroll={false}
-              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-            >
-              Guides
-            </Link>
-            <Link
-              href="/tools/phcalculator"
-              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-            >
-              pH
-            </Link>
-            <Link
-              href="/tools/equilibriumcalculator"
-              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-            >
-              Equilibrium
-            </Link>
+            {nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/about"
               className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
             >
               About
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-lg px-3 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-            >
-              Contact
             </Link>
           </nav>
         </div>

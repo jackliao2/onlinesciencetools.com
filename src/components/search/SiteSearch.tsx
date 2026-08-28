@@ -132,7 +132,7 @@ function SearchResultRow({
             {item.title}
           </p>
           <span className="shrink-0 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--accent)]">
-            {item.kind === "tool" ? "Tool" : "Guide"}
+            {item.kind === "tool" ? "Tool" : item.kind === "guide" ? "Guide" : "Index"}
           </span>
         </div>
         <p className="mt-0.5 line-clamp-1 text-xs text-[var(--muted)]">

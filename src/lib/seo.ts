@@ -5,7 +5,13 @@ import {
   type ContentImageKey,
 } from "@/lib/content-images";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
-import { categoryLabels, type Guide, type Tool } from "@/lib/tools";
+import {
+  categoryHubs,
+  categoryLabels,
+  type CollectionPage,
+  type Guide,
+  type Tool,
+} from "@/lib/tools";
 
 function contentImageForSlug(slug: string): string | undefined {
   if (slug in contentImages) {
@@ -153,12 +159,61 @@ export function buildWebApplicationJsonLd(tool: Tool) {
             "@type": "ListItem",
             position: 2,
             name: categoryLabels[tool.category],
-            item: `${SITE_URL}/#tools`,
+            item: `${SITE_URL}${categoryHubs[tool.category].href}`,
           },
           {
             "@type": "ListItem",
             position: 3,
             name: tool.title,
+            item: url,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+export function buildCollectionJsonLd(
+  page: CollectionPage,
+  items: Array<{ name: string; href: string }>,
+) {
+  const url = `${SITE_URL}${page.href}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#collection`,
+        name: page.title,
+        description: page.description,
+        url,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#list`,
+        numberOfItems: items.length,
+        itemListElement: items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          url: `${SITE_URL}${item.href}`,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: page.title,
             item: url,
           },
         ],

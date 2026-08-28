@@ -1,5 +1,5 @@
 import { SITE_URL, legalPages } from "../src/lib/site";
-import { guides, tools } from "../src/lib/tools";
+import { collectionPages, guides, tools } from "../src/lib/tools";
 
 const INDEXNOW_KEY = "fe2855564616464495bdae2ff070b0de";
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
@@ -8,6 +8,7 @@ function collectUrls(origin: string): string[] {
   const base = origin.replace(/\/$/, "");
   return [
     base,
+    ...collectionPages.map((page) => `${base}${page.href}`),
     ...tools.map((tool) => `${base}${tool.href}`),
     ...guides.map((guide) => `${base}${guide.href}`),
     ...legalPages.map((page) => `${base}${page.href}`),

@@ -790,6 +790,16 @@ eq(
   "physics gre equation sheet title",
 );
 eq(
+  getGuideBySlug("chemistry-formulas")?.title ?? "",
+  "Chemistry Formula Sheet",
+  "chemistry formula sheet title",
+);
+eq(
+  getGuideBySlug("chemistry-formulas")?.href ?? "",
+  "/guides/chemistry-formulas",
+  "chemistry formula sheet href",
+);
+eq(
   getToolBySlug("htmlexecutor")?.title ?? "",
   "HTML Executor",
   "html executor H1 still locked",

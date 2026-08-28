@@ -1,12 +1,26 @@
 import Link from "next/link";
+import { categoryHubHrefFromLabel } from "@/lib/tools";
 
 interface ToolHeroProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
+  eyebrowHref?: string;
+  isSectionRoot?: boolean;
 }
 
-export function ToolHero({ eyebrow, title, description }: ToolHeroProps) {
+export function ToolHero({
+  eyebrow,
+  title,
+  description,
+  eyebrowHref,
+  isSectionRoot = false,
+}: ToolHeroProps) {
+  const hubHref =
+    eyebrowHref ??
+    (eyebrow ? categoryHubHrefFromLabel(eyebrow) : undefined) ??
+    "/";
+
   return (
     <header className="border-b border-[var(--border)] bg-[var(--surface)]">
       <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6">
@@ -17,19 +31,34 @@ export function ToolHero({ eyebrow, title, description }: ToolHeroProps) {
                 Home
               </Link>
             </li>
-            <li aria-hidden="true">/</li>
-            <li>
-              <Link
-                href="/#tools"
-                className="hover:text-[var(--accent)] hover:underline"
-              >
-                {eyebrow}
-              </Link>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li className="text-[var(--foreground)]" aria-current="page">
-              {title}
-            </li>
+            {isSectionRoot ? (
+              <>
+                <li aria-hidden="true">/</li>
+                <li className="text-[var(--foreground)]" aria-current="page">
+                  {title}
+                </li>
+              </>
+            ) : (
+              <>
+                {eyebrow ? (
+                  <>
+                    <li aria-hidden="true">/</li>
+                    <li>
+                      <Link
+                        href={hubHref}
+                        className="hover:text-[var(--accent)] hover:underline"
+                      >
+                        {eyebrow}
+                      </Link>
+                    </li>
+                  </>
+                ) : null}
+                <li aria-hidden="true">/</li>
+                <li className="text-[var(--foreground)]" aria-current="page">
+                  {title}
+                </li>
+              </>
+            )}
           </ol>
         </nav>
         <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-[1.75rem]">

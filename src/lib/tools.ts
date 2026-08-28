@@ -615,6 +615,22 @@ export const guides: Guide[] = [
       "physics guide",
     ],
   },
+  {
+    slug: "chemistry-formulas",
+    href: "/guides/chemistry-formulas",
+    title: "Chemistry Formula Sheet",
+    shortTitle: "Chem Formulas",
+    description:
+      "General chemistry formula sheet and equation sheet—moles, dilution, equilibrium, Ksp, pH, gas laws, kinetics, and thermochemistry, with links to free calculators.",
+    keywords: [
+      "chemistry formula sheet",
+      "chemistry equation sheet",
+      "general chemistry formula sheet",
+      "chem formula sheet",
+      "ap chemistry formula sheet",
+      "chemistry formulas",
+    ],
+  },
 ];
 
 export const categoryLabels: Record<ToolCategory, string> = {
@@ -622,6 +638,90 @@ export const categoryLabels: Record<ToolCategory, string> = {
   math: "Mathematics",
   computing: "Computing",
 };
+
+export interface CollectionPage {
+  slug: string;
+  href: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  keywords: string[];
+}
+
+export const categoryHubs: Record<ToolCategory, CollectionPage> = {
+  chemistry: {
+    slug: "chemistry",
+    href: "/chemistry",
+    title: "Chemistry Calculators",
+    shortTitle: "Chemistry",
+    description:
+      "Free chemistry calculators for equation balancing, stoichiometry, dilution, pH, buffers, Ksp, equilibrium, gas laws, kinetics, and redox.",
+    keywords: [
+      "chemistry calculator",
+      "online chemistry calculator",
+      "chemistry calculators",
+      "chemistry tools",
+    ],
+  },
+  math: {
+    slug: "math",
+    href: "/math",
+    title: "Math Calculators",
+    shortTitle: "Math",
+    description:
+      "Free math calculators and plotters for phase portraits, 2D graphing, time graphs, and linear systems.",
+    keywords: [
+      "math calculator",
+      "phase portrait plotter",
+      "online graphing calculator",
+      "linear equations solver",
+    ],
+  },
+  computing: {
+    slug: "computing",
+    href: "/computing",
+    title: "Computing Tools",
+    shortTitle: "Computing",
+    description:
+      "Run HTML in the browser, convert binary and hex, and pick colors—free computing tools alongside the science calculators.",
+    keywords: [
+      "html executor",
+      "binary calculator",
+      "hex color picker",
+      "online html file executor",
+    ],
+  },
+};
+
+export const guidesHub: CollectionPage = {
+  slug: "guides",
+  href: "/guides",
+  title: "Science Study Guides",
+  shortTitle: "Guides",
+  description:
+    "Formula sheets and study guides for chemistry, Physics GRE, and electric fields, with links to the matching calculators.",
+  keywords: [
+    "science study guides",
+    "chemistry formula sheet",
+    "physics gre equation sheet",
+    "electric field guide",
+  ],
+};
+
+export const collectionPages: CollectionPage[] = [
+  categoryHubs.chemistry,
+  categoryHubs.math,
+  categoryHubs.computing,
+  guidesHub,
+];
+
+export function categoryHubHrefFromLabel(label: string): string | undefined {
+  if (label === "Guides") return guidesHub.href;
+  const category = (Object.keys(categoryLabels) as ToolCategory[]).find(
+    (key) => categoryLabels[key] === label,
+  );
+  return category ? categoryHubs[category].href : undefined;
+}
 
 export function groupOrderForCategory(category: ToolCategory): ToolGroup[] {
   if (category === "chemistry") return chemistryGroupOrder;

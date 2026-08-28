@@ -31,6 +31,7 @@ export function GuideLayout({
       <JsonLd data={buildArticleJsonLd(guide, hero?.src)} />
       <ToolHero
         eyebrow="Guides"
+        eyebrowHref="/guides"
         title={guide.title}
         description={guide.description}
       />

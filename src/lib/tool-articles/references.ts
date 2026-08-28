@@ -388,6 +388,23 @@ export const guideReferences: Record<string, AuthorityReference[]> = {
       note: "Recommended values for constants used in PGRE estimates.",
     },
   ],
+  "chemistry-formulas": [
+    {
+      label: "LibreTexts / OpenStax — Chemistry 2e",
+      href: "https://chem.libretexts.org/Bookshelves/General_Chemistry/Chemistry_2e_(OpenStax)",
+      note: "Open general-chemistry textbook behind the formula sheet.",
+    },
+    {
+      label: "IUPAC Gold Book",
+      href: "https://goldbook.iupac.org/",
+      note: "Definitions for equilibrium constants, pH, and related terms.",
+    },
+    {
+      label: "NIST Chemistry WebBook",
+      href: "https://webbook.nist.gov/chemistry/",
+      note: "Reference thermochemical and molecular data.",
+    },
+  ],
   electricfield: [
     {
       label: "OpenStax — Electric Field",

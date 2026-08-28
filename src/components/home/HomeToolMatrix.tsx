@@ -6,6 +6,7 @@ import { useDeferredValue, useEffect, useLayoutEffect, useMemo, useState } from 
 import { Search } from "lucide-react";
 import { filterSearchItems, getSearchIndex } from "@/lib/search";
 import {
+  categoryHubs,
   categoryLabels,
   groupOrderForCategory,
   toolGroupLabels,
@@ -98,7 +99,23 @@ export function HomeToolMatrix() {
               Free chemistry and math calculators for coursework — chemical
               equilibrium, pH, stoichiometry, equation balancing, buffers,
               graphing, phase portraits, and short study guides. No account
-              required.
+              required. Browse{" "}
+              <Link href="/chemistry" className="text-[var(--accent)] hover:underline">
+                chemistry
+              </Link>
+              ,{" "}
+              <Link href="/math" className="text-[var(--accent)] hover:underline">
+                math
+              </Link>
+              ,{" "}
+              <Link href="/computing" className="text-[var(--accent)] hover:underline">
+                computing
+              </Link>
+              , or{" "}
+              <Link href="/guides" className="text-[var(--accent)] hover:underline">
+                guides
+              </Link>
+              .
             </p>
           </div>
           <label className="relative block w-full sm:max-w-xs">
@@ -169,8 +186,14 @@ export function HomeToolMatrix() {
               return (
                 <section key={category}>
                   {section === "all" ? (
-                    <h2 className="mb-5 border-b-2 border-[var(--foreground)] pb-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight">
-                      {categoryLabels[category]}
+                    <h2 className="mb-5 flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-[var(--foreground)] pb-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight">
+                      <span>{categoryLabels[category]}</span>
+                      <Link
+                        href={categoryHubs[category].href}
+                        className="text-sm font-medium text-[var(--accent)] hover:underline"
+                      >
+                        All {categoryLabels[category].toLowerCase()} tools
+                      </Link>
                     </h2>
                   ) : (
                     <p className="mb-5 text-sm text-[var(--muted)]">
