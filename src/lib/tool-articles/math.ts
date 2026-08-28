@@ -3,14 +3,14 @@ import type { ToolArticleContent } from "./types";
 export const mathArticles: ToolArticleContent[] = [
   {
     slug: "phaseportrait",
-    introHeading: "Phase portrait calculator: generator, center, and spiral",
+    introHeading: "Phase portrait plotter: generator, center, spiral, and saddle",
     whatIs: {
       paragraphs: [
         "A phase portrait is a geometric representation of a dynamical system: a set of first-order differential equations whose solutions trace curves through a state space. For a two-dimensional autonomous system, the state at any instant is a point (x, y) and the rate of change is given by a vector field (dx/dt, dy/dt). Plotting this field together with representative solution trajectories reveals how the system evolves from different initial conditions without solving the equations analytically.",
         "Phase portraits are central to the study of ordinary differential equations in mathematics, physics, and engineering. In population ecology, the Lotka–Volterra equations model predator–prey dynamics; their phase portrait shows closed orbits around a coexistence equilibrium. In classical mechanics, a pendulum's angle and angular velocity form a two-dimensional state, and the portrait displays spirals toward a stable rest point or closed loops for undamped oscillation. Electrical circuits with inductors and capacitors exhibit analogous behavior.",
         "Equilibrium points—where dx/dt = dy/dt = 0—are the landmarks of a phase portrait. Linearizing the system near each equilibrium and examining the eigenvalues of the Jacobian matrix classifies the local behavior as a node, saddle, spiral, or center. A stable node attracts nearby trajectories; a saddle has one stable and one unstable direction; a spiral combines rotation with approach or departure. These classifications appear on every differential equations exam and in research on nonlinear dynamics.",
         "Students first encounter phase portraits when learning to interpret vector fields and nullclines. The x-nullcline is where dx/dt = 0; the y-nullcline is where dy/dt = 0. Their intersections are equilibria, and the regions between nullclines indicate whether each variable is increasing or decreasing. Sketching nullclines by hand builds intuition before relying on software, but numerical tools accelerate exploration of parameter changes.",
-        "The Phase Portrait Generator on Online Science Tools is a phase portrait calculator: it accepts a pair of differential equations, plots the vector field on an adjustable domain, and integrates trajectories from user-specified initial conditions. Built-in presets include a center (closed orbits), a stable spiral, a saddle, Van der Pol, and predator–prey. Use it alongside the 2D Graphing Calculator for one-dimensional function plots and the Linear Equations Solver when linearizing systems near equilibria.",
+        "The Phase Portrait Generator on Online Science Tools is a phase portrait calculator and plotter: it accepts a pair of differential equations, plots the vector field on an adjustable domain, and integrates trajectories from clicks on the plane. Built-in portraits include a center (closed orbits), stable and unstable spirals, a saddle, stable and unstable nodes, a damped pendulum, Van der Pol, and predator–prey. Use it alongside the 2D Graphing Calculator for one-dimensional function plots and the Linear Equations Solver when linearizing systems near equilibria.",
       ],
       bullets: [
         "Autonomous systems: dx/dt and dy/dt depend only on (x, y), not explicitly on time",
@@ -67,9 +67,9 @@ Eigenvalues λ of J at (x*, y*) classify stability:
     },
     faq: [
       {
-        question: "Is this a phase portrait calculator as well as a generator?",
+        question: "Is this a phase portrait calculator, generator, and plotter?",
         answer:
-          "Yes. The Phase Portrait Generator is a phase portrait calculator for 2D autonomous systems dx/dt = f(x, y), dy/dt = g(x, y). Enter the two equations (or pick a preset), then click the plane to integrate trajectories. Equilibria can be classified as node, saddle, spiral, or center from a numerical Jacobian.",
+          "Yes. The Phase Portrait Generator is a phase portrait calculator and phase portrait plotter for 2D autonomous systems dx/dt = f(x, y), dy/dt = g(x, y). Enter the two equations (or pick a preset such as center, stable spiral, or saddle), then click the plane to integrate trajectories. Equilibria are classified as node, saddle, spiral, or center from a numerical Jacobian.",
       },
       {
         question: "What is a center vs a stable spiral in a phase portrait?",

@@ -31,13 +31,13 @@ const TRAJECTORY_COLORS = [
 
 export function PhasePortraitGenerator() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [presetId, setPresetId] = useState(PHASE_PRESETS[2].id);
-  const [fx, setFx] = useState(PHASE_PRESETS[2].fx);
-  const [fy, setFy] = useState(PHASE_PRESETS[2].fy);
-  const [xMin, setXMin] = useState(PHASE_PRESETS[2].xMin);
-  const [xMax, setXMax] = useState(PHASE_PRESETS[2].xMax);
-  const [yMin, setYMin] = useState(PHASE_PRESETS[2].yMin);
-  const [yMax, setYMax] = useState(PHASE_PRESETS[2].yMax);
+  const [presetId, setPresetId] = useState(PHASE_PRESETS[0].id);
+  const [fx, setFx] = useState(PHASE_PRESETS[0].fx);
+  const [fy, setFy] = useState(PHASE_PRESETS[0].fy);
+  const [xMin, setXMin] = useState(PHASE_PRESETS[0].xMin);
+  const [xMax, setXMax] = useState(PHASE_PRESETS[0].xMax);
+  const [yMin, setYMin] = useState(PHASE_PRESETS[0].yMin);
+  const [yMax, setYMax] = useState(PHASE_PRESETS[0].yMax);
   const [trajectories, setTrajectories] = useState<Vec2[][]>([]);
   const [density, setDensity] = useState(14);
   const [showNullclines, setShowNullclines] = useState(true);
@@ -325,7 +325,7 @@ export function PhasePortraitGenerator() {
         <div className="flex items-center gap-2 text-[var(--accent)]">
           <Play className="h-5 w-5" />
           <span className="text-sm font-semibold uppercase tracking-[0.14em]">
-            Interactive phase plane
+            Phase portrait plotter
           </span>
         </div>
         <div className="flex flex-wrap gap-2">

@@ -30,7 +30,7 @@ export default function PhasePortraitPage() {
       <ToolSeoArticle slug={tool.slug} />
       <PracticeProblems
         slug={tool.slug}
-        topicLabel="phase portrait generator"
+        topicLabel="phase portrait plotter"
       />
       <RelatedTools slug={tool.slug} />
     </>

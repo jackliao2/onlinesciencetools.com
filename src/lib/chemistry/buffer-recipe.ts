@@ -25,17 +25,6 @@ export interface BufferSystem {
 
 export const BUFFER_SYSTEMS: BufferSystem[] = [
   {
-    id: "acetate",
-    name: "Acetate (CH₃COOH / CH₃COO⁻)",
-    label: "Acetate",
-    pKa: 4.76,
-    acidFormula: "CH3COOH",
-    baseFormula: "NaCH3COO",
-    pHMin: 3.8,
-    pHMax: 5.8,
-    notes: "Use acetic acid + sodium acetate. pKa ≈ 4.76 (25 °C).",
-  },
-  {
     id: "phosphate",
     name: "Phosphate (H₂PO₄⁻ / HPO₄²⁻)",
     label: "Phosphate",
@@ -46,6 +35,29 @@ export const BUFFER_SYSTEMS: BufferSystem[] = [
     pHMax: 8.2,
     notes:
       "Monobasic/dibasic sodium phosphates. pKa₂ ≈ 7.20. PBS is this same pair plus NaCl (and often KCl)—this calculator gives the phosphate recipe, not the saline.",
+  },
+  {
+    id: "k-phosphate",
+    name: "Potassium phosphate (H₂PO₄⁻ / HPO₄²⁻)",
+    label: "K-phosphate",
+    pKa: 7.2,
+    acidFormula: "KH2PO4",
+    baseFormula: "K2HPO4",
+    pHMin: 6.2,
+    pHMax: 8.2,
+    notes:
+      "Same H₂PO₄⁻/HPO₄²⁻ pair as sodium phosphate (pKa₂ ≈ 7.20) with KH₂PO₄ / K₂HPO₄. PBS still needs extra NaCl from your protocol.",
+  },
+  {
+    id: "acetate",
+    name: "Acetate (CH₃COOH / CH₃COO⁻)",
+    label: "Acetate",
+    pKa: 4.76,
+    acidFormula: "CH3COOH",
+    baseFormula: "NaCH3COO",
+    pHMin: 3.8,
+    pHMax: 5.8,
+    notes: "Use acetic acid + sodium acetate. pKa ≈ 4.76 (25 °C).",
   },
   {
     id: "hepes",
@@ -138,18 +150,6 @@ export const BUFFER_SYSTEMS: BufferSystem[] = [
     pHMax: 11.3,
     notes:
       "Bicarbonate / carbonate, pKa₂ ≈ 10.33. Use this pair for carbonate–bicarbonate buffers near pH 10; the bicarbonate chip is pKa₁.",
-  },
-  {
-    id: "k-phosphate",
-    name: "Potassium phosphate (H₂PO₄⁻ / HPO₄²⁻)",
-    label: "K-phosphate",
-    pKa: 7.2,
-    acidFormula: "KH2PO4",
-    baseFormula: "K2HPO4",
-    pHMin: 6.2,
-    pHMax: 8.2,
-    notes:
-      "Same H₂PO₄⁻/HPO₄²⁻ pair as sodium phosphate (pKa₂ ≈ 7.20) with KH₂PO₄ / K₂HPO₄. PBS still needs extra NaCl from your protocol.",
   },
   {
     id: "histidine",

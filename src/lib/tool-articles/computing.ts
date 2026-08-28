@@ -183,10 +183,10 @@ Example:
     whatIs: {
       paragraphs: [
         "HTML (HyperText Markup Language) is the standard markup language for structuring content on the web. CSS (Cascading Style Sheets) controls visual presentation—layout, colors, typography—and JavaScript adds interactivity, responding to user events and manipulating the page dynamically. Together, these three technologies form the foundation of front-end web development, and learning them requires a rapid feedback loop between writing code and seeing the result.",
-        "An HTML executor, also called a code playground or sandbox, runs HTML, CSS, and JavaScript in the browser without requiring a local development server or file system setup. You type markup and scripts into editor panels, and the tool renders the output in a live preview pane. This immediate visual feedback accelerates learning: a student experimenting with CSS flexbox can adjust properties and watch the layout change in real time, building muscle memory for syntax and behavior.",
+        "An HTML executor, also called a code playground or HTML file executor, runs HTML, CSS, and JavaScript in the browser without a local development server. Open a local .html file, paste a full document, or type markup into the three editors; the tool splits inline CSS and JavaScript into their panels and renders a live preview. This immediate visual feedback accelerates learning: a student experimenting with CSS flexbox can adjust properties and watch the layout change in real time.",
         "Sandboxes are used throughout web development education, technical interviews, and rapid prototyping. When debugging a layout issue, isolating the problematic HTML and CSS in a sandbox removes distractions from the rest of a project. When learning JavaScript DOM manipulation, a sandbox lets you create elements, attach event listeners, and inspect results without refreshing a full application. The sandboxed iframe environment also provides a measure of security by limiting the code's access to the parent page.",
         "Modern web development workflows involve build tools, frameworks, and package managers, but the underlying concepts—semantic HTML, CSS selectors, JavaScript functions and events—remain unchanged. A playground strips away tooling complexity so you can focus on core language features. Whether you are writing your first hello-world page or testing a CSS animation before integrating it into a project, an executor provides the fastest path from code to visual result.",
-        "The HTML Executor on Online Science Tools provides separate panels for HTML, CSS, and JavaScript with a live rendered preview. Use it to experiment with layouts, test color values from the Hex Color Picker and Converter, practice DOM scripting, and prototype interactive widgets. It complements the Binary Calculator and Converter when building educational pages that display numeric conversions, and serves as a hands-on companion to any web development or computing course.",
+        "The HTML Executor on Online Science Tools runs HTML, CSS, and JavaScript in a sandboxed iframe. Open an .html file from your computer, drop it on the panel, or paste a full document and choose Split document. Use it to experiment with layouts, test color values from the Hex Color Picker and Converter, practice DOM scripting, and prototype interactive widgets.",
       ],
       bullets: [
         "HTML defines document structure using elements like div, p, h1, and semantic tags",
@@ -253,12 +253,12 @@ JavaScript DOM access:
       {
         question: "What is an HTML Executor?",
         answer:
-          "An HTML Executor (sometimes searched as html executer or html file executor) is a browser playground that runs HTML, CSS, and JavaScript and shows a live preview. Paste an .html file into the HTML panel, or type markup in the three editors. This HTML Executor sandboxes the result in an iframe so you can test without a local server.",
+          "An HTML Executor (also searched as html executer or html file executor) runs HTML, CSS, and JavaScript in the browser and shows a live preview. Open a local .html file, drop it on the panel, or type in the three editors. The result is sandboxed in an iframe so you can test without a local server.",
       },
       {
         question: "Can I execute an HTML file in the browser?",
         answer:
-          "Yes. Open the .html file in a text editor, copy the markup into the HTML panel, and put any style or script contents into the CSS and JavaScript panels (or leave them inline in the HTML). Click Run to preview. The tool does not upload files to a server; everything stays in this browser tab.",
+          "Yes. Use Open HTML file (or drag a .html file onto the tool). Inline <style> and <script> blocks are split into the CSS and JavaScript panels; the body markup stays in HTML. Nothing is uploaded to a server—the file is read in this tab only. If you paste a full document, click Split document, then Run.",
       },
       {
         question: "Is the HTML executor safe to run arbitrary code?",

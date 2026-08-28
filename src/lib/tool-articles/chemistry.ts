@@ -807,7 +807,7 @@ Buffer:
   {
     slug: "buffercalculator",
     introHeading:
-      "Phosphate buffer calculator (HEPES, MES, McIlvaine citrate–phosphate)",
+      "Phosphate buffer calculator and citrate–phosphate (McIlvaine) mixer",
     whatIs: {
       paragraphs: [
         "A buffer is a mixture of a weak acid (HA) and its conjugate base (A⁻) that resists pH change when small amounts of strong acid or base are added. Laboratory recipes specify a named system (phosphate, potassium phosphate, HEPES, MES, borate, acetate, Tris, citrate, ammonia, bicarbonate, carbonate, histidine, imidazole), a target pH, a total buffer concentration C = [HA] + [A⁻], and a final volume. The Henderson–Hasselbalch equation sets the ratio [A⁻]/[HA] from pH and pKa; together with C it fixes both concentrations, then masses follow from molar mass and volume.",
@@ -853,6 +853,20 @@ m = n · M (molar mass of the acid or base reagent)`,
       toolCheck:
         "Select Phosphate, pH 7.40, 0.10 M, 1000 mL in the Phosphate Buffer Calculator and compare the gram amounts.",
     },
+    moreExamples: [
+      {
+        title: "McIlvaine citrate–phosphate, pH 7.0, 20 mL",
+        scenario:
+          "Prepare 20 mL of McIlvaine citrate–phosphate buffer at pH 7.0 from 0.2 M Na₂HPO₄ and 0.1 M citric acid.",
+        steps: [
+          "McIlvaine is a mixing table, not a new pKa.",
+          "At pH 7.0 the 20 mL table is 16.47 mL Na₂HPO₄ + 3.53 mL citric acid.",
+          "Scale both volumes if you need a different final volume (100 mL → ×5).",
+        ],
+        toolCheck:
+          "Choose Citrate–phosphate (McIlvaine), pH 7.00, 20 mL and read the two stock volumes.",
+      },
+    ],
     faq: [
       {
         question: "Is this a phosphate buffer calculator?",
@@ -875,9 +889,9 @@ m = n · M (molar mass of the acid or base reagent)`,
           "Yes. HEPES (pKa ≈ 7.48) and MES (pKa ≈ 6.15) are Good’s buffers; borate uses boric acid / borate (pKa ≈ 9.24). Select the chip, enter target pH, total C, and volume, and read acid/base grams. These are single-pKa teaching recipes—confirm temperature and hydrates against your SOP.",
       },
       {
-        question: "Is citrate–phosphate (McIlvaine) a separate buffer system?",
+        question: "Is this a citrate phosphate buffer calculator?",
         answer:
-          "It is two stocks mixed, not a new pKa. Choose the McIlvaine (citrate–phosphate) chip: the calculator interpolates the classic 0.2 M Na₂HPO₄ + 0.1 M citric acid table for pH 2.2–8.0 and scales the mix to your final volume. Verify with a meter. For a single-pKa recipe, calculate citrate or phosphate separately instead.",
+          "Yes. Choose Citrate–phosphate (McIlvaine): it interpolates the classic 0.2 M Na₂HPO₄ + 0.1 M citric acid table for pH 2.2–8.0 and scales the mix to your final volume. That is two stocks mixed, not a new pKa. Verify with a meter. For a single-pKa recipe, calculate citrate or phosphate separately instead.",
       },
       {
         question: "Does this include histidine or imidazole buffer?",
@@ -942,7 +956,8 @@ Clear fractions to the smallest integers → empirical formula`,
   },
   {
     slug: "kspcalculator",
-    introHeading: "Ksp calculator for solubility and precipitation (Q vs Ksp)",
+    introHeading:
+      "Calculate Ksp from molar solubility (BaCrO₄, A₃B₂) and Q vs Ksp",
     whatIs: {
       paragraphs: [
         "The solubility product Ksp is the equilibrium constant for dissolving a sparingly soluble ionic solid. For a salt that dissolves as x cations and y anions per formula unit, Ksp = [cation]^x[anion]^y at saturation. Molar solubility s is the moles of formula unit that dissolve per liter of saturated solution in pure water.",
@@ -1009,9 +1024,9 @@ Q = [M]^x [A]^y`,
           "Write the ions produced per formula unit, replace each with a multiple of s, and multiply. AB salts: Ksp = s². AB₂ or A₂B: Ksp = 4s³. A₃B₂: Ksp = 108 s⁵. Enter s in the Ksp Calculator’s solubility → Ksp mode and pick the matching salt type.",
       },
       {
-        question: "How do I find Ksp or molar solubility the other way?",
+        question: "How do I find Ksp from a homework solubility string?",
         answer:
-          "If you are given Ksp, invert the same relation: s = √Ksp for AB, s = (Ksp/4)^(1/3) for AB₂ / A₂B. Choose Ksp → solubility, enter the tabulated Ksp, and read s in mol/L.",
+          "Identify the salt type, then use solubility → Ksp. BaCrO₄ is AB: Ksp = s². For a hypothetical A₃B₂ salt (3A + 2B), Ksp = 108 s⁵. Chips for BaCrO₄ (s = 1.08×10⁻⁵) and A₃B₂ (s = 6.1×10⁻⁹) load those problems. If you are given Ksp instead, invert: s = √Ksp for AB, s = (Ksp/4)^(1/3) for AB₂ / A₂B.",
       },
       {
         question: "Is this a precipitation reaction calculator?",

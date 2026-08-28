@@ -273,6 +273,17 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "They converge to the same stable limit cycle",
     },
+    {
+      title: "Center vs stable spiral",
+      prompt:
+        "For ẋ = −y, ẏ = x, why is the origin a center rather than a stable spiral?",
+      steps: [
+        "Eigenvalues of the Jacobian are ±i (pure imaginary).",
+        "No damping term: nearby orbits are closed and neither approach nor leave.",
+        "A stable spiral needs a negative real part (try ẋ = −0.3x − y, ẏ = x − 0.3y).",
+      ],
+      answer: "Pure imaginary eigenvalues → center (closed orbits)",
+    },
   ],
 
   graphingcalculator: [
@@ -858,6 +869,17 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
         "`#app p` is more specific than `.note`.",
       ],
       answer: "#app p wins (higher specificity)",
+    },
+    {
+      title: "Open an HTML file",
+      prompt:
+        "You upload index.html with CSS in <style> and JS in <script>. Where does each piece go?",
+      steps: [
+        "Body markup → HTML panel.",
+        "Inline <style> → CSS panel.",
+        "Inline <script> (no src) → JavaScript panel, then Run.",
+      ],
+      answer: "Body → HTML; <style> → CSS; inline <script> → JS",
     },
   ],
 };

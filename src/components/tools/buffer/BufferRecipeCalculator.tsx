@@ -61,10 +61,10 @@ export function BufferRecipeCalculator() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm font-medium">
-            Phosphate buffer calculator (HEPES, MES, McIlvaine…)
+            Phosphate & citrate–phosphate buffer calculator
           </p>
           <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
-            pH = pKa + log([A⁻]/[HA]) · citrate–phosphate mixing table
+            pH = pKa + log([A⁻]/[HA]) · McIlvaine citrate–phosphate table
           </p>
         </div>
         <button
@@ -84,7 +84,9 @@ export function BufferRecipeCalculator() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-1.5">
-        {BUFFER_SYSTEMS.map((s) => (
+        {BUFFER_SYSTEMS.filter(
+          (s) => s.id === "phosphate" || s.id === "k-phosphate",
+        ).map((s) => (
           <button
             key={s.id}
             type="button"
@@ -107,7 +109,7 @@ export function BufferRecipeCalculator() {
           onClick={() => {
             setMcilvaine(true);
             setTargetPh("7.00");
-            if (!volumeMl.trim()) setVolumeMl("100");
+            setVolumeMl("20");
           }}
           className={`border px-2.5 py-1.5 text-xs ${
             mcilvaine
@@ -115,8 +117,28 @@ export function BufferRecipeCalculator() {
               : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"
           }`}
         >
-          McIlvaine (citrate–phosphate)
+          Citrate–phosphate (McIlvaine)
         </button>
+        {BUFFER_SYSTEMS.filter(
+          (s) => s.id !== "phosphate" && s.id !== "k-phosphate",
+        ).map((s) => (
+          <button
+            key={s.id}
+            type="button"
+            onClick={() => {
+              setMcilvaine(false);
+              setSystemId(s.id);
+              setTargetPh(((s.pHMin + s.pHMax) / 2).toFixed(2));
+            }}
+            className={`border px-2.5 py-1.5 text-xs ${
+              !mcilvaine && systemId === s.id
+                ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
+                : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">

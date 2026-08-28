@@ -7,6 +7,7 @@ import {
   SALT_TYPES,
   ionProduct,
   kspFromSolubility,
+  kspStoichiometryLabel,
   solubilityFromKsp,
   type SaltType,
 } from "@/lib/chemistry/ksp";
@@ -81,9 +82,9 @@ export function KspCalculator() {
     <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium">Ksp / solubility calculator</p>
+          <p className="text-sm font-medium">Calculate Ksp from solubility</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Solubility ↔ Ksp · AB through A₃B₂ · ion product Q vs Ksp
+            s ↔ Ksp · AB through A₃B₂ (BaCrO₄, AgI, homework salts) · Q vs Ksp
           </p>
         </div>
         <button
@@ -196,15 +197,28 @@ export function KspCalculator() {
         {!result.ok ? (
           <p className="text-[var(--muted)]">{result.error}</p>
         ) : result.kind === "ksp" ? (
-          <p>
-            Ksp = <span className="font-mono font-medium">{formatNum(result.value)}</span>
-            <span className="text-[var(--muted)]">
-              {" "}
-              from s = {formatNum(result.s)} mol/L
-            </span>
-          </p>
+          <div className="space-y-1">
+            <p className="font-mono text-xs text-[var(--muted)]">
+              {kspStoichiometryLabel(type)}
+            </p>
+            <p>
+              Ksp ={" "}
+              <span className="font-mono font-medium">{formatNum(result.value)}</span>
+              <span className="text-[var(--muted)]">
+                {" "}
+                from s = {formatNum(result.s)} mol/L
+              </span>
+            </p>
+            <p className="text-xs text-[var(--muted)]">
+              Classroom Ksp from concentrations in mol/L (thermodynamic Ksp is
+              unitless).
+            </p>
+          </div>
         ) : result.kind === "s" ? (
           <div className="space-y-1">
+            <p className="font-mono text-xs text-[var(--muted)]">
+              {kspStoichiometryLabel(type)}
+            </p>
             <p>
               Solubility s ={" "}
               <span className="font-mono font-medium">{formatNum(result.value)}</span>{" "}

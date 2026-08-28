@@ -53,6 +53,18 @@ export function solubilityFromKsp(type: SaltType, ksp: number): number {
   return (ksp / prefactor) ** (1 / power);
 }
 
+/** Classroom relation Ksp = (prefactor) s^(x+y) for the selected salt type. */
+export function kspStoichiometryLabel(type: SaltType): string {
+  const { cationCoeff: x, anionCoeff: y } = saltParams(type);
+  const prefactor = x ** x * y ** y;
+  const power = x + y;
+  if (prefactor === 1 && power === 2) return "Ksp = s²";
+  if (prefactor === 4 && power === 3) return "Ksp = 4s³";
+  if (prefactor === 27 && power === 4) return "Ksp = 27s⁴";
+  if (prefactor === 108 && power === 5) return "Ksp = 108s⁵";
+  return `Ksp = ${prefactor} s^${power}`;
+}
+
 export interface IonProductInput {
   type: SaltType;
   /** Actual ion concentrations (mol/L) */

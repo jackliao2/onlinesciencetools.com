@@ -325,7 +325,7 @@ export const tools: Tool[] = [
     title: "Phosphate Buffer Calculator",
     shortTitle: "Phosphate Buffer",
     description:
-      "Phosphate buffer calculator (plus HEPES, MES, borate, acetate, Tris, histidine, imidazole, and McIlvaine citrate–phosphate)—grams from target pH, total concentration, and volume via Henderson–Hasselbalch.",
+      "Phosphate buffer calculator and citrate–phosphate (McIlvaine) mixer, plus HEPES, MES, acetate, Tris, and more—grams from target pH, concentration, and volume.",
     category: "chemistry",
     group: "acids",
     status: "live",
@@ -355,7 +355,7 @@ export const tools: Tool[] = [
     title: SEARCH_LOCKED_PAGES.kspcalculator.title,
     shortTitle: "Ksp / Solubility",
     description:
-      "Calculate Ksp from molar solubility (including A₃B₂ salts), find solubility from Ksp, and compare Q with Ksp to predict precipitation.",
+      "Calculate Ksp from molar solubility (BaCrO₄, A₃B₂, AgI…), find solubility from Ksp, and compare Q with Ksp to predict precipitation.",
     category: "chemistry",
     group: "acids",
     status: "live",
@@ -459,15 +459,18 @@ export const tools: Tool[] = [
     title: SEARCH_LOCKED_PAGES.phaseportrait.title,
     shortTitle: "Phase Portrait",
     description:
-      "Phase portrait calculator and generator for 2D autonomous systems—vector field, trajectories, and equilibria (center, spiral, saddle).",
+      "Phase portrait calculator, generator, and plotter for 2D autonomous systems—vector field, trajectories, and equilibria (center, spiral, saddle).",
     category: "math",
     group: "graphing",
     status: "live",
     keywords: [
       "phase portrait generator",
       "phase portrait calculator",
+      "phase portrait plotter",
+      "phase plane plotter",
       "phase portrait",
       "stable spiral",
+      "saddle point phase portrait",
       "center equilibrium",
       "vector field",
       "differential equations",
@@ -562,7 +565,7 @@ export const tools: Tool[] = [
     title: SEARCH_LOCKED_PAGES.htmlexecutor.title,
     shortTitle: "HTML Executor",
     description:
-      "HTML Executor for HTML, CSS, and JavaScript—paste an HTML file or write code and run it in a sandboxed browser playground.",
+      "Run HTML, CSS, and JavaScript in the browser. Open an .html file or type code — live sandboxed preview, no install.",
     category: "computing",
     group: "web",
     status: "live",
@@ -584,14 +587,17 @@ export const guides: Guide[] = [
   {
     slug: "physicsgre",
     href: "/guides/physicsgre",
-    title: "Physics GRE Prep & Study Guide",
+    title: "Physics GRE Equation Sheet",
     shortTitle: "Physics GRE",
     description:
-      "A structured Physics GRE study guide with core formula sheets, topic weights, and exam strategy for mechanics, E&M, quantum, and thermo.",
+      "Physics GRE equation sheet and formula sheet—mechanics, E&M, quantum, thermo, optics, relativity, high-yield constants, topic weights, and a two-week study plan.",
     keywords: [
-      "physics gre",
+      "physics gre equation sheet",
+      "physics gre formula sheet",
+      "gre physics equation sheet",
       "physics gre study guide",
       "physics gre formulas",
+      "physics gre prep",
       "pgre prep",
     ],
   },

@@ -40,8 +40,14 @@ import {
   compileVectorField,
   rk4Step,
   findEquilibria,
+  PHASE_PRESETS,
 } from "../src/lib/math/phase-portrait.ts";
-import { SEARCH_LOCKED_PAGES, getToolBySlug } from "../src/lib/tools.ts";
+import { SEARCH_LOCKED_PAGES, getGuideBySlug, getToolBySlug } from "../src/lib/tools.ts";
+import {
+  looksLikeFullHtmlDocument,
+  parseHtmlFile,
+} from "../src/lib/html-executor/parse-html-file.ts";
+import { kspStoichiometryLabel } from "../src/lib/chemistry/ksp.ts";
 
 let failed = 0;
 
@@ -718,6 +724,76 @@ approx(8 * 1 - (9.8 / 2) * 1 * 1, 3.1, 1e-12, "projectile uses g/2");
     failed += 1;
   } else console.log("OK   center classification:", origin.classification);
 }
+
+// --- HTML file executor split ---
+{
+  const parsed = parseHtmlFile(`<!DOCTYPE html>
+<html><head><style>h1{color:red}</style></head>
+<body><h1>Hi</h1><script>console.log(1)</script></body></html>`);
+  eq(parsed.html, "<h1>Hi</h1>", "html file body");
+  eq(parsed.css, "h1{color:red}", "html file css");
+  eq(parsed.js, "console.log(1)", "html file js");
+}
+{
+  const parsed = parseHtmlFile(`<div>fragment</div>`);
+  eq(parsed.html, "<div>fragment</div>", "html fragment stays in html");
+  eq(parsed.css, "", "html fragment no css");
+}
+{
+  const parsed = parseHtmlFile(
+    `<html><body><p>x</p><script src="https://cdn.example/app.js"></script></body></html>`,
+  );
+  if (!parsed.html.includes('src="https://cdn.example/app.js"')) {
+    console.error("FAIL html file keeps external script tag");
+    failed += 1;
+  } else console.log("OK   html file keeps external script tag");
+}
+if (!looksLikeFullHtmlDocument("<!DOCTYPE html><html></html>")) {
+  console.error("FAIL looksLikeFullHtmlDocument");
+  failed += 1;
+} else console.log("OK   looksLikeFullHtmlDocument");
+
+eq(kspStoichiometryLabel("AB"), "Ksp = s²", "Ksp label AB");
+eq(kspStoichiometryLabel("A3B2"), "Ksp = 108s⁵", "Ksp label A3B2");
+
+// --- Phase presets compile ---
+for (const preset of PHASE_PRESETS) {
+  try {
+    const field = compileVectorField(preset.fx, preset.fy);
+    const v = field(0.2, 0.3);
+    if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) {
+      console.error(`FAIL phase preset ${preset.id} non-finite at (0.2,0.3)`, v);
+      failed += 1;
+    } else console.log(`OK   phase preset ${preset.id}`);
+  } catch (err) {
+    console.error(`FAIL phase preset ${preset.id}`, err);
+    failed += 1;
+  }
+}
+{
+  const node = findEquilibria(compileVectorField("-x", "-2*y"), {
+    xMin: -3,
+    xMax: 3,
+    yMin: -3,
+    yMax: 3,
+  });
+  const origin = node.find((p) => Math.hypot(p.x, p.y) < 0.05);
+  if (!origin || !origin.classification.includes("sink")) {
+    console.error("FAIL node-sink classification", origin);
+    failed += 1;
+  } else console.log("OK   node-sink classification:", origin.classification);
+}
+
+eq(
+  getGuideBySlug("physicsgre")?.title ?? "",
+  "Physics GRE Equation Sheet",
+  "physics gre equation sheet title",
+);
+eq(
+  getToolBySlug("htmlexecutor")?.title ?? "",
+  "HTML Executor",
+  "html executor H1 still locked",
+);
 
 // --- Search-locked titles (GSC page 1–2; do not rename) ---
 for (const [slug, locked] of Object.entries(SEARCH_LOCKED_PAGES)) {

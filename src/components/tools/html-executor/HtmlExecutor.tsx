@@ -1,7 +1,19 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { Code2, Play, RotateCcw } from "lucide-react";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type DragEvent,
+} from "react";
+import { Code2, FileCode2, Play, RotateCcw, Upload } from "lucide-react";
+import {
+  assertHtmlFileSize,
+  looksLikeFullHtmlDocument,
+  parseHtmlFile,
+} from "@/lib/html-executor/parse-html-file";
 
 const DEFAULT_HTML = `<div class="card">
   <h1>Hello, world!</h1>
@@ -58,6 +70,11 @@ export function HtmlExecutor() {
   const [css, setCss] = useState(DEFAULT_CSS);
   const [js, setJs] = useState(DEFAULT_JS);
   const [previewKey, setPreviewKey] = useState(0);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const srcDoc = useMemo(() => buildSrcDoc(html, css, js), [html, css, js]);
 
@@ -65,23 +82,120 @@ export function HtmlExecutor() {
     setPreviewKey((k) => k + 1);
   }, []);
 
+  const applyParsed = useCallback(
+    (source: string, label: string) => {
+      const parsed = parseHtmlFile(source);
+      setHtml(parsed.html);
+      setCss(parsed.css);
+      setJs(parsed.js);
+      setFileName(label);
+      setError(null);
+      const parts = [
+        parsed.css ? "CSS" : null,
+        parsed.js ? "JS" : null,
+      ].filter(Boolean);
+      setStatus(
+        parts.length
+          ? `Loaded ${label} — ${parts.join(" and ")} moved to their panels.`
+          : `Loaded ${label} into the HTML panel.`,
+      );
+      setPreviewKey((k) => k + 1);
+    },
+    [],
+  );
+
+  const loadFile = useCallback(
+    async (file: File) => {
+      const name = file.name || "file.html";
+      if (!/\.html?$/i.test(name) && file.type !== "text/html") {
+        setError("Open an .html or .htm file.");
+        return;
+      }
+      try {
+        assertHtmlFileSize(file.size);
+        const text = await file.text();
+        applyParsed(text, name);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Could not read that file.");
+      }
+    },
+    [applyParsed],
+  );
+
+  const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (file) void loadFile(file);
+  };
+
+  const splitDocument = () => {
+    if (!looksLikeFullHtmlDocument(html) && !/<style\b|<script\b/i.test(html)) {
+      setError("Paste a full HTML document (or use Open HTML file) first.");
+      return;
+    }
+    applyParsed(html, fileName ?? "pasted document");
+  };
+
   const reset = () => {
     setHtml(DEFAULT_HTML);
     setCss(DEFAULT_CSS);
     setJs(DEFAULT_JS);
+    setFileName(null);
+    setStatus(null);
+    setError(null);
     setPreviewKey((k) => k + 1);
   };
 
   return (
-    <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.45)] sm:p-8">
+    <div
+      className={`rounded-3xl border bg-[var(--surface)] p-5 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.45)] sm:p-8 ${
+        dragging
+          ? "border-[var(--accent)] ring-2 ring-[var(--accent)]"
+          : "border-[var(--border)]"
+      }`}
+      onDragOver={(event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setDragging(true);
+      }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={(event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setDragging(false);
+        const file = event.dataTransfer.files?.[0];
+        if (file) void loadFile(file);
+      }}
+    >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-[var(--accent)]">
           <Code2 className="h-5 w-5" />
           <span className="text-sm font-semibold uppercase tracking-[0.14em]">
-            HTML file executor
+            Run HTML, CSS & JS in the browser
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".html,.htm,text/html"
+            className="sr-only"
+            onChange={onFileChange}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+          >
+            <Upload className="h-3.5 w-3.5" />
+            Open HTML file
+          </button>
+          <button
+            type="button"
+            onClick={splitDocument}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+          >
+            <FileCode2 className="h-3.5 w-3.5" />
+            Split document
+          </button>
           <button
             type="button"
             onClick={run}
@@ -101,14 +215,28 @@ export function HtmlExecutor() {
         </div>
       </div>
 
+      {status ? (
+        <p className="mt-3 text-xs text-[var(--muted)]">{status}</p>
+      ) : null}
+      {error ? (
+        <p className="mt-3 text-xs text-red-600 dark:text-red-400">{error}</p>
+      ) : null}
+
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <EditorPane label="HTML" value={html} onChange={setHtml} />
         <EditorPane label="CSS" value={css} onChange={setCss} />
-        <EditorPane label="JavaScript" value={js} onChange={setJs} className="lg:col-span-2" />
+        <EditorPane
+          label="JavaScript"
+          value={js}
+          onChange={setJs}
+          className="lg:col-span-2"
+        />
       </div>
 
       <div className="mt-6">
-        <p className="mb-2 text-sm font-medium text-[var(--foreground)]">Preview</p>
+        <p className="mb-2 text-sm font-medium text-[var(--foreground)]">
+          Preview
+        </p>
         <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white">
           <iframe
             key={previewKey}
@@ -119,9 +247,9 @@ export function HtmlExecutor() {
           />
         </div>
         <p className="mt-2 text-xs text-[var(--muted)]">
-          Paste an .html file into the HTML panel (put CSS/JS in their panels, or
-          inline). Preview runs in a sandboxed iframe (scripts allowed; no
-          same-origin access).
+          HTML file executor: open a local .html file or drop it on this panel.
+          Inline &lt;style&gt; and &lt;script&gt; split into CSS/JS. Preview runs
+          in a sandboxed iframe (scripts allowed; no same-origin access).
         </p>
       </div>
     </div>

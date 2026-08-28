@@ -11,14 +11,13 @@ export const metadata: Metadata = buildGuideMetadata(guide);
 export default function PhysicsGreGuidePage() {
   return (
     <GuideLayout guide={guide}>
-      <h2>Physics GRE overview</h2>
+      <h2>Physics GRE equation sheet</h2>
       <p>
-        The Physics GRE (PGRE) is a standardized subject test used by many U.S.
-        graduate physics programs. A high score signals broad undergraduate
-        mastery across classical mechanics, electromagnetism, quantum mechanics,
-        thermodynamics/statistical mechanics, relativity, laboratory methods,
-        and specialized topics. This guide is a structured, formula-first review
-        you can use alongside timed practice sets.
+        This Physics GRE equation sheet (also a formula sheet and study guide)
+        is a formula-first review for the PGRE: classical mechanics,
+        electromagnetism, quantum mechanics, thermodynamics/statistical
+        mechanics, optics, relativity, laboratory methods, and specialized
+        topics. Keep it open while you drill timed sets.
       </p>
 
       <h3>Approximate topic distribution</h3>
@@ -126,6 +125,42 @@ Helmholtz free energy:     F = −kT ln Z = U − TS
 Equipartition:             (1/2)kT per quadratic degree of freedom`}</code>
       </pre>
 
+      <h3>Optics & waves formula sheet</h3>
+      <pre>
+        <code>{`Wave:                      v = fλ
+Intensity (wave):          I ∝ A²
+Snell:                     n₁ sin θ₁ = n₂ sin θ₂
+Thin lens:                 1/f = 1/s + 1/s′
+Magnification:             m = −s′/s = h′/h
+Double slit:               d sin θ = mλ  (bright)
+Single-slit min:           a sin θ = mλ
+Diffraction grating:       d sin θ = mλ
+Rayleigh criterion:        θ ≈ 1.22 λ/D
+Doppler (sound, source):   f′ = f v/(v ± v_s)`}</code>
+      </pre>
+
+      <h3>Special relativity</h3>
+      <pre>
+        <code>{`Lorentz factor:            γ = 1/√(1 − β²),  β = v/c
+Time dilation:             Δt = γ Δτ
+Length contraction:        L = L₀/γ
+Velocity addition:         u = (v + u′)/(1 + vu′/c²)
+Energy–momentum:           E² = (pc)² + (mc²)²
+Rest energy:               E₀ = mc²
+Kinetic energy:            K = (γ − 1)mc²`}</code>
+      </pre>
+
+      <h3>High-yield constants</h3>
+      <pre>
+        <code>{`c = 3.00×10⁸ m/s
+h = 6.63×10⁻³⁴ J·s    ℏc ≈ 197 MeV·fm
+k = 8.62×10⁻⁵ eV/K    N_A = 6.02×10²³ mol⁻¹
+e = 1.60×10⁻¹⁹ C      α ≈ 1/137
+m_e = 511 keV/c²      m_p ≈ 938 MeV/c²
+g ≈ 9.8 m/s²          σ = 5.67×10⁻⁸ W·m⁻²·K⁻⁴
+ε₀ = 8.85×10⁻¹² F/m   μ₀ = 4π×10⁻⁷ T·m/A`}</code>
+      </pre>
+
       <h3>High-yield exam strategy</h3>
       <ol className="list-decimal space-y-2 pl-5 text-[var(--muted)]">
         <li>
@@ -196,7 +231,7 @@ Equipartition:             (1/2)kT per quadratic degree of freedom`}</code>
       </p>
 
       <p className="!mb-0">
-        Bookmark this page as a formula cockpit, then jump into practice sets and
+        Bookmark this equation sheet, then jump into practice sets and
         interactive visualizations to convert recognition into speed.
       </p>
     </GuideLayout>
