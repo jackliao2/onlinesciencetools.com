@@ -405,6 +405,40 @@ export const guideReferences: Record<string, AuthorityReference[]> = {
       note: "Reference thermochemical and molecular data.",
     },
   ],
+  "physics-formulas": [
+    {
+      label: "OpenStax — University Physics Volume 1",
+      href: "https://openstax.org/details/books/university-physics-volume-1",
+      note: "Mechanics through waves for the introductory formula sheet.",
+    },
+    {
+      label: "OpenStax — University Physics Volume 2",
+      href: "https://openstax.org/details/books/university-physics-volume-2",
+      note: "Electrostatics chapter paired with the field visualizer.",
+    },
+    {
+      label: "NIST CODATA — Fundamental physical constants",
+      href: "https://physics.nist.gov/cuu/Constants/",
+      note: "Recommended values for g, G, and related constants.",
+    },
+  ],
+  "differential-equations": [
+    {
+      label: "MIT OCW — Differential Equations",
+      href: "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/",
+      note: "Undergraduate ODE course matching the linearization sheet.",
+    },
+    {
+      label: "MathWorld — Phase Portrait",
+      href: "https://mathworld.wolfram.com/PhasePortrait.html",
+      note: "Definition of phase portraits for autonomous systems.",
+    },
+    {
+      label: "Wikipedia — Phase portrait",
+      href: "https://en.wikipedia.org/wiki/Phase_portrait",
+      note: "Overview of classification for 2D equilibria.",
+    },
+  ],
   electricfield: [
     {
       label: "OpenStax — Electric Field",

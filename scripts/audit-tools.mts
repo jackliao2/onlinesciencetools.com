@@ -814,6 +814,16 @@ eq(
   "chemistry formula sheet href",
 );
 eq(
+  getGuideBySlug("physics-formulas")?.title ?? "",
+  "Physics Formula Sheet",
+  "physics formula sheet title",
+);
+eq(
+  getGuideBySlug("differential-equations")?.title ?? "",
+  "Differential Equations Formula Sheet",
+  "DE formula sheet title",
+);
+eq(
   getToolBySlug("htmlexecutor")?.title ?? "",
   "HTML Executor",
   "html executor H1 still locked",

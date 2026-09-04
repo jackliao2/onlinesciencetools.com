@@ -635,6 +635,36 @@ export const guides: Guide[] = [
       "chemistry formulas",
     ],
   },
+  {
+    slug: "physics-formulas",
+    href: "/guides/physics-formulas",
+    title: "Physics Formula Sheet",
+    shortTitle: "Physics Formulas",
+    description:
+      "Introductory physics formula sheet and equation sheet—kinematics, Newton, energy, momentum, rotation, waves, and basic E&M—with links to the graphing and field tools.",
+    keywords: [
+      "physics formula sheet",
+      "physics equation sheet",
+      "physics formulas",
+      "high school physics formula sheet",
+      "intro physics equation sheet",
+    ],
+  },
+  {
+    slug: "differential-equations",
+    href: "/guides/differential-equations",
+    title: "Differential Equations Formula Sheet",
+    shortTitle: "Diff Eq Formulas",
+    description:
+      "Differential equations formula sheet: first- and second-order ODEs, Jacobian linearization, and how to classify node, saddle, spiral, and center equilibria.",
+    keywords: [
+      "differential equations formula sheet",
+      "ode formula sheet",
+      "jacobian eigenvalues classification",
+      "phase portrait classification",
+      "autonomous system equilibria",
+    ],
+  },
 ];
 
 export const categoryLabels: Record<ToolCategory, string> = {
@@ -703,11 +733,13 @@ export const guidesHub: CollectionPage = {
   title: "Science Study Guides",
   shortTitle: "Guides",
   description:
-    "Formula sheets and study guides for chemistry, Physics GRE, and electric fields, with links to the matching calculators.",
+    "Formula sheets and study guides for chemistry, intro physics, differential equations, Physics GRE, and electric fields, with links to the matching calculators.",
   keywords: [
     "science study guides",
     "chemistry formula sheet",
+    "physics formula sheet",
     "physics gre equation sheet",
+    "differential equations formula sheet",
     "electric field guide",
   ],
 };

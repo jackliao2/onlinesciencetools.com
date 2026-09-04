@@ -52,20 +52,18 @@ export function CategoryHub({ category }: { category: ToolCategory }) {
   const items = tools.filter(
     (tool) => tool.category === category && tool.status === "live",
   );
-  const relatedGuides = guides.filter((guide) => {
+  const extra = guides.filter((guide) => {
     if (category === "chemistry") return guide.slug === "chemistry-formulas";
-    if (category === "math") return false;
-    if (category === "computing") return false;
+    if (category === "math") {
+      return (
+        guide.slug === "differential-equations" ||
+        guide.slug === "physics-formulas" ||
+        guide.slug === "physicsgre" ||
+        guide.slug === "electricfield"
+      );
+    }
     return false;
   });
-  const physicsGuides =
-    category === "math"
-      ? guides.filter(
-          (guide) =>
-            guide.slug === "physicsgre" || guide.slug === "electricfield",
-        )
-      : [];
-  const extra = [...relatedGuides, ...physicsGuides];
 
   return (
     <>
@@ -100,7 +98,13 @@ export function CategoryHub({ category }: { category: ToolCategory }) {
           ) : null}
           {category === "math" ? (
             <p>
-              Physics GRE formulas live on the{" "}
+              Classify equilibria with the{" "}
+              <Link href="/guides/differential-equations">
+                differential equations formula sheet
+              </Link>
+              . Intro mechanics is on the{" "}
+              <Link href="/guides/physics-formulas">physics formula sheet</Link>
+              ; GRE review is the{" "}
               <Link href="/guides/physicsgre">Physics GRE equation sheet</Link>.
             </p>
           ) : null}

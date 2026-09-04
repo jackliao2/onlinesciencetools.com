@@ -252,7 +252,7 @@ export function HomeToolMatrix() {
 
         {showGuides ? (
           <section aria-labelledby="home-guides-heading">
-            <div className="mb-0 flex items-center gap-3 border-l-[3px] border-[var(--accent)] bg-[var(--surface-2)] px-3 py-2.5">
+            <div className="mb-0 flex flex-wrap items-center gap-3 border-l-[3px] border-[var(--accent)] bg-[var(--surface-2)] px-3 py-2.5">
               <h2
                 id="home-guides-heading"
                 className="text-[13px] font-semibold uppercase tracking-[0.08em]"
@@ -262,6 +262,12 @@ export function HomeToolMatrix() {
               <span className="text-xs tabular-nums text-[var(--muted)]">
                 {guideResults.length}
               </span>
+              <Link
+                href="/guides"
+                className="ml-auto text-sm font-medium text-[var(--accent)] hover:underline"
+              >
+                All guides
+              </Link>
             </div>
             {guideResults.length === 0 ? (
               <p className="border border-t-0 border-[var(--border)] px-3 py-3 text-sm text-[var(--muted)]">

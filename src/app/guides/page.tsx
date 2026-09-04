@@ -25,9 +25,9 @@ export default function GuidesIndexPage() {
         <article className="prose-ost max-w-none border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8">
           <p>
             Formula sheets and short study notes that sit next to the
-            calculators. Use the Physics GRE equation sheet for subject-test
-            review, the chemistry formula sheet for general chemistry, and the
-            electric field guide when you need a field sketch.
+            calculators. Chemistry, intro physics, and differential-equations
+            sheets collect the relations you type into homework; the Physics GRE
+            equation sheet and electric field guide go deeper on those topics.
           </p>
           <div className="not-prose mt-6">
             <ul className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
