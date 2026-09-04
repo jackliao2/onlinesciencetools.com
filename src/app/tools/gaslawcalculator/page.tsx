@@ -25,7 +25,10 @@ export default function GasLawCalculatorPage() {
         <GasLawCalculator />
       </section>
       <ToolSeoArticle slug={tool.slug} />
-      <PracticeProblems slug={tool.slug} topicLabel="ideal gas law" />
+      <PracticeProblems
+        slug={tool.slug}
+        topicLabel="ideal gas law / M = dRT/P"
+      />
       <RelatedTools slug={tool.slug} />
     </>
   );

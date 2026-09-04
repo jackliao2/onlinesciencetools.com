@@ -12,9 +12,10 @@ export const R_KPA = 8.314462618;
 
 export type GasField = "P" | "V" | "n" | "T";
 
-export type PressureUnit = "atm" | "kPa" | "mmHg";
+export type PressureUnit = "atm" | "kPa" | "mmHg" | "torr";
 export type VolumeUnit = "L" | "mL";
 export type TempUnit = "K" | "C";
+export type DensityUnit = "g/L" | "g/mL";
 
 export interface GasLawInput {
   P: number | null;
@@ -57,13 +58,21 @@ function fromLiters(liters: number, unit: VolumeUnit): number {
 function toAtm(value: number, unit: PressureUnit): number {
   if (unit === "atm") return value;
   if (unit === "kPa") return value / 101.325;
-  return value / 760; // mmHg
+  return value / 760; // mmHg and torr
 }
 
 function fromAtm(atm: number, unit: PressureUnit): number {
   if (unit === "atm") return atm;
   if (unit === "kPa") return atm * 101.325;
   return atm * 760;
+}
+
+export function densityToGPerL(density: number, unit: DensityUnit): number {
+  return unit === "g/mL" ? density * 1000 : density;
+}
+
+export function densityFromGPerL(density_g_L: number, unit: DensityUnit): number {
+  return unit === "g/mL" ? density_g_L / 1000 : density_g_L;
 }
 
 /**
@@ -141,22 +150,50 @@ export function solveIdealGas(input: GasLawInput): GasLawResult {
   };
 }
 
-/** Molar mass from density: M = dRT/P (d in g/L, P atm, T K). */
+/**
+ * Molar mass from density: M = dRT/P.
+ * Classroom form is also written mm = dRT/P or MM = dRT/P.
+ * d in g/L (or g/mL, converted), P in the chosen pressure unit, T in K or °C.
+ */
 export function molarMassFromDensity(
-  density_g_per_L: number,
+  density: number,
   P: number,
   T: number,
   pressureUnit: PressureUnit,
   tempUnit: TempUnit,
+  densityUnit: DensityUnit = "g/L",
 ): number {
-  if (!(density_g_per_L > 0) || !Number.isFinite(density_g_per_L)) {
-    throw new GasLawError("Density must be a positive number (g/L).");
+  if (!(density > 0) || !Number.isFinite(density)) {
+    throw new GasLawError("Density must be a positive number.");
   }
-  if (!(P > 0) || !(Number.isFinite(P))) {
+  if (!(P > 0) || !Number.isFinite(P)) {
     throw new GasLawError("Pressure must be positive.");
   }
   const T_K = toKelvin(T, tempUnit);
   if (!(T_K > 0)) throw new GasLawError("Temperature must be above 0 K.");
   const P_atm = toAtm(P, pressureUnit);
-  return (density_g_per_L * R_LATM * T_K) / P_atm;
+  const d_g_L = densityToGPerL(density, densityUnit);
+  return (d_g_L * R_LATM * T_K) / P_atm;
+}
+
+/** Density from molar mass: d = PM/RT (inverse of M = dRT/P). */
+export function densityFromMolarMass(
+  molarMass_g_per_mol: number,
+  P: number,
+  T: number,
+  pressureUnit: PressureUnit,
+  tempUnit: TempUnit,
+  densityUnit: DensityUnit = "g/L",
+): number {
+  if (!(molarMass_g_per_mol > 0) || !Number.isFinite(molarMass_g_per_mol)) {
+    throw new GasLawError("Molar mass must be a positive number (g/mol).");
+  }
+  if (!(P > 0) || !Number.isFinite(P)) {
+    throw new GasLawError("Pressure must be positive.");
+  }
+  const T_K = toKelvin(T, tempUnit);
+  if (!(T_K > 0)) throw new GasLawError("Temperature must be above 0 K.");
+  const P_atm = toAtm(P, pressureUnit);
+  const d_g_L = (P_atm * molarMass_g_per_mol) / (R_LATM * T_K);
+  return densityFromGPerL(d_g_L, densityUnit);
 }

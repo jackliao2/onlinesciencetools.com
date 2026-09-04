@@ -21,7 +21,7 @@ const hubCopy: Record<
       "Reactions: balancer, redox, stoichiometry, limiting reagent, empirical formula",
       "Solutions: C₁V₁ dilution and molarity / mg/mL / ppm conversion",
       "Equilibrium and acids: Kc/Kp, Ksp, pH, phosphate and McIlvaine buffers",
-      "Gases, kinetics, thermochemistry, and Nernst cell potential",
+      "Gases: PV = nRT and M = dRT/P (mm = dRT/P), plus kinetics, thermochemistry, and Nernst",
     ],
     pick: "Start with the Chemical Equation Balancer if you have a reaction, the Ksp Calculator for solubility-product homework, or the Phosphate Buffer Calculator for a named lab recipe. The chemistry formula sheet collects the equations in one place.",
   },

@@ -15,7 +15,11 @@ import { convertConcentration } from "../src/lib/chemistry/concentration.ts";
 import { calculatePh } from "../src/lib/chemistry/ph.ts";
 import { solveDilution, solveSerialDilution } from "../src/lib/chemistry/dilution.ts";
 import { solubilityFromKsp, kspFromSolubility } from "../src/lib/chemistry/ksp.ts";
-import { solveIdealGas } from "../src/lib/chemistry/gas-law.ts";
+import {
+  densityFromMolarMass,
+  molarMassFromDensity,
+  solveIdealGas,
+} from "../src/lib/chemistry/gas-law.ts";
 import { enthalpyFromFormation } from "../src/lib/chemistry/thermochemistry.ts";
 import { solveKinetics } from "../src/lib/chemistry/kinetics.ts";
 import { calculateNernst } from "../src/lib/chemistry/nernst.ts";
@@ -457,6 +461,16 @@ approx(kspFromSolubility("A3B2", 6.1e-9), 108 * 6.1e-9 ** 5, 1e-46, "A3B2 Ksp fr
     tempUnit: "K",
   });
   approx(r.n, 1.0, 1e-3, "PV=nRT n");
+}
+{
+  const M = molarMassFromDensity(1.96, 1, 273.15, "atm", "K", "g/L");
+  approx(M, 43.91, 0.05, "M=dRT/P CO2 g/L");
+  const M_mL = molarMassFromDensity(0.00196, 1, 273.15, "atm", "K", "g/mL");
+  approx(M_mL, M, 1e-9, "M=dRT/P g/mL matches g/L");
+  const d = densityFromMolarMass(M, 1, 273.15, "atm", "K", "g/L");
+  approx(d, 1.96, 1e-9, "d=PM/RT inverse");
+  const M_torr = molarMassFromDensity(1.96, 760, 273.15, "torr", "K", "g/L");
+  approx(M_torr, M, 1e-9, "torr equivalent to atm for M=dRT/P");
 }
 
 // --- Thermo ---

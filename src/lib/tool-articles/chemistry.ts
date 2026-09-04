@@ -1062,15 +1062,16 @@ Q = [M]^x [A]^y`,
   },
   {
     slug: "gaslawcalculator",
+    introHeading: "Ideal gas law calculator: PV = nRT and M = dRT/P",
     whatIs: {
       paragraphs: [
         "The ideal gas law PV = nRT relates pressure, volume, amount, and absolute temperature for gases at moderate conditions. Classroom calculations usually use R = 0.082057 L·atm/(mol·K) with P in atm, V in liters, and T in kelvin. Real gases deviate at high pressure or low temperature, but the ideal model is the standard starting point in general chemistry.",
-        "The Ideal Gas Law Calculator solves for whichever variable you leave blank and can estimate molar mass from gas density via M = dRT/P.",
+        "A second homework form comes from combining n = m/M with density d = m/V: M = dRT/P, often written mm = dRT/P or MM = dRT/P. That path needs only density, pressure, and temperature—not a separate volume or mole count. The Ideal Gas Law Calculator has both modes: leave one of P, V, n, T blank for PV = nRT, or switch to M = dRT/P to get molar mass (or invert to density).",
       ],
       bullets: [
-        "Always convert temperature to kelvin for PV = nRT",
-        "Keep P, V, R unit-consistent (tool converts atm/kPa/mmHg and L/mL)",
-        "Molar mass from density: M = dRT/P with d in g/L",
+        "Always convert temperature to kelvin before substituting",
+        "PV = nRT uses consistent P, V, and R (this tool converts atm/kPa/mmHg/torr and L/mL)",
+        "M = dRT/P uses density in g/L (g/mL is converted ×1000) and returns g/mol",
       ],
     },
     formula: {
@@ -1078,9 +1079,10 @@ Q = [M]^x [A]^y`,
       blocks: [
         `PV = nRT
 R = 0.082057 L·atm/(mol·K)
-
 T(K) = t(°C) + 273.15
-M = dRT / P   (d in g/L)`,
+
+M = dRT / P     (d in g/L; also written mm = dRT/P)
+d = PM / RT     (inverse)`,
       ],
     },
     example: {
@@ -1091,24 +1093,52 @@ M = dRT / P   (d in g/L)`,
         "n = PV/(RT) = (1.00 × 22.4) / (0.082057 × 273.15) ≈ 1.00 mol.",
       ],
       toolCheck:
-        "Enter P = 1.00 atm, V = 22.4 L, leave n blank, T = 273.15 K.",
+        "Choose PV = nRT. Enter P = 1.00 atm, V = 22.4 L, leave n blank, T = 273.15 K.",
     },
+    moreExamples: [
+      {
+        title: "Molar mass from density (M = dRT/P)",
+        scenario:
+          "A gas has density 1.96 g/L at 1.00 atm and 273.15 K. Find the molar mass.",
+        steps: [
+          "Use M = dRT/P with d in g/L, P in atm, T in kelvin.",
+          "M = (1.96)(0.082057)(273.15) / 1.00 ≈ 43.9 g/mol (CO₂ is 44.01 g/mol).",
+        ],
+        toolCheck:
+          "Choose M = dRT/P, Density → molar mass. Load the CO₂ chip or enter d = 1.96 g/L, P = 1 atm, T = 273.15 K.",
+      },
+    ],
     faq: [
+      {
+        question: "What does mm = dRT/P mean?",
+        answer:
+          "It is the same formula as M = dRT/P. Homework often writes mm or MM for molar mass in g/mol, d for density in g/L, R = 0.082057 L·atm/(mol·K), T in kelvin, and P in atm. Choose the M = dRT/P mode; you do not need V or n.",
+      },
       {
         question: "Why must temperature be in kelvin?",
         answer:
-          "Gas laws are proportional to absolute temperature. Zero on the Celsius scale is not zero thermal energy; 0 °C is 273.15 K.",
+          "Gas laws are proportional to absolute temperature. Zero on the Celsius scale is not zero thermal energy; 0 °C is 273.15 K. The calculator converts °C for you.",
       },
       {
         question: "Can I use this as an ideal gas density calculator?",
         answer:
-          "Yes. Rearrange PV = nRT with n = m/M and density d = m/V to get M = dRT/P (d in g/L). Enter P, T, and density to estimate molar mass, or use the same relation to check a homework density from known M.",
+          "Yes. In M = dRT/P mode choose Molar mass → density to get d = PM/RT. Keep d in g/L unless you switch the density unit to g/mL.",
+      },
+      {
+        question: "What density units does M = dRT/P use?",
+        answer:
+          "The standard classroom substitution is grams per liter. If a problem gives g/mL, multiply by 1000 or set the density unit to g/mL. Mixing g/mL with R in L·atm/(mol·K) without converting gives an answer 1000× too small.",
       },
       {
         question: "When does the ideal gas law fail?",
         answer:
-          "At high pressures and low temperatures, attractions and molecular volume matter. Use van der Waals or tabulated compressibility for precise work; for homework STP/room-condition problems, PV = nRT is expected.",
+          "At high pressures and low temperatures, attractions and molecular volume matter. Use van der Waals or tabulated compressibility for precise work; for homework STP/room-condition problems, PV = nRT and M = dRT/P are expected.",
       },
+    ],
+    seeAlso: [
+      { href: "/tools/stoichiometrycalculator", label: "Stoichiometry Calculator" },
+      { href: "/guides/chemistry-formulas", label: "Chemistry Formula Sheet" },
+      { href: "/chemistry", label: "Chemistry calculators" },
     ],
   },
   {

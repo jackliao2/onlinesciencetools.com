@@ -378,16 +378,20 @@ export const tools: Tool[] = [
   {
     slug: "gaslawcalculator",
     href: "/tools/gaslawcalculator",
-    title: "Ideal Gas Law Calculator",
+    title: "Ideal Gas Law Calculator (M = dRT/P)",
     shortTitle: "Ideal Gas Law",
     description:
-      "Solve PV = nRT for pressure, volume, moles, or temperature, with optional molar mass from density.",
+      "Solve PV = nRT, or find molar mass from density with M = dRT/P (also written mm = dRT/P). Convert atm, kPa, torr, °C, and g/L.",
     category: "chemistry",
     group: "gases",
     status: "live",
     keywords: [
       "ideal gas law calculator",
       "ideal gas density calculator",
+      "M = dRT/P",
+      "mm=drt/p",
+      "mm drt p",
+      "molar mass from density",
       "PV=nRT",
       "gas density molar mass",
       "Boyle Charles",

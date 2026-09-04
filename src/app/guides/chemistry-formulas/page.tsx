@@ -115,10 +115,13 @@ Henderson–Hasselbalch: pH = pKa + log₁₀([A⁻]/[HA])`}</code>
         <code>{`PV = nRT
 R = 0.082057 L·atm/(mol·K)
 T(K) = t(°C) + 273.15
-M = dRT / P   (d in g/L)`}</code>
+M = dRT / P   (mm = dRT/P; d in g/L)`}</code>
       </pre>
       <p>
-        <Link href="/tools/gaslawcalculator">Ideal Gas Law Calculator</Link>.
+        <Link href="/tools/gaslawcalculator">
+          Ideal Gas Law Calculator (M = dRT/P)
+        </Link>
+        .
       </p>
 
       <h3>Kinetics (integrated rate laws)</h3>

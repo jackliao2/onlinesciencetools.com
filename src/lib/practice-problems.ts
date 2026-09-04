@@ -613,6 +613,16 @@ export const practiceProblemsBySlug: Record<string, PracticeProblem[]> = {
       ],
       answer: "M ≈ 44 g/mol",
     },
+    {
+      title: "mm = dRT/P",
+      prompt:
+        "A worksheet writes mm = dRT/P. Density is 1.25 g/L at 1.00 atm and 273.15 K. What is mm?",
+      steps: [
+        "mm is molar mass M. Same formula as M = dRT/P.",
+        "mm = (1.25)(0.082057)(273.15)/1.00 ≈ 28.0 g/mol (N₂).",
+      ],
+      answer: "mm ≈ 28.0 g/mol",
+    },
   ],
 
   dilutioncalculator: [
