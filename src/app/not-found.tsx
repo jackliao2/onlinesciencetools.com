@@ -33,7 +33,7 @@ export default function NotFound() {
               Back to home
             </Link>
             <Link
-              href="/#tools"
+              href="/chemistry"
               className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--accent)]"
             >
               Browse tools

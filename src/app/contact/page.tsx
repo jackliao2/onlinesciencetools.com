@@ -84,8 +84,8 @@ export default function ContactPage() {
         <p>
           Many how-to questions are already answered in each tool&apos;s guide
           section and practice problems. Start from the{" "}
-          <Link href="/#tools">tool matrix</Link> or{" "}
-          <Link href="/#guides">academic guides</Link>, then contact us if
+          <Link href="/chemistry">chemistry calculators</Link> or{" "}
+          <Link href="/guides">study guides</Link>, then contact us if
           something still looks wrong.
         </p>
 

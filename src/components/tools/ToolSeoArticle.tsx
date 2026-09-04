@@ -138,8 +138,9 @@ export function ToolSeoArticle({ slug }: { slug: string }) {
 
         <p className="mt-4 !mb-0 text-sm text-[var(--muted)]">
           Keep learning with{" "}
-          <Link href="/#tools">more calculators</Link> and{" "}
-          <Link href="/#guides">study guides</Link> on Online Science Tools.
+          <Link href="/chemistry">chemistry calculators</Link>, the{" "}
+          <Link href="/math">math tools</Link>, and{" "}
+          <Link href="/guides">study guides</Link> on Online Science Tools.
         </p>
       </article>
     </section>
