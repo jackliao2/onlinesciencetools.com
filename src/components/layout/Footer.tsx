@@ -57,7 +57,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-[var(--border)] bg-[var(--surface)]">
+    <footer className="mt-auto border-t border-[var(--border)] bg-[var(--surface)] pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:justify-between">
           <div className="max-w-sm">

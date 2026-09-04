@@ -348,7 +348,7 @@ export function PhasePortraitGenerator() {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[320px_1fr]">
+      <div className="mt-6 flex flex-col-reverse gap-6 lg:grid lg:grid-cols-[320px_1fr]">
         <div className="space-y-4">
           <label className="block">
             <span className="mb-2 block text-sm font-medium">System preset</span>
@@ -476,10 +476,10 @@ export function PhasePortraitGenerator() {
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4 text-sm text-[var(--muted)]">
             <p className="inline-flex items-center gap-2 font-medium text-[var(--foreground)]">
               <MousePointerClick className="h-4 w-4 text-[var(--accent)]" />
-              Click the canvas
+              Tap the canvas
             </p>
             <p className="mt-1.5 leading-relaxed">
-              Click anywhere on the phase plane to launch a trajectory integrated
+              Tap anywhere on the phase plane to launch a trajectory integrated
               with RK4 in both time directions. Equilibria use a numerical Jacobian;
               classification is local (sink/source/saddle/spiral/center).
             </p>

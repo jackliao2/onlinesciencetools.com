@@ -352,7 +352,7 @@ export function TimeGraphingTool() {
         with t in seconds and g = 9.8 m/s².
       </p>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[320px_1fr]">
+      <div className="mt-6 flex flex-col-reverse gap-6 lg:grid lg:grid-cols-[320px_1fr]">
         <div className="space-y-4">
           <div className="flex gap-2">
             {(

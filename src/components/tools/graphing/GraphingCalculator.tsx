@@ -404,7 +404,7 @@ export function GraphingCalculator() {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+      <div className="mt-6 flex flex-col-reverse gap-6 lg:grid lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
           {expressions.map((row, index) => {
             const comp = compiled.find((c) => c.id === row.id);
@@ -473,7 +473,7 @@ export function GraphingCalculator() {
 
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-[var(--muted)]">
-              Trace x (or hover / click the plot)
+              Trace x (or tap the plot)
             </span>
             <input
               type="number"
@@ -517,7 +517,7 @@ export function GraphingCalculator() {
             />
           </div>
           <p className="text-xs text-[var(--muted)]">
-            Scroll to zoom · hover to preview · click to lock the trace x-value.
+            Use Zoom in/out · tap the plot to lock the trace x-value.
           </p>
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">

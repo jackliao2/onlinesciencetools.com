@@ -296,7 +296,7 @@ export function ElectricFieldVisualizer() {
         Interactive field visualizer
       </h3>
       <p className="mt-1 text-sm text-[var(--muted)]">
-        Drag charges, add more sources, or click empty space to probe Ex, Ey, and |E|.
+        Drag charges, add more sources, or tap empty space to probe Ex, Ey, and |E|.
         Red = positive, blue = negative.
       </p>
 

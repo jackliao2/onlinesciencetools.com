@@ -214,7 +214,7 @@ export function GasLawCalculator() {
             key={id}
             type="button"
             onClick={() => setMode(id)}
-            className={`border px-2.5 py-1.5 text-xs ${
+            className={`min-h-11 border px-3 py-2 text-sm ${
               mode === id
                 ? "border-[var(--accent)] bg-[var(--accent-soft)]"
                 : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--surface-2)]"

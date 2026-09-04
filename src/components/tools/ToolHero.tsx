@@ -27,14 +27,20 @@ export function ToolHero({
         <nav aria-label="Breadcrumb" className="mb-2">
           <ol className="flex flex-wrap items-center gap-1.5 text-xs text-[var(--muted)]">
             <li>
-              <Link href="/" className="hover:text-[var(--accent)] hover:underline">
+              <Link
+                href="/"
+                className="inline-block py-1 hover:text-[var(--accent)] hover:underline"
+              >
                 Home
               </Link>
             </li>
             {isSectionRoot ? (
               <>
                 <li aria-hidden="true">/</li>
-                <li className="text-[var(--foreground)]" aria-current="page">
+                <li
+                  className="min-w-0 break-words text-[var(--foreground)]"
+                  aria-current="page"
+                >
                   {title}
                 </li>
               </>
@@ -54,14 +60,17 @@ export function ToolHero({
                   </>
                 ) : null}
                 <li aria-hidden="true">/</li>
-                <li className="text-[var(--foreground)]" aria-current="page">
+                <li
+                  className="min-w-0 break-words text-[var(--foreground)]"
+                  aria-current="page"
+                >
                   {title}
                 </li>
               </>
             )}
           </ol>
         </nav>
-        <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-[1.75rem]">
+        <h1 className="mt-1 break-words font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-[1.75rem]">
           {title}
         </h1>
         <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">

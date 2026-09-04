@@ -47,8 +47,8 @@ function ProblemCard({
   return (
     <details className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] open:bg-[var(--surface)]">
       <summary className="cursor-pointer list-none px-5 py-4 marker:content-none">
-        <div className="flex items-start justify-between gap-3">
-          <div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
               Practice problem {index}
             </p>
@@ -59,10 +59,10 @@ function ProblemCard({
               {problem.prompt}
             </p>
           </div>
-          <span className="shrink-0 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--muted)] group-open:hidden">
+          <span className="self-start rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted)] group-open:hidden">
             Show solution
           </span>
-          <span className="hidden shrink-0 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--muted)] group-open:inline">
+          <span className="hidden self-start rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted)] group-open:inline">
             Hide solution
           </span>
         </div>

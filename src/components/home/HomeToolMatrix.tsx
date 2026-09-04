@@ -89,7 +89,7 @@ export function HomeToolMatrix() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
-      <header className="border-b border-[var(--border)] pb-5">
+      <div className="border-b border-[var(--border)] pb-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
             <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -127,18 +127,18 @@ export function HomeToolMatrix() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search tools…"
-              className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] py-2 pl-8 pr-3 text-sm outline-none ring-[var(--accent)] placeholder:text-[var(--muted)] focus:ring-1"
+              placeholder="Filter this list…"
+              className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] py-2.5 pl-8 pr-3 text-sm outline-none ring-[var(--accent)] placeholder:text-[var(--muted)] focus:ring-1"
             />
           </label>
         </div>
-      </header>
+      </div>
 
       <div
         id="guides"
         role="tablist"
         aria-label="Browse by subject"
-        className="mt-5 flex scroll-mt-28 flex-wrap gap-1 border-b border-[var(--border)] pb-px lg:scroll-mt-20"
+        className="no-scrollbar mt-5 flex scroll-mt-40 gap-1 overflow-x-auto overscroll-x-contain border-b border-[var(--border)] pb-px lg:scroll-mt-20"
       >
         {filterTabs.map((tab) => {
           const active = section === tab.id;
@@ -149,7 +149,7 @@ export function HomeToolMatrix() {
               role="tab"
               aria-selected={active}
               onClick={() => selectSection(tab.id)}
-              className={`rounded-t-md px-3 py-2 text-sm transition ${
+              className={`shrink-0 rounded-t-md px-3 py-2.5 text-sm transition ${
                 active
                   ? "-mb-px border border-b-[var(--background)] border-[var(--border)] bg-[var(--background)] font-medium text-[var(--foreground)]"
                   : "border border-transparent text-[var(--muted)] hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
@@ -167,7 +167,7 @@ export function HomeToolMatrix() {
         </p>
       ) : null}
 
-      <div id="tools" className="mt-6 min-w-0 scroll-mt-28 space-y-12 lg:scroll-mt-20">
+      <div id="tools" className="mt-6 min-w-0 scroll-mt-40 space-y-12 lg:scroll-mt-20">
         {showTools && toolResults.length === 0 && searching ? (
           <p className="text-sm text-[var(--muted)]">
             No tools match “{query}”.
@@ -231,10 +231,10 @@ export function HomeToolMatrix() {
                                   title={tool.title}
                                   className="group grid grid-cols-1 items-center gap-1 px-3 py-2.5 transition hover:bg-[var(--surface)] sm:grid-cols-[13.5rem_minmax(0,1fr)] sm:gap-6"
                                 >
-                                  <span className="truncate text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--accent)]">
+                                  <span className="text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] sm:truncate">
                                     {tool.title}
                                   </span>
-                                  <span className="truncate text-sm text-[var(--muted)]">
+                                  <span className="text-sm text-[var(--muted)] sm:truncate">
                                     {tool.description}
                                   </span>
                                 </Link>
@@ -285,10 +285,10 @@ export function HomeToolMatrix() {
                       title={guide.title}
                       className="group grid grid-cols-1 items-center gap-1 px-3 py-2.5 transition hover:bg-[var(--surface)] sm:grid-cols-[13.5rem_minmax(0,1fr)] sm:gap-6"
                     >
-                      <span className="truncate text-sm font-medium group-hover:text-[var(--accent)]">
+                      <span className="text-sm font-medium group-hover:text-[var(--accent)] sm:truncate">
                         {guide.shortTitle}
                       </span>
-                      <span className="truncate text-sm text-[var(--muted)]">
+                      <span className="text-sm text-[var(--muted)] sm:truncate">
                         {guide.description}
                       </span>
                     </Link>

@@ -128,7 +128,7 @@ export function LinearEquationsSolver() {
             key={n}
             type="button"
             onClick={() => resize(n)}
-            className={`border px-2.5 py-1.5 text-xs ${
+            className={`min-h-11 border px-3 py-2 text-sm ${
               size === n
                 ? "border-[var(--accent)] bg-[var(--accent-soft)]"
                 : "border-[var(--border)] text-[var(--muted)]"

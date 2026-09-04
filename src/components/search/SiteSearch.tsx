@@ -26,19 +26,29 @@ export function SiteSearch({
   );
 
   useEffect(() => {
-    const onPointerDown = (event: MouseEvent) => {
+    const onPointerDown = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", onPointerDown);
-    return () => document.removeEventListener("mousedown", onPointerDown);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
   const showPanel = open && (query.trim().length > 0 || variant === "hero");
 
   return (
-    <div ref={rootRef} className={`relative ${variant === "hero" ? "w-full" : "w-full max-w-xs"}`}>
+    <div
+      ref={rootRef}
+      className={`relative w-full ${variant === "hero" ? "" : "lg:max-w-xs"}`}
+    >
       <label className="relative block">
         <span className="sr-only">Search tools and guides</span>
         <Search
@@ -63,7 +73,7 @@ export function SiteSearch({
           aria-controls={listId}
           aria-autocomplete="list"
           className={`w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] pl-9 pr-9 text-sm text-[var(--foreground)] outline-none ring-[var(--accent)] transition placeholder:text-[var(--muted)] focus:ring-2 ${
-            variant === "hero" ? "py-3.5 shadow-sm" : "py-2"
+            variant === "hero" ? "py-3.5 shadow-sm" : "py-2.5"
           }`}
         />
         {query && (
@@ -73,7 +83,7 @@ export function SiteSearch({
               setQuery("");
               setOpen(false);
             }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-[var(--muted)] hover:text-[var(--foreground)]"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md p-2 text-[var(--muted)] hover:text-[var(--foreground)]"
             aria-label="Clear search"
           >
             <X className="h-3.5 w-3.5" />
@@ -85,9 +95,7 @@ export function SiteSearch({
         <div
           id={listId}
           role="listbox"
-          className={`absolute z-50 mt-2 max-h-80 w-full overflow-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.55)] ${
-            variant === "hero" ? "left-0" : "right-0 min-w-[20rem]"
-          }`}
+          className="absolute left-0 right-0 z-50 mt-2 max-h-[min(20rem,70vh)] w-full overflow-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.55)]"
         >
           {results.length === 0 ? (
             <p className="px-3 py-4 text-sm text-[var(--muted)]">
